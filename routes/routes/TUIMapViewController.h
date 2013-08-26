@@ -10,6 +10,9 @@
 
 @interface TUIMapViewController : UIViewController
 
+-(void)addPinAtLatitude:(double)latitude
+           andLongitude:(double)longitude;
+
 -(void)closeMaster;
 
 @end

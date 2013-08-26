@@ -89,6 +89,9 @@
     UITableViewCell *cell = [[tableView visibleCells] objectAtIndex:indexPath.row];
     if ([cell accessoryType] == UITableViewCellAccessoryNone) {
         [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+        NSString *latstring = _spots[indexPath.row][@"latitude"];
+        NSString *lonstring = _spots[indexPath.row][@"longitude"];
+        [_mapViewController addPinAtLatitude:[latstring doubleValue] andLongitude:[lonstring doubleValue]];
     } else {
         [cell setAccessoryType:UITableViewCellAccessoryNone];
     }
