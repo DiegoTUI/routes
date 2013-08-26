@@ -7,8 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@class TUIMapViewController;
+#import "TUIMapViewController.h"
 
 @interface TUIMasterViewController : UITableViewController
 

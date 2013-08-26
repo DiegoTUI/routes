@@ -10,8 +10,9 @@
 #import "TUILocationManager.h"
 
 #pragma mark - Private interface
-@interface TUIMapViewController () <TUILocationManagerDelegate>
+@interface TUIMapViewController () <TUILocationManagerDelegate, UISplitViewControllerDelegate>
 
+@property (strong, nonatomic) UIPopoverController *masterPopoverController;
 @property (strong, nonatomic) IBOutlet deCartaMapView *mapView;
 @property (strong, nonatomic) deCartaOverlay *routePins;
 @property (strong, nonatomic) NSMutableArray *routePositions;
@@ -28,6 +29,13 @@
 
 #pragma mark - Implementation
 @implementation TUIMapViewController
+
+#pragma mark - Public Methods
+-(void)closeMaster {
+    if (self.masterPopoverController != nil) {
+        [self.masterPopoverController dismissPopoverAnimated:YES];
+    }
+}
 
 #pragma mark - UIViewController Methods
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -148,6 +156,20 @@
     _mapView.zoomLevel=13;
     [_mapView refreshMap];
     [_mapView startAnimation];
+}
+
+#pragma mark - UISplitViewControllerDelegate Methods
+
+- (void)splitViewController:(UISplitViewController *)splitController willHideViewController:(UIViewController *)viewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)popoverController {
+    barButtonItem.title = NSLocalizedString(@"Spots", @"Spots");
+    [self.navigationItem setLeftBarButtonItem:barButtonItem animated:YES];
+    self.masterPopoverController = popoverController;
+}
+
+- (void)splitViewController:(UISplitViewController *)splitController willShowViewController:(UIViewController *)viewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem {
+    // Called when the view is shown again in the split view, invalidating the button and popover controller.
+    [self.navigationItem setLeftBarButtonItem:nil animated:YES];
+    self.masterPopoverController = nil;
 }
 
 @end

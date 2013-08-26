@@ -84,6 +84,7 @@
 		76259DE317CB8C4A00C7B0BE /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 76259DE217CB8C4A00C7B0BE /* Default-Landscape@2x~ipad.png */; };
 		76259DE617CB8E2C00C7B0BE /* TUIMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76259DE517CB8E2C00C7B0BE /* TUIMapViewController.m */; };
 		76259DE717CB908400C7B0BE /* TUILocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 76259D0117CB6F7700C7B0BE /* TUILocationManager.m */; };
+		76259DEB17CB9A1D00C7B0BE /* spots.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76259DEA17CB9A1D00C7B0BE /* spots.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -235,6 +236,7 @@
 		76259DE217CB8C4A00C7B0BE /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape@2x~ipad.png"; path = "../Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
 		76259DE417CB8E2C00C7B0BE /* TUIMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUIMapViewController.h; sourceTree = "<group>"; };
 		76259DE517CB8E2C00C7B0BE /* TUIMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TUIMapViewController.m; sourceTree = "<group>"; };
+		76259DEA17CB9A1D00C7B0BE /* spots.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = spots.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -353,6 +355,7 @@
 			isa = PBXGroup;
 			children = (
 				76259DDE17CB8BD500C7B0BE /* icon144.png */,
+				76259DEA17CB9A1D00C7B0BE /* spots.plist */,
 				76259DDC17CB8BC200C7B0BE /* icon72.png */,
 				76259CD517CB6C7700C7B0BE /* MainStoryboard.storyboard */,
 				76259CFC17CB6F1700C7B0BE /* pin.png */,
@@ -643,6 +646,7 @@
 				76259DDF17CB8BD500C7B0BE /* icon144.png in Resources */,
 				76259DE117CB8C3000C7B0BE /* Default-Landscape~ipad.png in Resources */,
 				76259DE317CB8C4A00C7B0BE /* Default-Landscape@2x~ipad.png in Resources */,
+				76259DEB17CB9A1D00C7B0BE /* spots.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

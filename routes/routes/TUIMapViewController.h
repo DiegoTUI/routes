@@ -10,4 +10,6 @@
 
 @interface TUIMapViewController : UIViewController
 
+-(void)closeMaster;
+
 @end

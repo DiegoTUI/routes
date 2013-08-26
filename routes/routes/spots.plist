@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>longitude</key>
+		<string>2.647630</string>
+		<key>latitude</key>
+		<string>39.567741</string>
+		<key>name</key>
+		<string>Palma Cathedral</string>
+	</dict>
+	<dict>
+		<key>longitude</key>
+		<string>2.646634</string>
+		<key>latitude</key>
+		<string>39.571190</string>
+		<key>name</key>
+		<string>Arab Baths</string>
+	</dict>
+	<dict>
+		<key>longitude</key>
+		<string>2.619334</string>
+		<key>latitude</key>
+		<string>39.563353</string>
+		<key>name</key>
+		<string>Belver Castle</string>
+	</dict>
+	<dict>
+		<key>longitude</key>
+		<string>2.646634</string>
+		<key>latitude</key>
+		<string>39.571190</string>
+		<key>name</key>
+		<string>Almuidaina Palace</string>
+	</dict>
+	<dict>
+		<key>longitude</key>
+		<string>2.646634</string>
+		<key>latitude</key>
+		<string>39.571190</string>
+		<key>name</key>
+		<string>Joan Miro Foundation</string>
+	</dict>
+	<dict>
+		<key>longitude</key>
+		<string>3.212171</string>
+		<key>latitude</key>
+		<string>39.961070</string>
+		<key>name</key>
+		<string>Cap de Formentor</string>
+	</dict>
+</array>
+</plist>

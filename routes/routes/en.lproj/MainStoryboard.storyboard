@@ -122,7 +122,13 @@
                             <outlet property="delegate" destination="19" id="21"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Master" id="40"/>
+                    <navigationItem key="navigationItem" title="Master" id="40">
+                        <barButtonItem key="rightBarButtonItem" title="Close" id="X2P-e1-ReD">
+                            <connections>
+                                <action selector="closeButtonClicked:" destination="19" id="ElA-BC-02Y"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="23" sceneMemberID="firstResponder"/>
             </objects>
@@ -158,6 +164,9 @@
         </class>
         <class className="TUIMasterViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/TUIMasterViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="closeButtonClicked:"/>
+            </relationships>
         </class>
         <class className="deCartaMapView" superclassName="UIView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/deCartaMapView.h"/>
