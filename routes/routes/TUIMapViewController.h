@@ -10,9 +10,21 @@
 
 @interface TUIMapViewController : UIViewController
 
--(void)addPinAtLatitude:(double)latitude
-           andLongitude:(double)longitude;
+/**
+ * Adds a pin to the pin overlay setting its latitude and longitude
+ * @return the added pin
+ */
+-(deCartaPin *)addPinAtLatitude:(double)latitude
+                   andLongitude:(double)longitude;
 
+/**
+ * Removes pin by reference
+ */
+-(void)removePin:(deCartaPin *)pin;
+
+/**
+ * Closes the master view when displayed
+ */
 -(void)closeMaster;
 
 @end

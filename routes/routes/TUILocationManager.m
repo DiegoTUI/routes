@@ -16,6 +16,9 @@
 @property (strong,nonatomic) NSUserDefaults *userDefaults;
 @property (strong,nonatomic) NSMutableSet *delegates;
 
+/**
+ * Calls all delegates' method locationReady with the current location
+ */
 -(void)callDelegatesWithLocation:(CLLocation *)location;
 
 @end

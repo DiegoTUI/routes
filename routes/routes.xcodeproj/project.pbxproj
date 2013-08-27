@@ -85,6 +85,7 @@
 		76259DE617CB8E2C00C7B0BE /* TUIMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76259DE517CB8E2C00C7B0BE /* TUIMapViewController.m */; };
 		76259DE717CB908400C7B0BE /* TUILocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 76259D0117CB6F7700C7B0BE /* TUILocationManager.m */; };
 		76259DEB17CB9A1D00C7B0BE /* spots.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76259DEA17CB9A1D00C7B0BE /* spots.plist */; };
+		768C345D17CCADF600BF0924 /* TUIPin.m in Sources */ = {isa = PBXBuildFile; fileRef = 768C345C17CCADF600BF0924 /* TUIPin.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -237,6 +238,8 @@
 		76259DE417CB8E2C00C7B0BE /* TUIMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUIMapViewController.h; sourceTree = "<group>"; };
 		76259DE517CB8E2C00C7B0BE /* TUIMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TUIMapViewController.m; sourceTree = "<group>"; };
 		76259DEA17CB9A1D00C7B0BE /* spots.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = spots.plist; sourceTree = "<group>"; };
+		768C345B17CCADF600BF0924 /* TUIPin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUIPin.h; sourceTree = "<group>"; };
+		768C345C17CCADF600BF0924 /* TUIPin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TUIPin.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -305,7 +308,8 @@
 		76259CC317CB6C7700C7B0BE /* routes */ = {
 			isa = PBXGroup;
 			children = (
-				76259CFF17CB6F4E00C7B0BE /* Model */,
+				768C345A17CCAD7400BF0924 /* Views */,
+				76259CFF17CB6F4E00C7B0BE /* Models */,
 				76259CFE17CB6F4400C7B0BE /* Controllers */,
 				76259CFB17CB6EF100C7B0BE /* Resources */,
 				76259CCC17CB6C7700C7B0BE /* TUIAppDelegate.h */,
@@ -376,13 +380,13 @@
 			name = Controllers;
 			sourceTree = "<group>";
 		};
-		76259CFF17CB6F4E00C7B0BE /* Model */ = {
+		76259CFF17CB6F4E00C7B0BE /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				76259D0017CB6F7700C7B0BE /* TUILocationManager.h */,
 				76259D0117CB6F7700C7B0BE /* TUILocationManager.m */,
 			);
-			name = Model;
+			name = Models;
 			sourceTree = "<group>";
 		};
 		76259D0417CB70A500C7B0BE /* iPhoneAPI */ = {
@@ -564,6 +568,15 @@
 			path = xml;
 			sourceTree = "<group>";
 		};
+		768C345A17CCAD7400BF0924 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				768C345B17CCADF600BF0924 /* TUIPin.h */,
+				768C345C17CCADF600BF0924 /* TUIPin.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -736,6 +749,7 @@
 				76259DDB17CB89F900C7B0BE /* deCartaXMLProcessor.m in Sources */,
 				76259DE617CB8E2C00C7B0BE /* TUIMapViewController.m in Sources */,
 				76259DE717CB908400C7B0BE /* TUILocationManager.m in Sources */,
+				768C345D17CCADF600BF0924 /* TUIPin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -920,6 +934,7 @@
 				76259CF717CB6C7700C7B0BE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		76259CF817CB6C7700C7B0BE /* Build configuration list for PBXNativeTarget "routesTests" */ = {
 			isa = XCConfigurationList;
@@ -928,6 +943,7 @@
 				76259CFA17CB6C7700C7B0BE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
