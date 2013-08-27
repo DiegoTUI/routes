@@ -11,12 +11,13 @@
 #import "config.h"
 
 #pragma mark - Private interface
-@interface TUIMapViewController () <TUILocationManagerDelegate, UISplitViewControllerDelegate>
+@interface TUIMapViewController () <TUILocationManagerDelegate, UISplitViewControllerDelegate, TUIPinDelegate>
 
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
 @property (strong, nonatomic) IBOutlet deCartaMapView *mapView;
 @property (strong, nonatomic) deCartaOverlay *routePins;
 @property (strong, nonatomic) deCartaRoutePreference *routePrefs;
+//TODO: put the route button in the bar
 @property (strong, nonatomic) IBOutlet UIButton *routeButton;
 
 -(IBAction)routeClicked:(id)sender;
@@ -50,26 +51,29 @@
     }
 }
 
--(deCartaPin *)addPinAtLatitude:(double)latitude
-           andLongitude:(double)longitude {
+-(TUIPin *)addPinWithLatitude:(double)latitude
+                    longitude:(double)longitude
+                   andMessage:(NSString *)message {
     UIImage *pinImage = [UIImage imageNamed:@"pin.png"];
-    int width = pinImage.size.width;
+    /*int width = pinImage.size.width;
     int height = pinImage.size.height;
     deCartaXYInteger *size = [deCartaXYInteger XYWithX:width andY:height];
     deCartaXYInteger *offset = [deCartaXYInteger XYWithX:width/2 andY:height];
-    deCartaIcon *pinicon = [[deCartaIcon alloc] initWithImage:pinImage size:size offset:offset];
+    deCartaIcon *pinicon = [[deCartaIcon alloc] initWithImage:pinImage size:size offset:offset];*/
     deCartaRotationTilt *pinrt=[[deCartaRotationTilt alloc] initWithRotateRelative:ROTATE_RELATIVE_TO_SCREEN tiltRelative:TILT_RELATIVE_TO_SCREEN];
     pinrt.rotation = 0.0; //No rotation
     pinrt.tilt = 0.0; //No tilt
     deCartaPosition *position = [[deCartaPosition alloc] initWithLat:latitude andLon:longitude];
-    deCartaPin * pin=[[deCartaPin alloc] initWithPosition:position icon:pinicon message:@"You fuck my mother" rotationTilt:pinrt];
+    //deCartaPin * pin=[[deCartaPin alloc] initWithPosition:position icon:pinicon message:@"You fuck my mother" rotationTilt:pinrt];
+    TUIPin *pin = [[TUIPin alloc] initWithPosition:position image:pinImage message:message andRotationTilt:pinrt];
+    [pin setDelegate:self];
     [_routePins addPin:pin];
     [self refreshRouteButton];
     [_mapView refreshMap];
     [self logCurrentPins];
     return pin;
 }
--(void)removePin:(deCartaPin *)pin {
+-(void)removePin:(TUIPin *)pin {
     [_routePins removePin:pin];
     [self refreshRouteButton];
     [_mapView refreshMap];
@@ -87,7 +91,7 @@
     //Capture LONGTOUCH
     [_mapView addEventListener:[deCartaEventListener eventListenerWithCallback:^(id<deCartaEventSource> sender, deCartaPosition *position) {
         NSLog(@"LongTouch!! - Lat: %f - Lon: %f", position.lat, position.lon);
-        [self addPinAtLatitude:position.lat andLongitude:position.lon];
+        [self addPinWithLatitude:position.lat longitude:position.lon andMessage:@"User custom location"];
     }] forEventType:LONGTOUCH];
 }
 
@@ -193,6 +197,25 @@
     _mapView.zoomLevel=13;
     [_mapView refreshMap];
     [_mapView startAnimation];
+}
+
+#pragma mark - TUIPinDelegate Methods
+-(void)pinTouched:(TUIPin *)sender {
+    //display the infoWindow
+    deCartaInfoWindow * infoWindow = _mapView.infoWindow;
+    infoWindow.associatedPin = sender;
+    infoWindow.position=sender.position;
+    infoWindow.message=sender.message;
+    [infoWindow setOffset:[deCartaXYFloat XYWithX:0 andY:sender.icon.offset.y] andRotationTilt:sender.rotationTilt];
+    infoWindow.visible=TRUE;
+}
+
+-(void)pinLongTouched:(TUIPin *)sender {
+    //Tell master view to uncheck cell
+    [_delegate aboutToRemovePin:sender];
+    //remove pin
+    [self removePin:sender];
+    //Uncheck master list if needed
 }
 
 #pragma mark - UISplitViewControllerDelegate Methods

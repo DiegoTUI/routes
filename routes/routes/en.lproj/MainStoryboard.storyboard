@@ -61,7 +61,9 @@
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Detail" id="53"/>
+                    <navigationItem key="navigationItem" title="Map" id="53">
+                        <barButtonItem key="rightBarButtonItem" title="Reset" id="fSU-0G-bSY"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="zQI-aY-VAM" id="nUB-Uj-QDp"/>
                         <outlet property="routeButton" destination="aTg-xK-b4Z" id="Cpn-SF-Zxr"/>
@@ -123,13 +125,16 @@
                             <outlet property="delegate" destination="19" id="21"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Master" id="40">
+                    <navigationItem key="navigationItem" title="Spots" id="40">
                         <barButtonItem key="rightBarButtonItem" title="Close" id="X2P-e1-ReD">
                             <connections>
                                 <action selector="closeButtonClicked:" destination="19" id="ElA-BC-02Y"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="closeBarButton" destination="X2P-e1-ReD" id="FZg-6g-nvj"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="23" sceneMemberID="firstResponder"/>
             </objects>
@@ -151,28 +156,6 @@
             <point key="canvasLocation" x="-366" y="248"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="TUIMapViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TUIMapViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="routeClicked:"/>
-                <relationship kind="outlet" name="mapView" candidateClass="deCartaMapView"/>
-                <relationship kind="outlet" name="routeButton" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-        <class className="TUIMasterViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TUIMasterViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="closeButtonClicked:"/>
-            </relationships>
-        </class>
-        <class className="deCartaMapView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/deCartaMapView.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

@@ -7,24 +7,36 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TUIPin.h"
+
+@protocol TUIMapViewControllerDelegate;
 
 @interface TUIMapViewController : UIViewController
 
+@property (weak,nonatomic) id<TUIMapViewControllerDelegate> delegate;
+
 /**
- * Adds a pin to the pin overlay setting its latitude and longitude
+ * Adds a pin to the pin overlay setting its latitude, longitude and message
  * @return the added pin
  */
--(deCartaPin *)addPinAtLatitude:(double)latitude
-                   andLongitude:(double)longitude;
+-(TUIPin *)addPinWithLatitude:(double)latitude
+                    longitude:(double)longitude
+                   andMessage:(NSString *)message;
 
 /**
  * Removes pin by reference
  */
--(void)removePin:(deCartaPin *)pin;
+-(void)removePin:(TUIPin *)pin;
 
 /**
  * Closes the master view when displayed
  */
 -(void)closeMaster;
+
+@end
+
+@protocol TUIMapViewControllerDelegate <NSObject>
+
+-(void)aboutToRemovePin:(TUIPin *)pin;
 
 @end

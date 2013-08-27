@@ -34,39 +34,23 @@
 
 #pragma mark - Private methods
 -(void)addEventListeners {
+    //TOUCH event
     deCartaEventListener * touchEventListener=[[deCartaEventListener alloc] initWithCallback:^(id sender,id param){
-        NSLog(@"Executing deCartaPin TOUCH event handler");
-        deCartaPin * pn=(deCartaPin *)sender;
-        
-        //Get a pointer to the deCartaMapView's info window
-        /*deCartaInfoWindow * infoWindow=_mapView.infoWindow;
-        
-        //Associate the info window with the pin
-        infoWindow.associatedPin=pn;
-        
-        //Set the location of the info window to the pin's position
-        infoWindow.position=pn.position;
-        
-        //Set the text for the info window
-        infoWindow.message=pn.message;
-        
-        //Set the offset of the info window. In this case, we set the Y
-        //offset so that the bottom of the info window will appear above
-        //the pin icon.
-        [infoWindow setOffset:[deCartaXYFloat XYWithX:0 andY:pn.icon.offset.y] andRotationTilt:pn.rotationTilt];
-        
-        //Make the info window visible
-        infoWindow.visible=TRUE;
-        
-        //Call our new function, using the position of
-        //the pin, to update the infoWindow with the
-        //address where the pin is located.
-        [self doReverseGeocoding:pn.position];
-        
-        
-        NSLog(@"Executing deCartaPin TOUCH event handler");*/
+        NSLog(@"Executing TUIPin TOUCH event handler");
+        TUIPin * pin = (TUIPin *)sender;
+        [pin.delegate pinTouched:pin];
         
     }];
+    [self addEventListener:touchEventListener forEventType:TOUCH];
+    //LONGTOUCH event
+    deCartaEventListener * longTouchEventListener=[[deCartaEventListener alloc] initWithCallback:^(id sender,id param){
+        NSLog(@"Executing TUIPin LONGTOUCH event handler");
+        TUIPin * pin = (TUIPin *)sender;
+        [pin.delegate pinLongTouched:pin];
+        
+    }];
+    [self addEventListener:longTouchEventListener forEventType:LONGTOUCH];
+    
 }
 
 @end

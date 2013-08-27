@@ -27,7 +27,7 @@
 
 @protocol TUIPinDelegate <NSObject>
 
--(void)pinTouched:(deCartaPin *)sender;
--(void)pinLongTouched:(deCartaPin *)sender;
+-(void)pinTouched:(TUIPin *)sender;
+-(void)pinLongTouched:(TUIPin *)sender;
 
 @end
