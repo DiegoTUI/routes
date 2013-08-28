@@ -169,7 +169,7 @@
     [[TUILocationManager sharedInstance] addDelegate:self];
     [self addMapEventListeners];
     _routePins = [[deCartaOverlay alloc] initWithName:@"route_pins"];
-    [_mapView rotateXToDegree:-45];
+    [_mapView rotateXToDegree:0];
     [_mapView addOverlay:_routePins];
     [_mapView showOverlays];
     _routePrefs = [[deCartaRoutePreference alloc] init];
