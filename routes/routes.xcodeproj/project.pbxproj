@@ -85,6 +85,8 @@
 		76259DEB17CB9A1D00C7B0BE /* spots.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76259DEA17CB9A1D00C7B0BE /* spots.plist */; };
 		76259E3717CDFAF800C7B0BE /* icon77x77.png in Resources */ = {isa = PBXBuildFile; fileRef = 76259E3617CDFAF800C7B0BE /* icon77x77.png */; };
 		76259E3917CDFB0600C7B0BE /* icon144x144.png in Resources */ = {isa = PBXBuildFile; fileRef = 76259E3817CDFB0600C7B0BE /* icon144x144.png */; };
+		76259E3B17CE324700C7B0BE /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 76259E3A17CE324700C7B0BE /* Default-Portrait~ipad.png */; };
+		76259E3D17CE327200C7B0BE /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 76259E3C17CE327200C7B0BE /* Default-Portrait@2x~ipad.png */; };
 		768C345D17CCADF600BF0924 /* TUIPin.m in Sources */ = {isa = PBXBuildFile; fileRef = 768C345C17CCADF600BF0924 /* TUIPin.m */; };
 /* End PBXBuildFile section */
 
@@ -237,6 +239,8 @@
 		76259DEA17CB9A1D00C7B0BE /* spots.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = spots.plist; sourceTree = "<group>"; };
 		76259E3617CDFAF800C7B0BE /* icon77x77.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon77x77.png; path = ../icon77x77.png; sourceTree = "<group>"; };
 		76259E3817CDFB0600C7B0BE /* icon144x144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon144x144.png; path = ../icon144x144.png; sourceTree = "<group>"; };
+		76259E3A17CE324700C7B0BE /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Portrait~ipad.png"; path = "../Default-Portrait~ipad.png"; sourceTree = "<group>"; };
+		76259E3C17CE327200C7B0BE /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Portrait@2x~ipad.png"; path = "../Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
 		768C345B17CCADF600BF0924 /* TUIPin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUIPin.h; sourceTree = "<group>"; };
 		768C345C17CCADF600BF0924 /* TUIPin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TUIPin.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -357,6 +361,8 @@
 		76259CFB17CB6EF100C7B0BE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				76259E3C17CE327200C7B0BE /* Default-Portrait@2x~ipad.png */,
+				76259E3A17CE324700C7B0BE /* Default-Portrait~ipad.png */,
 				76259E3817CDFB0600C7B0BE /* icon144x144.png */,
 				76259E3617CDFAF800C7B0BE /* icon77x77.png */,
 				76259DEA17CB9A1D00C7B0BE /* spots.plist */,
@@ -659,6 +665,8 @@
 				76259DEB17CB9A1D00C7B0BE /* spots.plist in Resources */,
 				76259E3717CDFAF800C7B0BE /* icon77x77.png in Resources */,
 				76259E3917CDFB0600C7B0BE /* icon144x144.png in Resources */,
+				76259E3B17CE324700C7B0BE /* Default-Portrait~ipad.png in Resources */,
+				76259E3D17CE327200C7B0BE /* Default-Portrait@2x~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
