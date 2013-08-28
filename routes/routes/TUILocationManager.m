@@ -17,6 +17,11 @@
 @property (strong,nonatomic) NSMutableSet *delegates;
 
 /**
+ * Stores user locatiopn
+ */
+-(void)storeUserLocation:(CLLocation *)location;
+
+/**
  * Calls all delegates' method locationReady with the current location
  */
 -(void)callDelegatesWithLocation:(CLLocation *)location;
@@ -42,10 +47,28 @@
     [_locationManager startUpdatingLocation];
 }
 
--(void)setUserLocation:(CLLocation *)location {
+-(void)storeMapCenter:(CLLocation *)location {
     NSDictionary *locationToStore = @{@"latitude": [NSNumber numberWithDouble:location.coordinate.latitude],
                                       @"longitude": [NSNumber numberWithDouble:location.coordinate.longitude]};
-    [_userDefaults setObject:locationToStore forKey:@"currentLocation"];
+    [_userDefaults setObject:locationToStore forKey:@"mapCenter"];
+}
+
+-(void)storeUserLocation:(CLLocation *)location {
+    NSDictionary *locationToStore = @{@"latitude": [NSNumber numberWithDouble:location.coordinate.latitude],
+                                      @"longitude": [NSNumber numberWithDouble:location.coordinate.longitude]};
+    [_userDefaults setObject:locationToStore forKey:@"userLocation"];
+}
+
+-(float)getZoomLevel {
+    float result = [_userDefaults floatForKey:@"zoomLevel"];
+    if (result == 0) {
+        result = DEF_ZOOM_LEVEL;
+    }
+    return result;
+}
+
+-(void)storeZoomLevel:(float)zoomLevel {
+    [_userDefaults setFloat:zoomLevel forKey:@"zoomLevel"];
 }
 
 -(void)addDelegate:(id<TUILocationManagerDelegate>)delegate {
@@ -79,14 +102,14 @@
      didUpdateLocations:(NSArray *)locations {
     [_locationManager stopUpdatingLocation];
     CLLocation *location = [locations lastObject];
-    [self setUserLocation:location];
+    [self storeUserLocation:location];
     [self callDelegatesWithLocation:location];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
     CLLocation *location = nil;
     //No location available, let's try usersDefault
-    NSDictionary *locationStored = [_userDefaults objectForKey:@"currentLocation"];
+    NSDictionary *locationStored = [_userDefaults objectForKey:@"userLocation"];
     if (locationStored) {
         location = [[CLLocation alloc] initWithLatitude:[locationStored[@"latitude"] doubleValue]
                                               longitude:[locationStored[@"longitude"] doubleValue]];

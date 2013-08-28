@@ -21,15 +21,26 @@
 
 
 /**
- * Returns the most reliable location of the user.
+ * Returns the most reliable location for the user.
  * @return the user's location.
  */
 -(void)getUserLocation;
 
 /**
- * Sets user location
+ * Stores Map Center
  */
--(void)setUserLocation:(CLLocation *)location;
+-(void)storeMapCenter:(CLLocation *)location;
+
+/**
+ * Stores zoom level of the map
+ */
+-(void)storeZoomLevel:(float)zoomLevel;
+
+/**
+ * Gets the last zoom level of the map.
+ * @return the current zoom level
+ */
+-(float)getZoomLevel;
 
 /**
  * Adds a delegate to the delegate list

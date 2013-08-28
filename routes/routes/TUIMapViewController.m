@@ -38,6 +38,17 @@
  * Removes pins and routes from the map
  */
 -(void)resetMap;
+/**
+ * Checks if a deCarta position is out of bounds
+ */
+-(BOOL)isOutOfBounds:(deCartaPosition *)position;
+/**
+ * Generates an array of deCartaPosition from _routePins
+ */
+-(NSArray *)getPinPositions;
+/**
+ * Logs current pins. Just for debug purposes.
+ */
 -(void)logCurrentPins;
 
 @end
@@ -56,11 +67,6 @@
                     longitude:(double)longitude
                    andMessage:(NSString *)message {
     UIImage *pinImage = [UIImage imageNamed:@"pin.png"];
-    /*int width = pinImage.size.width;
-    int height = pinImage.size.height;
-    deCartaXYInteger *size = [deCartaXYInteger XYWithX:width andY:height];
-    deCartaXYInteger *offset = [deCartaXYInteger XYWithX:width/2 andY:height];
-    deCartaIcon *pinicon = [[deCartaIcon alloc] initWithImage:pinImage size:size offset:offset];*/
     deCartaRotationTilt *pinrt=[[deCartaRotationTilt alloc] initWithRotateRelative:ROTATE_RELATIVE_TO_SCREEN tiltRelative:TILT_RELATIVE_TO_SCREEN];
     pinrt.rotation = 0.0; //No rotation
     pinrt.tilt = 0.0; //No tilt
@@ -70,6 +76,14 @@
     [pin setDelegate:self];
     [_routePins addPin:pin];
     [self refreshRouteBarButton];
+    if ([self isOutOfBounds:position]) { //the pin is out of bounds
+        NSArray *positions = [self getPinPositions];
+        deCartaBoundingBox *boundingBox = [deCartaUtil getBoundingBoxFromPositions:positions];
+        int zoom=[deCartaUtil getZoomLevelToFitBoundingBox:boundingBox withDisplaySize:_mapView.displaySize];
+        [_mapView setZoomLevel:zoom];
+        //Pan the map to center on the center of the route
+        [_mapView panToPosition:[boundingBox getCenterPosition]];
+    }
     [_mapView refreshMap];
     [self logCurrentPins];
     return pin;
@@ -87,7 +101,7 @@
     [_mapView addEventListener:[deCartaEventListener eventListenerWithCallback:^(id<deCartaEventSource> sender, deCartaPosition *position) {
         NSLog(@"Moved!! - Lat: %f - Lon: %f", position.lat, position.lon);
         CLLocation *location = [[CLLocation alloc] initWithLatitude:position.lat longitude:position.lon];
-        [[TUILocationManager sharedInstance] setUserLocation:location];
+        [[TUILocationManager sharedInstance] storeMapCenter:location];
     }] forEventType:MOVEEND];
     //Capture LONGTOUCH
     [_mapView addEventListener:[deCartaEventListener eventListenerWithCallback:^(id<deCartaEventSource> sender, deCartaPosition *position) {
@@ -116,7 +130,7 @@
     if ([_routePins size] > 1) {
         title = @"Route";
     }
-    [self.navigationItem.rightBarButtonItem setTitle:title];
+    [_routeBarButton setTitle:title];
 }
 
 -(void)calculateRoute {
@@ -144,6 +158,26 @@
     //remove the route if existed
     [_mapView removeShapes];
     [_mapView refreshMap];
+}
+
+-(BOOL)isOutOfBounds:(deCartaPosition *)position {
+    deCartaXYFloat *screenPosition = [_mapView positionToScreenXY:position];
+    deCartaXYInteger *bounds = [_mapView displaySize];
+    if (screenPosition.x < 0 ||
+        screenPosition.y < 0 ||
+        screenPosition.x > bounds.x ||
+        screenPosition.y > bounds.y) {
+        return YES;
+    }
+    return NO;
+}
+
+-(NSArray *)getPinPositions {
+    NSMutableArray *result = [NSMutableArray array];
+    for(int i=0; i<[_routePins size]; i++) {
+        [result addObject:[[_routePins getAtIndex:i] position]];
+    }
+    return result;
 }
 
 -(void)logCurrentPins {
@@ -175,14 +209,20 @@
     [_mapView showOverlays];
     _routePrefs = [[deCartaRoutePreference alloc] init];
     _routePrefs.style=@"Fastest";
+    if (!TEST_OFFLINE) {
+        [[TUILocationManager sharedInstance] getUserLocation];
+    }
 }
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    //Get the user location. Dont do in OFFLINE mode
-    if (!TEST_OFFLINE) {
-        [[TUILocationManager sharedInstance] getUserLocation];
-    }
+    //Repaint the map
+}
+
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    //repaint the map
+    [_mapView refreshMap];
+    [_mapView startAnimation];
 }
 
 - (void)didReceiveMemoryWarning
@@ -195,7 +235,7 @@
 -(void)locationReady:(CLLocation *)location {
     deCartaPosition *position = [[deCartaPosition alloc] initWithLat:location.coordinate.latitude andLon:location.coordinate.longitude];
     [_mapView centerOnPosition:position];
-    _mapView.zoomLevel=13;
+    _mapView.zoomLevel= [[TUILocationManager sharedInstance] getZoomLevel];
     [_mapView refreshMap];
     [_mapView startAnimation];
 }

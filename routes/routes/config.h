@@ -21,6 +21,7 @@
 #define DEF_LOG_LEVEL 3
 #define DEF_LATITUDE 39.571532
 #define DEF_LONGITUDE 2.646986
+#define DEF_ZOOM_LEVEL 13
 //other constants
 #define TEST_OFFLINE 0
 
