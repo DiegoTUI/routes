@@ -8,8 +8,6 @@
 
 #import "TUIMasterViewController.h"
 
-#import "TUIDetailViewController.h"
-
 #pragma mark - Private interface
 @interface TUIMasterViewController () <TUIMapViewControllerDelegate>
 @property (strong, nonatomic) NSArray *spots;
@@ -153,6 +151,11 @@
         [_pinMap removeObjectForKey:indexPath];
         [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
     }
+}
+
+-(void)aboutToRemoveAllPins {
+    _pinMap = [NSMutableDictionary dictionary];
+    [self.tableView reloadData];
 }
 
 @end

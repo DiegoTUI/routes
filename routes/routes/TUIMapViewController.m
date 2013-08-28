@@ -18,9 +18,10 @@
 @property (strong, nonatomic) deCartaOverlay *routePins;
 @property (strong, nonatomic) deCartaRoutePreference *routePrefs;
 //TODO: put the route button in the bar
-@property (strong, nonatomic) IBOutlet UIButton *routeButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *routeBarButton;
 
--(IBAction)routeClicked:(id)sender;
+-(IBAction)routeBarClicked:(UIBarButtonItem *)sender;
+
 /**
  * Adds event listeners to the map
  */
@@ -28,7 +29,7 @@
 /**
  * Updates routeButton label based on the state of the map
  */
--(void)refreshRouteButton;
+-(void)refreshRouteBarButton;
 /**
  * Calculates the route based on the points in _routePositions
  */
@@ -68,14 +69,14 @@
     TUIPin *pin = [[TUIPin alloc] initWithPosition:position image:pinImage message:message andRotationTilt:pinrt];
     [pin setDelegate:self];
     [_routePins addPin:pin];
-    [self refreshRouteButton];
+    [self refreshRouteBarButton];
     [_mapView refreshMap];
     [self logCurrentPins];
     return pin;
 }
 -(void)removePin:(TUIPin *)pin {
     [_routePins removePin:pin];
-    [self refreshRouteButton];
+    [self refreshRouteBarButton];
     [_mapView refreshMap];
     [self logCurrentPins];
 }
@@ -95,27 +96,27 @@
     }] forEventType:LONGTOUCH];
 }
 
--(IBAction)routeClicked:(id)sender {
+- (IBAction)routeBarClicked:(UIBarButtonItem *)sender {
     //Is it route or reset?
-    if ([_routeButton.titleLabel.text isEqualToString:@"Route"]){
+    if ([_routeBarButton.title isEqualToString:@"Route"]){
         //remove previous route
         [_mapView removeShapes];
         //calculate route
         [self calculateRoute];
-        [_routeButton setTitle:@"Reset" forState:UIControlStateNormal];
+        [_routeBarButton setTitle:@"Reset"];
     } else {
+        [_delegate aboutToRemoveAllPins];
         //reset map
         [self resetMap];
     }
-    
 }
 
--(void)refreshRouteButton {
+-(void)refreshRouteBarButton {
     NSString *title = @"Reset";
     if ([_routePins size] > 1) {
         title = @"Route";
     }
-    [_routeButton setTitle:title forState:UIControlStateNormal];
+    [self.navigationItem.rightBarButtonItem setTitle:title];
 }
 
 -(void)calculateRoute {

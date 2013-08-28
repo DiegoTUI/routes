@@ -18,7 +18,6 @@
 		76259CD417CB6C7700C7B0BE /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 76259CD317CB6C7700C7B0BE /* Default-568h@2x.png */; };
 		76259CD717CB6C7700C7B0BE /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 76259CD517CB6C7700C7B0BE /* MainStoryboard.storyboard */; };
 		76259CDA17CB6C7700C7B0BE /* TUIMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76259CD917CB6C7700C7B0BE /* TUIMasterViewController.m */; };
-		76259CDD17CB6C7700C7B0BE /* TUIDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76259CDC17CB6C7700C7B0BE /* TUIDetailViewController.m */; };
 		76259CE517CB6C7700C7B0BE /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76259CE417CB6C7700C7B0BE /* SenTestingKit.framework */; };
 		76259CE617CB6C7700C7B0BE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76259CBD17CB6C7700C7B0BE /* UIKit.framework */; };
 		76259CE717CB6C7700C7B0BE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76259CBF17CB6C7700C7B0BE /* Foundation.framework */; };
@@ -79,12 +78,13 @@
 		76259DDA17CB89F900C7B0BE /* deCartaWebServices.m in Sources */ = {isa = PBXBuildFile; fileRef = 76259D6F17CB70A500C7B0BE /* deCartaWebServices.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		76259DDB17CB89F900C7B0BE /* deCartaXMLProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 76259D7117CB70A500C7B0BE /* deCartaXMLProcessor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		76259DDD17CB8BC200C7B0BE /* icon72.png in Resources */ = {isa = PBXBuildFile; fileRef = 76259DDC17CB8BC200C7B0BE /* icon72.png */; };
-		76259DDF17CB8BD500C7B0BE /* icon144.png in Resources */ = {isa = PBXBuildFile; fileRef = 76259DDE17CB8BD500C7B0BE /* icon144.png */; };
 		76259DE117CB8C3000C7B0BE /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 76259DE017CB8C3000C7B0BE /* Default-Landscape~ipad.png */; };
 		76259DE317CB8C4A00C7B0BE /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 76259DE217CB8C4A00C7B0BE /* Default-Landscape@2x~ipad.png */; };
 		76259DE617CB8E2C00C7B0BE /* TUIMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76259DE517CB8E2C00C7B0BE /* TUIMapViewController.m */; };
 		76259DE717CB908400C7B0BE /* TUILocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 76259D0117CB6F7700C7B0BE /* TUILocationManager.m */; };
 		76259DEB17CB9A1D00C7B0BE /* spots.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76259DEA17CB9A1D00C7B0BE /* spots.plist */; };
+		76259E3717CDFAF800C7B0BE /* icon77x77.png in Resources */ = {isa = PBXBuildFile; fileRef = 76259E3617CDFAF800C7B0BE /* icon77x77.png */; };
+		76259E3917CDFB0600C7B0BE /* icon144x144.png in Resources */ = {isa = PBXBuildFile; fileRef = 76259E3817CDFB0600C7B0BE /* icon144x144.png */; };
 		768C345D17CCADF600BF0924 /* TUIPin.m in Sources */ = {isa = PBXBuildFile; fileRef = 768C345C17CCADF600BF0924 /* TUIPin.m */; };
 /* End PBXBuildFile section */
 
@@ -115,8 +115,6 @@
 		76259CD617CB6C7700C7B0BE /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		76259CD817CB6C7700C7B0BE /* TUIMasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TUIMasterViewController.h; sourceTree = "<group>"; };
 		76259CD917CB6C7700C7B0BE /* TUIMasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TUIMasterViewController.m; sourceTree = "<group>"; };
-		76259CDB17CB6C7700C7B0BE /* TUIDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TUIDetailViewController.h; sourceTree = "<group>"; };
-		76259CDC17CB6C7700C7B0BE /* TUIDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TUIDetailViewController.m; sourceTree = "<group>"; };
 		76259CE317CB6C7700C7B0BE /* routesTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = routesTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		76259CE417CB6C7700C7B0BE /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		76259CEC17CB6C7700C7B0BE /* routesTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "routesTests-Info.plist"; sourceTree = "<group>"; };
@@ -232,12 +230,13 @@
 		76259DA717CB70F300C7B0BE /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		76259DA917CB710600C7B0BE /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		76259DDC17CB8BC200C7B0BE /* icon72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon72.png; path = ../icon72.png; sourceTree = "<group>"; };
-		76259DDE17CB8BD500C7B0BE /* icon144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon144.png; path = ../icon144.png; sourceTree = "<group>"; };
 		76259DE017CB8C3000C7B0BE /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape~ipad.png"; path = "../Default-Landscape~ipad.png"; sourceTree = "<group>"; };
 		76259DE217CB8C4A00C7B0BE /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape@2x~ipad.png"; path = "../Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
 		76259DE417CB8E2C00C7B0BE /* TUIMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUIMapViewController.h; sourceTree = "<group>"; };
 		76259DE517CB8E2C00C7B0BE /* TUIMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TUIMapViewController.m; sourceTree = "<group>"; };
 		76259DEA17CB9A1D00C7B0BE /* spots.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = spots.plist; sourceTree = "<group>"; };
+		76259E3617CDFAF800C7B0BE /* icon77x77.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon77x77.png; path = ../icon77x77.png; sourceTree = "<group>"; };
+		76259E3817CDFB0600C7B0BE /* icon144x144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon144x144.png; path = ../icon144x144.png; sourceTree = "<group>"; };
 		768C345B17CCADF600BF0924 /* TUIPin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUIPin.h; sourceTree = "<group>"; };
 		768C345C17CCADF600BF0924 /* TUIPin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TUIPin.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -358,7 +357,8 @@
 		76259CFB17CB6EF100C7B0BE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				76259DDE17CB8BD500C7B0BE /* icon144.png */,
+				76259E3817CDFB0600C7B0BE /* icon144x144.png */,
+				76259E3617CDFAF800C7B0BE /* icon77x77.png */,
 				76259DEA17CB9A1D00C7B0BE /* spots.plist */,
 				76259DDC17CB8BC200C7B0BE /* icon72.png */,
 				76259CD517CB6C7700C7B0BE /* MainStoryboard.storyboard */,
@@ -374,8 +374,6 @@
 				76259DE517CB8E2C00C7B0BE /* TUIMapViewController.m */,
 				76259CD817CB6C7700C7B0BE /* TUIMasterViewController.h */,
 				76259CD917CB6C7700C7B0BE /* TUIMasterViewController.m */,
-				76259CDB17CB6C7700C7B0BE /* TUIDetailViewController.h */,
-				76259CDC17CB6C7700C7B0BE /* TUIDetailViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -656,10 +654,11 @@
 				76259CD717CB6C7700C7B0BE /* MainStoryboard.storyboard in Resources */,
 				76259CFD17CB6F1700C7B0BE /* pin.png in Resources */,
 				76259DDD17CB8BC200C7B0BE /* icon72.png in Resources */,
-				76259DDF17CB8BD500C7B0BE /* icon144.png in Resources */,
 				76259DE117CB8C3000C7B0BE /* Default-Landscape~ipad.png in Resources */,
 				76259DE317CB8C4A00C7B0BE /* Default-Landscape@2x~ipad.png in Resources */,
 				76259DEB17CB9A1D00C7B0BE /* spots.plist in Resources */,
+				76259E3717CDFAF800C7B0BE /* icon77x77.png in Resources */,
+				76259E3917CDFB0600C7B0BE /* icon144x144.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -697,7 +696,6 @@
 				76259CCA17CB6C7700C7B0BE /* main.m in Sources */,
 				76259CCE17CB6C7700C7B0BE /* TUIAppDelegate.m in Sources */,
 				76259CDA17CB6C7700C7B0BE /* TUIMasterViewController.m in Sources */,
-				76259CDD17CB6C7700C7B0BE /* TUIDetailViewController.m in Sources */,
 				76259DAB17CB89F900C7B0BE /* deCartaConfig.m in Sources */,
 				76259DAC17CB89F900C7B0BE /* deCartaGlobals.m in Sources */,
 				76259DAD17CB89F900C7B0BE /* deCartaEventListener.m in Sources */,

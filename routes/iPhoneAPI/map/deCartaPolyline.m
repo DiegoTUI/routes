@@ -149,7 +149,7 @@ static float vertexBuffer[2*2];
 	self= [super initWithName:name];
     if(self){
 		_fillColor=0xff0000ff;
-		_strokeSize=8;
+		_strokeSize=4;
 		_opacity=0.6f;
 		_mercXYs=[[NSMutableArray alloc] init];
 		
@@ -297,7 +297,8 @@ void drawLine(float x1, float y1, float x2, float y2){
 		
 	}
 	
-	glEnable(GL_TEXTURE_2D);
+	//glEnable(GL_TEXTURE_2D);
+    glEnable(GL_LINE_SMOOTH);
 	glColor4f(1, 1, 1, 1);
 	glLineWidth(1);
 	glPointSize(1);

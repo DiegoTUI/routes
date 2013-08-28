@@ -29,6 +29,7 @@
     deCartaXYInteger *offset = [deCartaXYInteger XYWithX:width/2 andY:height];
     deCartaIcon *pinicon = [[deCartaIcon alloc] initWithImage:image size:size offset:offset];
     self = [super initWithPosition:position icon:pinicon message:message rotationTilt:pinrt];
+    [self addEventListeners];
     return self;
 }
 
@@ -49,7 +50,7 @@
         [pin.delegate pinLongTouched:pin];
         
     }];
-    [self addEventListener:longTouchEventListener forEventType:LONGTOUCH];
+    [self addEventListener:longTouchEventListener forEventType:DOUBLECLICK];
     
 }
 

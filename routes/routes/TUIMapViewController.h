@@ -38,5 +38,6 @@
 @protocol TUIMapViewControllerDelegate <NSObject>
 
 -(void)aboutToRemovePin:(TUIPin *)pin;
+-(void)aboutToRemoveAllPins;
 
 @end
