@@ -17,10 +17,11 @@
 @property (strong, nonatomic) IBOutlet deCartaMapView *mapView;
 @property (strong, nonatomic) deCartaOverlay *routePins;
 @property (strong, nonatomic) deCartaRoutePreference *routePrefs;
-//TODO: put the route button in the bar
+@property (strong, nonatomic) IBOutlet UIButton *playButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *routeBarButton;
 
 -(IBAction)routeBarClicked:(UIBarButtonItem *)sender;
+-(IBAction)playButtonClicked:(UIButton *)sender;
 
 /**
  * Adds event listeners to the map
@@ -142,6 +143,7 @@
                 [_mapView panToPosition:[route.boundingBox getCenterPosition]];
                 [_mapView refreshMap];
                 [_routeBarButton setTitle:@"Reset"];
+                _playButton.hidden = NO;
             }
         }];
     } else {
@@ -149,6 +151,10 @@
         //reset map
         [self resetMap];
     }
+}
+
+- (IBAction)playButtonClicked:(UIButton *)sender {
+    //Tilt the map 45 degrees, zoom in, go to the user's location and face the route
 }
 
 -(void)refreshRouteBarButton {
@@ -201,6 +207,7 @@
     [_mapView centerOnPosition:position];
     _mapView.zoomLevel= [[TUILocationManager sharedInstance] getZoomLevel];
     [self addPinOfType:TUIHomePin withLatitude:position.lat longitude:position.lon andMessage:@"Home, sweet home"];
+    _playButton.hidden = YES;
     //[_mapView refreshMap];
     [_mapView startAnimation];
 }
