@@ -19,9 +19,10 @@
  * Adds a pin to the pin overlay setting its latitude, longitude and message
  * @return the added pin
  */
--(TUIPin *)addPinWithLatitude:(double)latitude
-                    longitude:(double)longitude
-                   andMessage:(NSString *)message;
+-(TUIPin *)addPinOfType:(TUIPinType)type
+           withLatitude:(double)latitude
+              longitude:(double)longitude
+             andMessage:(NSString *)message;
 
 /**
  * Removes pin by reference

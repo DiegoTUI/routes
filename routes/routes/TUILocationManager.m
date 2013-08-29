@@ -47,6 +47,10 @@
     [_locationManager startUpdatingLocation];
 }
 
+-(deCartaPosition *)getHomeLocation {
+    return [[deCartaPosition alloc] initWithLat:DEF_LATITUDE andLon:DEF_LONGITUDE];
+}
+
 -(void)storeMapCenter:(CLLocation *)location {
     NSDictionary *locationToStore = @{@"latitude": [NSNumber numberWithDouble:location.coordinate.latitude],
                                       @"longitude": [NSNumber numberWithDouble:location.coordinate.longitude]};
@@ -78,7 +82,7 @@
 #pragma mark - Private methods
 -(void)callDelegatesWithLocation:(CLLocation *)location {
     for (id<TUILocationManagerDelegate> delegate in _delegates) {
-        [delegate locationReady:location];
+        [delegate userLocationReady:location];
     }
     
 }

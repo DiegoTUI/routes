@@ -27,6 +27,12 @@
 -(void)getUserLocation;
 
 /**
+ * Return home location.
+ * @return the location of home.
+ */
+-(deCartaPosition *)getHomeLocation;
+
+/**
  * Stores Map Center
  */
 -(void)storeMapCenter:(CLLocation *)location;
@@ -51,6 +57,6 @@
 
 @protocol TUILocationManagerDelegate <NSObject>
 
--(void)locationReady:(CLLocation *) location;
+-(void)userLocationReady:(CLLocation *) location;
 
 @end

@@ -31,9 +31,9 @@
  */
 -(void)refreshRouteBarButton;
 /**
- * Calculates the route based on the points in _routePositions
+ * Calculates the route based on the points in _routePins
  */
--(void)calculateRoute;
+-(void)calculateRouteWithCompletionHandler:(void (^)(NSError *error, deCartaRoute *route))completionHandler;
 /**
  * Removes pins and routes from the map
  */
@@ -63,16 +63,12 @@
     }
 }
 
--(TUIPin *)addPinWithLatitude:(double)latitude
-                    longitude:(double)longitude
-                   andMessage:(NSString *)message {
-    UIImage *pinImage = [UIImage imageNamed:@"pin.png"];
-    deCartaRotationTilt *pinrt=[[deCartaRotationTilt alloc] initWithRotateRelative:ROTATE_RELATIVE_TO_SCREEN tiltRelative:TILT_RELATIVE_TO_SCREEN];
-    pinrt.rotation = 0.0; //No rotation
-    pinrt.tilt = 0.0; //No tilt
+-(TUIPin *)addPinOfType:(TUIPinType)type
+           withLatitude:(double)latitude
+              longitude:(double)longitude
+             andMessage:(NSString *)message {
     deCartaPosition *position = [[deCartaPosition alloc] initWithLat:latitude andLon:longitude];
-    //deCartaPin * pin=[[deCartaPin alloc] initWithPosition:position icon:pinicon message:@"You fuck my mother" rotationTilt:pinrt];
-    TUIPin *pin = [[TUIPin alloc] initWithPosition:position image:pinImage message:message andRotationTilt:pinrt];
+    TUIPin *pin = [[TUIPin alloc] initPinOfType:type withPosition:position andMessage:message];
     [pin setDelegate:self];
     [_routePins addPin:pin];
     [self refreshRouteBarButton];
@@ -106,7 +102,7 @@
     //Capture LONGTOUCH
     [_mapView addEventListener:[deCartaEventListener eventListenerWithCallback:^(id<deCartaEventSource> sender, deCartaPosition *position) {
         NSLog(@"LongTouch!! - Lat: %f - Lon: %f", position.lat, position.lon);
-        [self addPinWithLatitude:position.lat longitude:position.lon andMessage:@"User custom location"];
+        [self addPinOfType:TUICustomPin withLatitude:position.lat longitude:position.lon andMessage:@"User custom location"];
     }] forEventType:LONGTOUCH];
 }
 
@@ -115,9 +111,39 @@
     if ([_routeBarButton.title isEqualToString:@"Route"]){
         //remove previous route
         [_mapView removeShapes];
+        //create activity indicator
+        __block UIActivityIndicatorView  *indicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        indicator.frame = CGRectMake((self.view.frame.size.width/2)-10, (self.view.frame.size.height/2)-10, 20, 20);
+        //dim view
+        self.view.alpha = 0.5;
+        [self.view addSubview:indicator];
+        [indicator startAnimating];
         //calculate route
-        [self calculateRoute];
-        [_routeBarButton setTitle:@"Reset"];
+        [self calculateRouteWithCompletionHandler:^(NSError *error, deCartaRoute *route) {
+            if (error) {
+                UIAlertView *alert = [[UIAlertView alloc]
+                                      initWithTitle:error.domain
+                                      message: error.userInfo[@"message"]
+                                      delegate: nil
+                                      cancelButtonTitle:nil
+                                      otherButtonTitles:@"OK", nil];
+                alert.cancelButtonIndex = -1;
+                [alert show];
+            } else {
+                [indicator stopAnimating];
+                [indicator removeFromSuperview];
+                self.view.alpha = 1;
+                deCartaPolyline *routeLine=[[deCartaPolyline alloc] initWithPositions:route.routeGeometry name:@"route"];
+                [_mapView addShape:routeLine];
+                //Zoom the map to a scale which can display the whole route
+                int zoom=[deCartaUtil getZoomLevelToFitBoundingBox:route.boundingBox withDisplaySize:_mapView.displaySize];
+                [_mapView setZoomLevel:zoom];
+                //Pan the map to center on the center of the route
+                [_mapView panToPosition:[route.boundingBox getCenterPosition]];
+                [_mapView refreshMap];
+                [_routeBarButton setTitle:@"Reset"];
+            }
+        }];
     } else {
         [_delegate aboutToRemoveAllPins];
         //reset map
@@ -133,12 +159,26 @@
     [_routeBarButton setTitle:title];
 }
 
--(void)calculateRoute {
-    //Calculate a route with the available pins in the overlay
-    NSMutableArray *routePositions = [NSMutableArray array];
-    for (int i=0; i<[_routePins size]; i++) {
-        [routePositions addObject:[[_routePins getAtIndex:i] position]];
-    }
+-(void)calculateRouteWithCompletionHandler:(void (^)(NSError *error, deCartaRoute *route))completionHandler {
+    NSRunLoop *completionRunLoop = [NSRunLoop currentRunLoop];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSError *error = nil;
+        //Calculate a route with the available pins in the overlay
+        NSArray *routePositions = [self getPinPositions];
+        deCartaRoute * route=[deCartaRouteQuery query:routePositions routePreference:_routePrefs];
+        if (!route) {
+            error = [NSError errorWithDomain:@"ROUTE_ERROR" code:1001 userInfo:@{@"message":@"Server error: couldn't calculate route"}];
+        }
+        CFRunLoopRef nativeRunLoop = [completionRunLoop getCFRunLoop];
+        CFRunLoopPerformBlock(nativeRunLoop,
+                              kCFRunLoopDefaultMode,
+                              ^(void) {
+                                  completionHandler(error, route);
+                              });
+        CFRunLoopWakeUp(nativeRunLoop);
+    });
+    /*//Calculate a route with the available pins in the overlay
+    NSArray *routePositions = [self getPinPositions];
     deCartaRoute * route=[deCartaRouteQuery query:routePositions routePreference:_routePrefs];
     if (route) {
         deCartaPolyline *routeLine=[[deCartaPolyline alloc] initWithPositions:route.routeGeometry name:@"route"];
@@ -149,7 +189,7 @@
         //Pan the map to center on the center of the route
         [_mapView panToPosition:[route.boundingBox getCenterPosition]];
         [_mapView refreshMap];
-    }
+    }*/
 }
 
 -(void)resetMap {
@@ -157,7 +197,12 @@
     [_routePins clear];
     //remove the route if existed
     [_mapView removeShapes];
-    [_mapView refreshMap];
+    deCartaPosition *position = [[TUILocationManager sharedInstance] getHomeLocation];
+    [_mapView centerOnPosition:position];
+    _mapView.zoomLevel= [[TUILocationManager sharedInstance] getZoomLevel];
+    [self addPinOfType:TUIHomePin withLatitude:position.lat longitude:position.lon andMessage:@"Home, sweet home"];
+    //[_mapView refreshMap];
+    [_mapView startAnimation];
 }
 
 -(BOOL)isOutOfBounds:(deCartaPosition *)position {
@@ -174,9 +219,13 @@
 
 -(NSArray *)getPinPositions {
     NSMutableArray *result = [NSMutableArray array];
-    for(int i=0; i<[_routePins size]; i++) {
+    //start point
+    [result addObject:[[_routePins getAtIndex:0] position]];
+    for(int i=1; i<[_routePins size]; i++) {
         [result addObject:[[_routePins getAtIndex:i] position]];
     }
+    //end point
+    [result addObject:[[_routePins getAtIndex:0] position]];
     return result;
 }
 
@@ -209,9 +258,7 @@
     [_mapView showOverlays];
     _routePrefs = [[deCartaRoutePreference alloc] init];
     _routePrefs.style=@"Fastest";
-    if (!TEST_OFFLINE) {
-        [[TUILocationManager sharedInstance] getUserLocation];
-    }
+    [self resetMap];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -232,7 +279,7 @@
 }
 
 #pragma mark - TUILocationManagerDelegate Methods
--(void)locationReady:(CLLocation *)location {
+-(void)userLocationReady:(CLLocation *)location {
     deCartaPosition *position = [[deCartaPosition alloc] initWithLat:location.coordinate.latitude andLon:location.coordinate.longitude];
     [_mapView centerOnPosition:position];
     _mapView.zoomLevel= [[TUILocationManager sharedInstance] getZoomLevel];

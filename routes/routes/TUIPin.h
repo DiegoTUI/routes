@@ -8,6 +8,12 @@
 
 #import "deCartaPin.h"
 
+typedef enum {
+    TUIHomePin = 0,
+    TUIAttractionPin = 1,
+    TUICustomPin = 2
+} TUIPinType;
+
 @protocol TUIPinDelegate;
 
 @interface TUIPin : deCartaPin
@@ -18,10 +24,9 @@
  * Inits the pin.
  * @return a singleton.
  */
--(TUIPin *)initWithPosition:(deCartaPosition *)position
-                      image:(UIImage *)image
-                    message:(NSString *)message
-            andRotationTilt:(deCartaRotationTilt *)pinrt;
+-(TUIPin *)initPinOfType:(TUIPinType)type
+            withPosition:(deCartaPosition *)position
+              andMessage:(NSString *)message;
 
 @end
 

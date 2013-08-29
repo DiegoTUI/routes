@@ -7,6 +7,7 @@
 //
 
 #import "TUIPin.h"
+#import "UIImage+Tui.h"
 
 #pragma mark - Private interface
 @interface TUIPin()
@@ -19,10 +20,18 @@
 @implementation TUIPin
 
 #pragma mark - Public methods
--(TUIPin *)initWithPosition:(deCartaPosition *)position
-                      image:(UIImage *)image
-                    message:(NSString *)message
-            andRotationTilt:(deCartaRotationTilt *)pinrt {
+-(TUIPin *)initPinOfType:(TUIPinType)type
+            withPosition:(deCartaPosition *)position
+              andMessage:(NSString *)message {
+    NSString* pinsPath = [[NSBundle mainBundle] pathForResource:@"pins" ofType:@"plist"];
+    NSArray *pinFiles = [NSArray arrayWithContentsOfFile:pinsPath];
+    UIImage *image = [UIImage imageNamedSmart:pinFiles[type]];
+    //UIImage *image = [UIImage imageNamedSmart:@"home_pin"];
+    //NSString* imagePath = [[NSBundle mainBundle] pathForResource:@"attraction_pin" ofType:@"png"];
+    //UIImage* image = [[UIImage alloc] initWithContentsOfFile:imagePath];
+    deCartaRotationTilt *pinrt=[[deCartaRotationTilt alloc] initWithRotateRelative:ROTATE_RELATIVE_TO_SCREEN tiltRelative:TILT_RELATIVE_TO_SCREEN];
+    pinrt.rotation = 0.0; //No rotation
+    pinrt.tilt = 0.0; //No tilt
     int width = image.size.width;
     int height = image.size.height;
     deCartaXYInteger *size = [deCartaXYInteger XYWithX:width andY:height];

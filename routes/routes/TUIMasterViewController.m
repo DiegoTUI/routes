@@ -128,7 +128,7 @@
         [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
         NSString *latstring = _spots[indexPath.row][@"latitude"];
         NSString *lonstring = _spots[indexPath.row][@"longitude"];
-        deCartaPin *pin = [_mapViewController addPinWithLatitude:[latstring doubleValue] longitude:[lonstring doubleValue] andMessage:cell.textLabel.text];
+        deCartaPin *pin = [_mapViewController addPinOfType:TUIAttractionPin withLatitude:[latstring doubleValue] longitude:[lonstring doubleValue] andMessage:cell.textLabel.text];
         //register pin
         [_pinMap setObject:pin forKey:indexPath];
     } else {
