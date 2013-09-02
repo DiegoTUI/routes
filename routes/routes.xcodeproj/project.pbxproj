@@ -7,7 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		761E053A17D4789D0091FE14 /* TUINavViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 761E053917D4789D0091FE14 /* TUINavViewController.mm */; };
+		761E053A17D4789D0091FE14 /* TUINavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 761E053917D4789D0091FE14 /* TUINavViewController.m */; };
+		761E053D17D498F90091FE14 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 761E053B17D498950091FE14 /* AVFoundation.framework */; };
+		761E053F17D4B2B50091FE14 /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 761E053E17D4B2B50091FE14 /* libstdc++.dylib */; };
+		761E054117D4B4510091FE14 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 761E054017D4B4510091FE14 /* AudioToolbox.framework */; };
+		761E054317D4B4740091FE14 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 761E054217D4B4740091FE14 /* libicucore.dylib */; };
 		76259CBE17CB6C7700C7B0BE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76259CBD17CB6C7700C7B0BE /* UIKit.framework */; };
 		76259CC017CB6C7700C7B0BE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76259CBF17CB6C7700C7B0BE /* Foundation.framework */; };
 		76259CC217CB6C7700C7B0BE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76259CC117CB6C7700C7B0BE /* CoreGraphics.framework */; };
@@ -112,7 +116,11 @@
 
 /* Begin PBXFileReference section */
 		761E053817D4789D0091FE14 /* TUINavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUINavViewController.h; sourceTree = "<group>"; };
-		761E053917D4789D0091FE14 /* TUINavViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TUINavViewController.mm; sourceTree = "<group>"; };
+		761E053917D4789D0091FE14 /* TUINavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TUINavViewController.m; sourceTree = "<group>"; };
+		761E053B17D498950091FE14 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		761E053E17D4B2B50091FE14 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
+		761E054017D4B4510091FE14 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		761E054217D4B4740091FE14 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		76259CBA17CB6C7700C7B0BE /* routes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = routes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		76259CBD17CB6C7700C7B0BE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		76259CBF17CB6C7700C7B0BE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -272,8 +280,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				761E054317D4B4740091FE14 /* libicucore.dylib in Frameworks */,
+				761E054117D4B4510091FE14 /* AudioToolbox.framework in Frameworks */,
+				761E053F17D4B2B50091FE14 /* libstdc++.dylib in Frameworks */,
 				76259DAA17CB710600C7B0BE /* libxml2.dylib in Frameworks */,
 				76259DA817CB70F300C7B0BE /* OpenGLES.framework in Frameworks */,
+				761E053D17D498F90091FE14 /* AVFoundation.framework in Frameworks */,
 				76259DA617CB70E700C7B0BE /* QuartzCore.framework in Frameworks */,
 				76259DA417CB70DD00C7B0BE /* CoreLocation.framework in Frameworks */,
 				76259CBE17CB6C7700C7B0BE /* UIKit.framework in Frameworks */,
@@ -299,6 +311,9 @@
 		76259CB117CB6C7700C7B0BE = {
 			isa = PBXGroup;
 			children = (
+				761E054217D4B4740091FE14 /* libicucore.dylib */,
+				761E054017D4B4510091FE14 /* AudioToolbox.framework */,
+				761E053E17D4B2B50091FE14 /* libstdc++.dylib */,
 				76259D0417CB70A500C7B0BE /* iPhoneAPI */,
 				76259CC317CB6C7700C7B0BE /* routes */,
 				76259CEA17CB6C7700C7B0BE /* routesTests */,
@@ -322,6 +337,7 @@
 		76259CBC17CB6C7700C7B0BE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				761E053B17D498950091FE14 /* AVFoundation.framework */,
 				76259E7C17D0B86A00C7B0BE /* NavigationLib.framework */,
 				76259DA917CB710600C7B0BE /* libxml2.dylib */,
 				76259DA717CB70F300C7B0BE /* OpenGLES.framework */,
@@ -413,7 +429,7 @@
 				76259CD817CB6C7700C7B0BE /* TUIMasterViewController.h */,
 				76259CD917CB6C7700C7B0BE /* TUIMasterViewController.m */,
 				761E053817D4789D0091FE14 /* TUINavViewController.h */,
-				761E053917D4789D0091FE14 /* TUINavViewController.mm */,
+				761E053917D4789D0091FE14 /* TUINavViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -807,7 +823,7 @@
 				76259DE717CB908400C7B0BE /* TUILocationManager.m in Sources */,
 				768C345D17CCADF600BF0924 /* TUIPin.m in Sources */,
 				76259E5317CF861C00C7B0BE /* UIImage+Tui.m in Sources */,
-				761E053A17D4789D0091FE14 /* TUINavViewController.mm in Sources */,
+				761E053A17D4789D0091FE14 /* TUINavViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -930,6 +946,10 @@
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				INFOPLIST_FILE = "routes/routes-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lz",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
@@ -951,6 +971,10 @@
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				INFOPLIST_FILE = "routes/routes-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lz",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;

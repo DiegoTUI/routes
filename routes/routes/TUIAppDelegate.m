@@ -9,8 +9,29 @@
 #import "TUIAppDelegate.h"
 #import "config.h"
 
+#pragma mark - Private interface
+@interface TUIAppDelegate ()
+
+@property (strong, nonatomic) DCNavigationManager *navigationManager;
+
+@end
+
+#pragma mark - Private interface
 @implementation TUIAppDelegate
 
+#pragma mark - Public Methods
+-(DCNavigationManager *)beginNavigationSessionWithConfig:(DCNavigationConfig *)navigationConfig {
+    if (!_navigationManager){
+		_navigationManager = [[DCNavigationManager alloc] initWithConfig:navigationConfig];
+	}
+	return _navigationManager;
+}
+
+-(DCNavigationManager *)navigationManager {
+    return _navigationManager;
+}
+
+#pragma mark - UIApplicationDelegate Methods
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.

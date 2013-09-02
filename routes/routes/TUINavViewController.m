@@ -9,6 +9,8 @@
 #import "TUINavViewController.h"
 
 @interface TUINavViewController ()
+// Navigation manager and updates
+@property (strong, nonatomic) id navigationUpdateConnection;
 
 - (IBAction)closeButtonClicked:(UIBarButtonItem *)sender;
 

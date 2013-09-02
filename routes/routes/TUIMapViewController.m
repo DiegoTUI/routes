@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 Tui Travel A&D. All rights reserved.
 //
 
+#import "TUIAppDelegate.h"
 #import "TUIMapViewController.h"
 #import "TUILocationManager.h"
 #import "TUINavViewController.h"
@@ -289,6 +290,12 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"showNavigation"]) {
         [(TUINavViewController *)segue.destinationViewController setDelegate:self];
+        //Configure the navigation session
+        DCNavigationConfig		*navigationConfig = [DCNavigationConfig configWithServer:@"chameleon-dev1.decarta.com"];
+        [navigationConfig populateDefaults];
+        navigationConfig.resourceDir = [NSString stringWithFormat:@"%@/nav_resources", [[NSBundle mainBundle] resourcePath]];
+        DCNavigationManager		*navigation;
+        navigation = [(TUIAppDelegate *)[[UIApplication sharedApplication] delegate] beginNavigationSessionWithConfig:navigationConfig];
     }
 }
 

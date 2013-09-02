@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <NavigationLib/NavigationLib.h>
 
 @interface TUIAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+
+-(DCNavigationManager *)beginNavigationSessionWithConfig:(DCNavigationConfig *)navigationConfig;
 
 @end

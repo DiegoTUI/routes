@@ -11,9 +11,19 @@
 
 @protocol TUINavViewControllerDelegate;
 
-@interface TUINavViewController : DCNavViewController
+typedef enum NightModeOption {
+	NightModeOptionAutomatic,
+	NightModeOptionDay,
+	NightModeOptionNight
+} NightModeOption;
 
+@interface TUINavViewController : DCNavViewController
+//delegate for closing the view
 @property (weak, nonatomic) id<TUINavViewControllerDelegate> delegate;
+// Navigation manager and updates
+@property (nonatomic, readonly) DCNavigationManager *navigation;
+@property (nonatomic, readonly) DCNavigationUpdate *lastUpdate;
+@property (nonatomic, retain) DCGuidanceConfig *guidanceConfig;
 
 @end
 
