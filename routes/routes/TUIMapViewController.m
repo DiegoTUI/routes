@@ -8,10 +8,11 @@
 
 #import "TUIMapViewController.h"
 #import "TUILocationManager.h"
+#import "TUINavViewController.h"
 #import "config.h"
 
 #pragma mark - Private interface
-@interface TUIMapViewController () <TUILocationManagerDelegate, UISplitViewControllerDelegate, TUIPinDelegate>
+@interface TUIMapViewController () <TUILocationManagerDelegate, UISplitViewControllerDelegate, TUIPinDelegate, TUINavViewControllerDelegate>
 
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
 @property (strong, nonatomic) IBOutlet deCartaMapView *mapView;
@@ -279,10 +280,16 @@
     [_mapView startAnimation];
 }
 
-- (void)didReceiveMemoryWarning
+-(void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"showNavigation"]) {
+        [(TUINavViewController *)segue.destinationViewController setDelegate:self];
+    }
 }
 
 #pragma mark - TUILocationManagerDelegate Methods
@@ -313,8 +320,12 @@
     //Uncheck master list if needed
 }
 
-#pragma mark - UISplitViewControllerDelegate Methods
+#pragma mark - TUINavViewControllerDelegate Methods
+-(void)closeButtonClicked {
+    [self dismissViewControllerAnimated:YES completion:^{}];
+}
 
+#pragma mark - UISplitViewControllerDelegate Methods
 - (void)splitViewController:(UISplitViewController *)splitController willHideViewController:(UIViewController *)viewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)popoverController {
     barButtonItem.title = NSLocalizedString(@"Spots", @"Spots");
     [self.navigationItem setLeftBarButtonItem:barButtonItem animated:YES];

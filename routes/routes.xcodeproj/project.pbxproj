@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		761E053A17D4789D0091FE14 /* TUINavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 761E053917D4789D0091FE14 /* TUINavViewController.m */; };
 		76259CBE17CB6C7700C7B0BE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76259CBD17CB6C7700C7B0BE /* UIKit.framework */; };
 		76259CC017CB6C7700C7B0BE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76259CBF17CB6C7700C7B0BE /* Foundation.framework */; };
 		76259CC217CB6C7700C7B0BE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76259CC117CB6C7700C7B0BE /* CoreGraphics.framework */; };
@@ -92,6 +93,10 @@
 		76259E7717CF9EC100C7B0BE /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 76259E7617CF9EC100C7B0BE /* Default-Landscape@2x~ipad.png */; };
 		76259E7A17CFA05400C7B0BE /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = 76259E7817CFA05300C7B0BE /* play.png */; };
 		76259E7B17CFA05400C7B0BE /* play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 76259E7917CFA05400C7B0BE /* play@2x.png */; };
+		76259E7D17D0B86A00C7B0BE /* NavigationLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76259E7C17D0B86A00C7B0BE /* NavigationLib.framework */; };
+		7625A06E17D0BA0B00C7B0BE /* nav_resources in Resources */ = {isa = PBXBuildFile; fileRef = 7625A06D17D0BA0A00C7B0BE /* nav_resources */; };
+		7625A07017D0BA2D00C7B0BE /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 7625A06F17D0BA2D00C7B0BE /* assets */; };
+		7625A07217D0BA3700C7B0BE /* geo_resources in Resources */ = {isa = PBXBuildFile; fileRef = 7625A07117D0BA3700C7B0BE /* geo_resources */; };
 		768C345D17CCADF600BF0924 /* TUIPin.m in Sources */ = {isa = PBXBuildFile; fileRef = 768C345C17CCADF600BF0924 /* TUIPin.m */; };
 /* End PBXBuildFile section */
 
@@ -106,6 +111,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		761E053817D4789D0091FE14 /* TUINavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUINavViewController.h; sourceTree = "<group>"; };
+		761E053917D4789D0091FE14 /* TUINavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TUINavViewController.m; sourceTree = "<group>"; };
 		76259CBA17CB6C7700C7B0BE /* routes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = routes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		76259CBD17CB6C7700C7B0BE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		76259CBF17CB6C7700C7B0BE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -252,6 +259,10 @@
 		76259E7617CF9EC100C7B0BE /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape@2x~ipad.png"; path = "../Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
 		76259E7817CFA05300C7B0BE /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play.png; sourceTree = "<group>"; };
 		76259E7917CFA05400C7B0BE /* play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play@2x.png"; sourceTree = "<group>"; };
+		76259E7C17D0B86A00C7B0BE /* NavigationLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = NavigationLib.framework; sourceTree = "<group>"; };
+		7625A06D17D0BA0A00C7B0BE /* nav_resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = nav_resources; sourceTree = "<group>"; };
+		7625A06F17D0BA2D00C7B0BE /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
+		7625A07117D0BA3700C7B0BE /* geo_resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = geo_resources; sourceTree = "<group>"; };
 		768C345B17CCADF600BF0924 /* TUIPin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUIPin.h; sourceTree = "<group>"; };
 		768C345C17CCADF600BF0924 /* TUIPin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TUIPin.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -268,6 +279,7 @@
 				76259CBE17CB6C7700C7B0BE /* UIKit.framework in Frameworks */,
 				76259CC017CB6C7700C7B0BE /* Foundation.framework in Frameworks */,
 				76259CC217CB6C7700C7B0BE /* CoreGraphics.framework in Frameworks */,
+				76259E7D17D0B86A00C7B0BE /* NavigationLib.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,6 +304,9 @@
 				76259CEA17CB6C7700C7B0BE /* routesTests */,
 				76259CBC17CB6C7700C7B0BE /* Frameworks */,
 				76259CBB17CB6C7700C7B0BE /* Products */,
+				7625A07117D0BA3700C7B0BE /* geo_resources */,
+				7625A06F17D0BA2D00C7B0BE /* assets */,
+				7625A06D17D0BA0A00C7B0BE /* nav_resources */,
 			);
 			sourceTree = "<group>";
 		};
@@ -307,6 +322,7 @@
 		76259CBC17CB6C7700C7B0BE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				76259E7C17D0B86A00C7B0BE /* NavigationLib.framework */,
 				76259DA917CB710600C7B0BE /* libxml2.dylib */,
 				76259DA717CB70F300C7B0BE /* OpenGLES.framework */,
 				76259DA517CB70E700C7B0BE /* QuartzCore.framework */,
@@ -396,6 +412,8 @@
 				76259DE517CB8E2C00C7B0BE /* TUIMapViewController.m */,
 				76259CD817CB6C7700C7B0BE /* TUIMasterViewController.h */,
 				76259CD917CB6C7700C7B0BE /* TUIMasterViewController.m */,
+				761E053817D4789D0091FE14 /* TUINavViewController.h */,
+				761E053917D4789D0091FE14 /* TUINavViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -691,6 +709,9 @@
 				76259E6D17CF9E7600C7B0BE /* icon.png in Resources */,
 				76259E6F17CF9E8900C7B0BE /* icon@2x.png in Resources */,
 				76259E7117CF9E9D00C7B0BE /* Default-Portrait~ipad.png in Resources */,
+				7625A07217D0BA3700C7B0BE /* geo_resources in Resources */,
+				7625A07017D0BA2D00C7B0BE /* assets in Resources */,
+				7625A06E17D0BA0B00C7B0BE /* nav_resources in Resources */,
 				76259E7317CF9EAD00C7B0BE /* Default-Portrait@2x~ipad.png in Resources */,
 				76259E7517CF9EB600C7B0BE /* Default-Landscape~ipad.png in Resources */,
 				76259E7717CF9EC100C7B0BE /* Default-Landscape@2x~ipad.png in Resources */,
@@ -786,6 +807,7 @@
 				76259DE717CB908400C7B0BE /* TUILocationManager.m in Sources */,
 				768C345D17CCADF600BF0924 /* TUIPin.m in Sources */,
 				76259E5317CF861C00C7B0BE /* UIImage+Tui.m in Sources */,
+				761E053A17D4789D0091FE14 /* TUINavViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -896,6 +918,10 @@
 		76259CF617CB6C7700C7B0BE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "routes/routes-Prefix.pch";
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
@@ -909,6 +935,10 @@
 		76259CF717CB6C7700C7B0BE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "routes/routes-Prefix.pch";
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
