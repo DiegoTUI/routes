@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		761E053A17D4789D0091FE14 /* TUINavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 761E053917D4789D0091FE14 /* TUINavViewController.m */; };
+		761E053A17D4789D0091FE14 /* TUINavViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 761E053917D4789D0091FE14 /* TUINavViewController.mm */; };
 		76259CBE17CB6C7700C7B0BE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76259CBD17CB6C7700C7B0BE /* UIKit.framework */; };
 		76259CC017CB6C7700C7B0BE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76259CBF17CB6C7700C7B0BE /* Foundation.framework */; };
 		76259CC217CB6C7700C7B0BE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76259CC117CB6C7700C7B0BE /* CoreGraphics.framework */; };
@@ -112,7 +112,7 @@
 
 /* Begin PBXFileReference section */
 		761E053817D4789D0091FE14 /* TUINavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUINavViewController.h; sourceTree = "<group>"; };
-		761E053917D4789D0091FE14 /* TUINavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TUINavViewController.m; sourceTree = "<group>"; };
+		761E053917D4789D0091FE14 /* TUINavViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TUINavViewController.mm; sourceTree = "<group>"; };
 		76259CBA17CB6C7700C7B0BE /* routes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = routes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		76259CBD17CB6C7700C7B0BE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		76259CBF17CB6C7700C7B0BE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -413,7 +413,7 @@
 				76259CD817CB6C7700C7B0BE /* TUIMasterViewController.h */,
 				76259CD917CB6C7700C7B0BE /* TUIMasterViewController.m */,
 				761E053817D4789D0091FE14 /* TUINavViewController.h */,
-				761E053917D4789D0091FE14 /* TUINavViewController.m */,
+				761E053917D4789D0091FE14 /* TUINavViewController.mm */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -807,7 +807,7 @@
 				76259DE717CB908400C7B0BE /* TUILocationManager.m in Sources */,
 				768C345D17CCADF600BF0924 /* TUIPin.m in Sources */,
 				76259E5317CF861C00C7B0BE /* UIImage+Tui.m in Sources */,
-				761E053A17D4789D0091FE14 /* TUINavViewController.m in Sources */,
+				761E053A17D4789D0091FE14 /* TUINavViewController.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -918,6 +918,9 @@
 		76259CF617CB6C7700C7B0BE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -928,6 +931,7 @@
 				INFOPLIST_FILE = "routes/routes-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -935,6 +939,9 @@
 		76259CF717CB6C7700C7B0BE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -945,6 +952,7 @@
 				INFOPLIST_FILE = "routes/routes-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

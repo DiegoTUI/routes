@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <NavigationLib/NavigationLib.h>
 
 @protocol TUINavViewControllerDelegate;
 
-@interface TUINavViewController : UIViewController
+@interface TUINavViewController : DCNavViewController
 
 @property (weak, nonatomic) id<TUINavViewControllerDelegate> delegate;
 

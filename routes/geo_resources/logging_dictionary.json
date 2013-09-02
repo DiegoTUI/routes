@@ -1,0 +1,10 @@
+{
+	"TileConn": "Log tile connections (including URL, size of response, time to fetch, and whether fetch was successful)",
+	"NDK-tilecache": "Individual hits, misses and insertions of tiles into the cache",
+	"ThreadPool": "Deep debugging of thread activities",
+	"MapTileService": "Track network load of tiles, specifying how many are batched together into a single fetch",
+	"ZoomPrefetch": "Debugging information for the zoom level prefetch policy (how many tiles on which zoom levels, etc.)",
+	"TilePrefetch": "Prefetch attempts, how many tiles are being fetched, etc.",
+	"ExtendedCache": "Inserts to and removals from the extended cache that augments the main cache",
+	"JNIUtils": "Packing and unpacking of JNI data"
+}
