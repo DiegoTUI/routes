@@ -306,10 +306,14 @@
         //Configure guidance
         DCGuidanceConfig *guidanceConfig;
         CLLocationCoordinate2D origin, destination;
-        origin.latitude = 45.53488861;
-        origin.longitude = -122.70283602;
-        destination.latitude = 45.50478068;
-        destination.longitude = -122.6281205;
+        //origin.latitude = 45.53488861;
+        //origin.longitude = -122.70283602;
+        //destination.latitude = 45.50478068;
+        //destination.longitude = -122.6281205;
+        origin.latitude = 39.543276;
+        origin.longitude = 2.716187;
+        destination.latitude = 39.567741;
+        destination.longitude = 2.647630;
         guidanceConfig = [DCGuidanceConfig configWithDestination:destination origin:origin];
         //guidanceConfig = [DCGuidanceConfig configWithDestination:destination];
 		guidanceConfig.simulationSpeed = 2;
