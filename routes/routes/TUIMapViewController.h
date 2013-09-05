@@ -40,5 +40,6 @@
 
 -(void)aboutToRemovePin:(TUIPin *)pin;
 -(void)aboutToRemoveAllPins;
+-(void)performedSegue:(NSString *)segueId;
 
 @end

@@ -9,11 +9,11 @@
 #import "TUIAppDelegate.h"
 #import "TUIMapViewController.h"
 #import "TUILocationManager.h"
-#import "TUINavViewController.h"
+#import "TUIXploreViewController.h"
 #import "config.h"
 
 #pragma mark - Private interface
-@interface TUIMapViewController () <TUILocationManagerDelegate, UISplitViewControllerDelegate, TUIPinDelegate, TUINavViewControllerDelegate>
+@interface TUIMapViewController () <TUILocationManagerDelegate, UISplitViewControllerDelegate, TUIPinDelegate, TUIXploreViewControllerDelegate>
 
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
 @property (strong, nonatomic) IBOutlet deCartaMapView *mapView;
@@ -21,6 +21,9 @@
 @property (strong, nonatomic) deCartaRoutePreference *routePrefs;
 @property (strong, nonatomic) IBOutlet UIButton *playButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *routeBarButton;
+/****CRAP FOR NAVIGATION****/
+@property (strong, nonatomic) NSUserDefaults *persist;
+/****CRAP FOR NAVIGATION****/
 
 -(IBAction)routeBarClicked:(UIBarButtonItem *)sender;
 -(IBAction)playButtonClicked:(UIButton *)sender;
@@ -49,6 +52,10 @@
  * Generates an array of deCartaPosition from _routePins
  */
 -(NSArray *)getPinPositions;
+/**
+ * Generates a buffer with the routepoints for navigation. Origin and destination excluded.
+ */
+-(NSData *)getRoutePointsForNavigation;
 /**
  * Logs current pins. Just for debug purposes.
  */
@@ -156,7 +163,8 @@
 }
 
 - (IBAction)playButtonClicked:(UIButton *)sender {
-    //Tilt the map 45 degrees, zoom in, go to the user's location and face the route
+    [self performSegueWithIdentifier:@"showNavigation" sender:self];
+    //[self performSegueWithIdentifier:@"showFakeNavigation" sender:self];
 }
 
 -(void)refreshRouteBarButton {
@@ -185,19 +193,6 @@
                               });
         CFRunLoopWakeUp(nativeRunLoop);
     });
-    /*//Calculate a route with the available pins in the overlay
-    NSArray *routePositions = [self getPinPositions];
-    deCartaRoute * route=[deCartaRouteQuery query:routePositions routePreference:_routePrefs];
-    if (route) {
-        deCartaPolyline *routeLine=[[deCartaPolyline alloc] initWithPositions:route.routeGeometry name:@"route"];
-        [_mapView addShape:routeLine];
-        //Zoom the map to a scale which can display the whole route
-        int zoom=[deCartaUtil getZoomLevelToFitBoundingBox:route.boundingBox withDisplaySize:_mapView.displaySize];
-        [_mapView setZoomLevel:zoom];
-        //Pan the map to center on the center of the route
-        [_mapView panToPosition:[route.boundingBox getCenterPosition]];
-        [_mapView refreshMap];
-    }*/
 }
 
 -(void)resetMap {
@@ -235,6 +230,19 @@
     }
     //end point
     [result addObject:[[_routePins getAtIndex:0] position]];
+    return result;
+}
+
+-(NSData *)getRoutePointsForNavigation {
+    NSInteger numberOfRoutePoints = [_routePins size] - 1;
+    CLLocationCoordinate2D *buffer = malloc(numberOfRoutePoints * sizeof(CLLocationCoordinate2D));
+    for(int i=1; i<[_routePins size]; i++) {
+        CLLocationCoordinate2D routePoint;
+        routePoint.latitude = [[[_routePins getAtIndex:i] position] lat];
+        routePoint.longitude = [[[_routePins getAtIndex:i] position] lon];
+        buffer[i-1] = routePoint;
+    }
+    NSData *result = [[NSData alloc] initWithBytesNoCopy:buffer length:numberOfRoutePoints*sizeof(CLLocationCoordinate2D) freeWhenDone:YES];
     return result;
 }
 
@@ -289,14 +297,44 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"showNavigation"]) {
-        [(TUINavViewController *)segue.destinationViewController setDelegate:self];
         //Configure the navigation session
         DCNavigationConfig		*navigationConfig = [DCNavigationConfig configWithServer:@"chameleon-dev1.decarta.com"];
         [navigationConfig populateDefaults];
         navigationConfig.resourceDir = [NSString stringWithFormat:@"%@/nav_resources", [[NSBundle mainBundle] resourcePath]];
-        DCNavigationManager		*navigation;
+        DCNavigationManager *navigation;
         navigation = [(TUIAppDelegate *)[[UIApplication sharedApplication] delegate] beginNavigationSessionWithConfig:navigationConfig];
-    }
+        //Configure guidance
+        DCGuidanceConfig *guidanceConfig;
+        CLLocationCoordinate2D origin, destination;
+        origin.latitude = 45.53488861;
+        origin.longitude = -122.70283602;
+        destination.latitude = 45.50478068;
+        destination.longitude = -122.6281205;
+        guidanceConfig = [DCGuidanceConfig configWithDestination:destination origin:origin];
+        //guidanceConfig = [DCGuidanceConfig configWithDestination:destination];
+		guidanceConfig.simulationSpeed = 5;
+        guidanceConfig.units = DCGuidanceUnitsMetric;
+        guidanceConfig.routeMode = DCGuidanceRouteModeCarpool;
+        guidanceConfig.routeOptionMask = 0;
+        guidanceConfig.sensorLogPath = nil;
+        guidanceConfig.simulate = YES;
+        //Configure navViewController
+        TUIXploreViewController *navViewController = (TUIXploreViewController *)segue.destinationViewController;
+        navViewController.delegate = self;
+        navViewController.guidanceConfig = guidanceConfig;
+        // Set route points
+        /*[navViewController setRoutePoints:[self getRoutePointsForNavigation] completionHandler:^{
+            // Run navigation
+            [navigation configureGuidance:guidanceConfig];
+            [navigation runGuidance];
+        }];*/
+        
+        // Run navigation
+        [navigation configureGuidance:guidanceConfig];
+        [navigation runGuidance];
+    } 
+    
+    [_delegate performedSegue:segue.identifier];
 }
 
 #pragma mark - TUILocationManagerDelegate Methods

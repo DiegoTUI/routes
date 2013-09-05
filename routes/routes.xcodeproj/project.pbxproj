@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		761E053A17D4789D0091FE14 /* TUINavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 761E053917D4789D0091FE14 /* TUINavViewController.m */; };
+		761E053A17D4789D0091FE14 /* TUIXploreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 761E053917D4789D0091FE14 /* TUIXploreViewController.m */; };
 		761E053D17D498F90091FE14 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 761E053B17D498950091FE14 /* AVFoundation.framework */; };
 		761E053F17D4B2B50091FE14 /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 761E053E17D4B2B50091FE14 /* libstdc++.dylib */; };
 		761E054117D4B4510091FE14 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 761E054017D4B4510091FE14 /* AudioToolbox.framework */; };
@@ -115,8 +115,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		761E053817D4789D0091FE14 /* TUINavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUINavViewController.h; sourceTree = "<group>"; };
-		761E053917D4789D0091FE14 /* TUINavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TUINavViewController.m; sourceTree = "<group>"; };
+		761E053817D4789D0091FE14 /* TUIXploreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUIXploreViewController.h; sourceTree = "<group>"; };
+		761E053917D4789D0091FE14 /* TUIXploreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TUIXploreViewController.m; sourceTree = "<group>"; };
 		761E053B17D498950091FE14 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		761E053E17D4B2B50091FE14 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		761E054017D4B4510091FE14 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -311,9 +311,6 @@
 		76259CB117CB6C7700C7B0BE = {
 			isa = PBXGroup;
 			children = (
-				761E054217D4B4740091FE14 /* libicucore.dylib */,
-				761E054017D4B4510091FE14 /* AudioToolbox.framework */,
-				761E053E17D4B2B50091FE14 /* libstdc++.dylib */,
 				76259D0417CB70A500C7B0BE /* iPhoneAPI */,
 				76259CC317CB6C7700C7B0BE /* routes */,
 				76259CEA17CB6C7700C7B0BE /* routesTests */,
@@ -337,6 +334,9 @@
 		76259CBC17CB6C7700C7B0BE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				761E054217D4B4740091FE14 /* libicucore.dylib */,
+				761E054017D4B4510091FE14 /* AudioToolbox.framework */,
+				761E053E17D4B2B50091FE14 /* libstdc++.dylib */,
 				761E053B17D498950091FE14 /* AVFoundation.framework */,
 				76259E7C17D0B86A00C7B0BE /* NavigationLib.framework */,
 				76259DA917CB710600C7B0BE /* libxml2.dylib */,
@@ -428,8 +428,8 @@
 				76259DE517CB8E2C00C7B0BE /* TUIMapViewController.m */,
 				76259CD817CB6C7700C7B0BE /* TUIMasterViewController.h */,
 				76259CD917CB6C7700C7B0BE /* TUIMasterViewController.m */,
-				761E053817D4789D0091FE14 /* TUINavViewController.h */,
-				761E053917D4789D0091FE14 /* TUINavViewController.m */,
+				761E053817D4789D0091FE14 /* TUIXploreViewController.h */,
+				761E053917D4789D0091FE14 /* TUIXploreViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -823,7 +823,7 @@
 				76259DE717CB908400C7B0BE /* TUILocationManager.m in Sources */,
 				768C345D17CCADF600BF0924 /* TUIPin.m in Sources */,
 				76259E5317CF861C00C7B0BE /* UIImage+Tui.m in Sources */,
-				761E053A17D4789D0091FE14 /* TUINavViewController.m in Sources */,
+				761E053A17D4789D0091FE14 /* TUIXploreViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

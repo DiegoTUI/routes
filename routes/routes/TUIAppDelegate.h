@@ -14,5 +14,6 @@
 @property (strong, nonatomic) UIWindow *window;
 
 -(DCNavigationManager *)beginNavigationSessionWithConfig:(DCNavigationConfig *)navigationConfig;
+-(DCNavigationManager *)navigationManager;
 
 @end
