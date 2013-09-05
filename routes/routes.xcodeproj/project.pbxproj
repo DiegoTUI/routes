@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		704D395017D8F401000DC53D /* NavigationLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 704D394F17D8F401000DC53D /* NavigationLib.framework */; };
 		761E053A17D4789D0091FE14 /* TUIXploreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 761E053917D4789D0091FE14 /* TUIXploreViewController.m */; };
 		761E053D17D498F90091FE14 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 761E053B17D498950091FE14 /* AVFoundation.framework */; };
 		761E053F17D4B2B50091FE14 /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 761E053E17D4B2B50091FE14 /* libstdc++.dylib */; };
@@ -115,6 +116,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		704D394F17D8F401000DC53D /* NavigationLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = NavigationLib.framework; sourceTree = "<group>"; };
 		761E053817D4789D0091FE14 /* TUIXploreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUIXploreViewController.h; sourceTree = "<group>"; };
 		761E053917D4789D0091FE14 /* TUIXploreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TUIXploreViewController.m; sourceTree = "<group>"; };
 		761E053B17D498950091FE14 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -292,6 +294,7 @@
 				76259CC017CB6C7700C7B0BE /* Foundation.framework in Frameworks */,
 				76259CC217CB6C7700C7B0BE /* CoreGraphics.framework in Frameworks */,
 				76259E7D17D0B86A00C7B0BE /* NavigationLib.framework in Frameworks */,
+				704D395017D8F401000DC53D /* NavigationLib.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,6 +337,7 @@
 		76259CBC17CB6C7700C7B0BE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				704D394F17D8F401000DC53D /* NavigationLib.framework */,
 				761E054217D4B4740091FE14 /* libicucore.dylib */,
 				761E054017D4B4510091FE14 /* AudioToolbox.framework */,
 				761E053E17D4B2B50091FE14 /* libstdc++.dylib */,

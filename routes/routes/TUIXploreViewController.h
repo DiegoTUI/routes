@@ -18,6 +18,12 @@ typedef enum NightModeOption {
 } NightModeOption;
 
 @interface TUIXploreViewController : DCNavViewController
+{
+    DCNavigationManager			*navigation;
+    DCNavigationUpdate          *lastUpdate;
+    DCGuidanceConfig			*guidanceConfig;
+}
+
 //delegate for closing the view
 @property (weak, nonatomic) id<TUIXploreViewControllerDelegate> delegate;
 // Navigation manager and updates

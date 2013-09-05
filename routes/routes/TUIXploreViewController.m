@@ -19,6 +19,8 @@
 
 @implementation TUIXploreViewController
 
+@synthesize lastUpdate;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -78,5 +80,23 @@
 }
 
 #pragma mark - DCNavigationDelegate
+
+- (void)navigationManager:(DCNavigationManager *)manager update:(DCNavigationUpdate *)update
+{
+    if (update.guidance.routePoints)
+    {
+        if (update.guidance.routePoints != lastUpdate.guidance.routePoints)
+        {
+            [self setRoutePoints:update.guidance.routePoints completionHandler:nil];
+        }
+    }
+    else
+    {
+        [self clearRoute];
+    }
+    
+    [self updateVehiclePosition:update.vehiclePosition direction:update.vehicleDirection];
+    lastUpdate = update;
+}
 
 @end

@@ -312,7 +312,7 @@
         destination.longitude = -122.6281205;
         guidanceConfig = [DCGuidanceConfig configWithDestination:destination origin:origin];
         //guidanceConfig = [DCGuidanceConfig configWithDestination:destination];
-		guidanceConfig.simulationSpeed = 5;
+		guidanceConfig.simulationSpeed = 2;
         guidanceConfig.units = DCGuidanceUnitsMetric;
         guidanceConfig.routeMode = DCGuidanceRouteModeCarpool;
         guidanceConfig.routeOptionMask = 0;
