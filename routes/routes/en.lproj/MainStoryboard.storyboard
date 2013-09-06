@@ -98,17 +98,41 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hsf-1L-WsQ">
+                                <items>
+                                    <barButtonItem systemItem="play" id="gmb-J2-g0a">
+                                        <connections>
+                                            <action selector="resetPositionBarButtonClicked:" destination="fgp-Aj-Rhh" id="v9c-FB-Xhm"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Current street" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lEo-ym-MHP">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="949" id="7ed-e4-FSk"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="DFf-s9-oQL" firstAttribute="leading" secondItem="ES1-4X-Db9" secondAttribute="leading" type="default" id="EA0-Pl-5gN"/>
                             <constraint firstItem="DFf-s9-oQL" firstAttribute="trailing" secondItem="ES1-4X-Db9" secondAttribute="trailing" type="default" id="Hdb-rO-GCU"/>
+                            <constraint firstItem="Hsf-1L-WsQ" firstAttribute="trailing" secondItem="ES1-4X-Db9" secondAttribute="trailing" type="default" id="LsH-Dc-fJm"/>
                             <constraint firstItem="DFf-s9-oQL" firstAttribute="top" secondItem="ES1-4X-Db9" secondAttribute="top" type="default" id="Oha-ek-F1B"/>
+                            <constraint firstAttribute="trailing" secondItem="lEo-ym-MHP" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="PeU-3x-isT"/>
+                            <constraint firstItem="Hsf-1L-WsQ" firstAttribute="bottom" secondItem="ES1-4X-Db9" secondAttribute="bottom" type="default" id="YmY-LJ-mnf"/>
+                            <constraint firstItem="Hsf-1L-WsQ" firstAttribute="leading" secondItem="ES1-4X-Db9" secondAttribute="leading" type="default" id="dD2-5G-Cxz"/>
+                            <constraint firstItem="lEo-ym-MHP" firstAttribute="centerY" secondItem="Hsf-1L-WsQ" secondAttribute="centerY" type="default" id="x6q-sP-AFf"/>
                         </constraints>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
                     <connections>
                         <outlet property="mapView" destination="ES1-4X-Db9" id="jZN-Ic-kKq"/>
+                        <outlet property="resetPositionBarButton" destination="gmb-J2-g0a" id="Stb-jA-saE"/>
+                        <outlet property="statusLabel" destination="lEo-ym-MHP" id="G4e-Ay-6Qh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7DL-jQ-gV7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -241,6 +265,9 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/TUIXploreViewController.h"/>
             <relationships>
                 <relationship kind="action" name="closeButtonClicked:" candidateClass="UIBarButtonItem"/>
+                <relationship kind="action" name="resetPositionBarButtonClicked:" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="resetPositionBarButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="statusLabel" candidateClass="UILabel"/>
             </relationships>
         </class>
         <class className="deCartaMapView" superclassName="UIView">

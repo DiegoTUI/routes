@@ -12,8 +12,12 @@
 @interface TUIXploreViewController () <DCMapDelegate, DCNavigationDelegate, DCMapPushpinDelegate, UIAlertViewDelegate, UIActionSheetDelegate>
 // Navigation manager and updates
 @property (strong, nonatomic) id navigationUpdateConnection;
+@property (strong, nonatomic) IBOutlet UILabel *statusLabel;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *resetPositionBarButton;
+
 
 - (IBAction)closeButtonClicked:(UIBarButtonItem *)sender;
+- (IBAction)resetPositionBarButtonClicked:(UIBarButtonItem *)sender;
 
 @end
 
@@ -66,7 +70,7 @@
 	[self setNavigationCameraActive:YES];
 	[self setDestination:_guidanceConfig.destination];
     
-    self.navigationItem.title = @"Initializing...";
+    _statusLabel.text = @"Initializing...";
     
     _navigation.audioMuted = NO;
 	_navigationActive = NO;
@@ -85,7 +89,13 @@
 }
 
 - (IBAction)closeButtonClicked:(UIBarButtonItem *)sender {
+    [_navigation cancelGuidance];
+    [self setNavigationActive:NO];
+    [self clearRoute];
     [_delegate closeButtonClicked];
+}
+
+- (IBAction)resetPositionBarButtonClicked:(UIBarButtonItem *)sender {
 }
 
 #pragma mark - DCNavigationDelegate
@@ -93,20 +103,18 @@
 - (void)navigationManager:(DCNavigationManager *)manager update:(DCNavigationUpdate *)update
 {
 	// Process the navigation update
-	if (update.destinationReached)
-	{
+	if (update.destinationReached) {
 	}
-	else if (update.guidance)
-	{
-		if (update.guidance.routePoints)
-		{
-			if (update.guidance.routePoints != lastUpdate.guidance.routePoints)
-			{
+	else if (update.guidance) {
+        if (update.guidance.currentStreet) {
+			_statusLabel.text = update.guidance.currentStreet;
+		}
+		if (update.guidance.routePoints) {
+			if (update.guidance.routePoints != lastUpdate.guidance.routePoints) {
 				[self setRoutePoints:update.guidance.routePoints completionHandler:nil];
 			}
 		}
-		else
-		{
+		else {
 			[self clearRoute];
 		}
 	}
