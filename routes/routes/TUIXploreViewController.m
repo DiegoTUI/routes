@@ -53,6 +53,15 @@
     _navigation = [(TUIAppDelegate *)[[UIApplication sharedApplication] delegate] navigationManager];
 	_navigationUpdateConnection = [_navigation registerForNavigationUpdatesWithDelegate:self];
     
+    CLLocationCoordinate2D *buffer = malloc(sizeof(CLLocationCoordinate2D));
+    CLLocationCoordinate2D routePoint;
+    routePoint.latitude = 39.567741;
+    routePoint.longitude = 2.647630;
+    buffer[0] = routePoint;
+    //NSData *pointsForNavigation = [self getRoutePointsForNavigation];
+    //NSLog(@"pointsForNavigation length: %d", [pointsForNavigation length]);
+    [self setRoutePoints:buffer count:sizeof(CLLocationCoordinate2D) completionHandler:nil];
+    
     [self updateVehiclePosition:_guidanceConfig.origin direction:0];
 	[self setNavigationCameraActive:YES];
 	[self setDestination:_guidanceConfig.destination];

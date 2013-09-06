@@ -242,7 +242,9 @@
         routePoint.longitude = [[[_routePins getAtIndex:i] position] lon];
         buffer[i-1] = routePoint;
     }
-    NSData *result = [[NSData alloc] initWithBytesNoCopy:buffer length:numberOfRoutePoints*sizeof(CLLocationCoordinate2D) freeWhenDone:YES];
+    //NSData *result = [[NSData alloc] initWithBytesNoCopy:buffer length:numberOfRoutePoints*sizeof(CLLocationCoordinate2D) freeWhenDone:NO];
+    NSData *result = [[NSData alloc] initWithBytes:buffer length:numberOfRoutePoints*sizeof(CLLocationCoordinate2D)];
+    NSLog(@"result length: %d - sizeof CLLocationCoordinate2d: %ld", [result length], sizeof(CLLocationCoordinate2D));
     return result;
 }
 
@@ -306,17 +308,15 @@
         //Configure guidance
         DCGuidanceConfig *guidanceConfig;
         CLLocationCoordinate2D origin, destination;
-        //origin.latitude = 45.53488861;
-        //origin.longitude = -122.70283602;
-        //destination.latitude = 45.50478068;
-        //destination.longitude = -122.6281205;
+        //origin.latitude = destination.latitude = DEF_LATITUDE;
+        //origin.longitude = destination.longitude = DEF_LONGITUDE;
         origin.latitude = 39.543276;
         origin.longitude = 2.716187;
-        destination.latitude = 39.567741;
-        destination.longitude = 2.647630;
+        destination.latitude = 39.539867;
+        destination.longitude = 2.722431;
         guidanceConfig = [DCGuidanceConfig configWithDestination:destination origin:origin];
         //guidanceConfig = [DCGuidanceConfig configWithDestination:destination];
-		guidanceConfig.simulationSpeed = 2;
+		guidanceConfig.simulationSpeed = 5;
         guidanceConfig.units = DCGuidanceUnitsMetric;
         guidanceConfig.routeMode = DCGuidanceRouteModeCarpool;
         guidanceConfig.routeOptionMask = 0;
@@ -327,7 +327,15 @@
         navViewController.delegate = self;
         navViewController.guidanceConfig = guidanceConfig;
         // Set route points
-        /*[navViewController setRoutePoints:[self getRoutePointsForNavigation] completionHandler:^{
+        //CLLocationCoordinate2D *buffer = malloc(sizeof(CLLocationCoordinate2D));
+        //CLLocationCoordinate2D routePoint;
+        //routePoint.latitude = 39.567741;
+        //routePoint.longitude = 2.647630;
+        //buffer[0] = routePoint;
+        //NSData *pointsForNavigation = [self getRoutePointsForNavigation];
+        //NSLog(@"pointsForNavigation length: %d", [pointsForNavigation length]);
+        //[navViewController setRoutePoints:buffer count:sizeof(CLLocationCoordinate2D) completionHandler:nil];
+        /*[navViewController setRoutePoints:pointsForNavigation completionHandler:^{
             // Run navigation
             [navigation configureGuidance:guidanceConfig];
             [navigation runGuidance];
