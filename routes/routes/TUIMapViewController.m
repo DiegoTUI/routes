@@ -282,7 +282,8 @@
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    //Repaint the map
+    //place the play button properly
+    _playButton.center = _mapView.center;
 }
 
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
