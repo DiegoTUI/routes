@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		704D395017D8F401000DC53D /* NavigationLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 704D394F17D8F401000DC53D /* NavigationLib.framework */; };
 		761E053A17D4789D0091FE14 /* TUIXploreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 761E053917D4789D0091FE14 /* TUIXploreViewController.m */; };
 		761E053D17D498F90091FE14 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 761E053B17D498950091FE14 /* AVFoundation.framework */; };
 		761E053F17D4B2B50091FE14 /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 761E053E17D4B2B50091FE14 /* libstdc++.dylib */; };
@@ -98,11 +97,13 @@
 		76259E7717CF9EC100C7B0BE /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 76259E7617CF9EC100C7B0BE /* Default-Landscape@2x~ipad.png */; };
 		76259E7A17CFA05400C7B0BE /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = 76259E7817CFA05300C7B0BE /* play.png */; };
 		76259E7B17CFA05400C7B0BE /* play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 76259E7917CFA05400C7B0BE /* play@2x.png */; };
-		76259E7D17D0B86A00C7B0BE /* NavigationLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76259E7C17D0B86A00C7B0BE /* NavigationLib.framework */; };
 		7625A06E17D0BA0B00C7B0BE /* nav_resources in Resources */ = {isa = PBXBuildFile; fileRef = 7625A06D17D0BA0A00C7B0BE /* nav_resources */; };
 		7625A07017D0BA2D00C7B0BE /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 7625A06F17D0BA2D00C7B0BE /* assets */; };
 		7625A07217D0BA3700C7B0BE /* geo_resources in Resources */ = {isa = PBXBuildFile; fileRef = 7625A07117D0BA3700C7B0BE /* geo_resources */; };
 		768C345D17CCADF600BF0924 /* TUIPin.m in Sources */ = {isa = PBXBuildFile; fileRef = 768C345C17CCADF600BF0924 /* TUIPin.m */; };
+		768F28B017DDC7B900F87E19 /* NavigationLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 768F28AF17DDC7B900F87E19 /* NavigationLib.framework */; };
+		768F28B317DDCE2900F87E19 /* NavigationCornerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 768F28B217DDCE2900F87E19 /* NavigationCornerView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		768F28B717DDD95300F87E19 /* FormatUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 768F28B617DDD95300F87E19 /* FormatUtils.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -116,7 +117,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		704D394F17D8F401000DC53D /* NavigationLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = NavigationLib.framework; sourceTree = "<group>"; };
 		761E053817D4789D0091FE14 /* TUIXploreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUIXploreViewController.h; sourceTree = "<group>"; };
 		761E053917D4789D0091FE14 /* TUIXploreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TUIXploreViewController.m; sourceTree = "<group>"; };
 		761E053B17D498950091FE14 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -269,12 +269,16 @@
 		76259E7617CF9EC100C7B0BE /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape@2x~ipad.png"; path = "../Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
 		76259E7817CFA05300C7B0BE /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play.png; sourceTree = "<group>"; };
 		76259E7917CFA05400C7B0BE /* play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play@2x.png"; sourceTree = "<group>"; };
-		76259E7C17D0B86A00C7B0BE /* NavigationLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = NavigationLib.framework; sourceTree = "<group>"; };
 		7625A06D17D0BA0A00C7B0BE /* nav_resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = nav_resources; sourceTree = "<group>"; };
 		7625A06F17D0BA2D00C7B0BE /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
 		7625A07117D0BA3700C7B0BE /* geo_resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = geo_resources; sourceTree = "<group>"; };
 		768C345B17CCADF600BF0924 /* TUIPin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUIPin.h; sourceTree = "<group>"; };
 		768C345C17CCADF600BF0924 /* TUIPin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TUIPin.m; sourceTree = "<group>"; };
+		768F28AF17DDC7B900F87E19 /* NavigationLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = NavigationLib.framework; sourceTree = "<group>"; };
+		768F28B117DDCE2900F87E19 /* NavigationCornerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationCornerView.h; sourceTree = "<group>"; };
+		768F28B217DDCE2900F87E19 /* NavigationCornerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationCornerView.m; sourceTree = "<group>"; };
+		768F28B517DDD95300F87E19 /* FormatUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FormatUtils.h; sourceTree = "<group>"; };
+		768F28B617DDD95300F87E19 /* FormatUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FormatUtils.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -293,8 +297,7 @@
 				76259CBE17CB6C7700C7B0BE /* UIKit.framework in Frameworks */,
 				76259CC017CB6C7700C7B0BE /* Foundation.framework in Frameworks */,
 				76259CC217CB6C7700C7B0BE /* CoreGraphics.framework in Frameworks */,
-				76259E7D17D0B86A00C7B0BE /* NavigationLib.framework in Frameworks */,
-				704D395017D8F401000DC53D /* NavigationLib.framework in Frameworks */,
+				768F28B017DDC7B900F87E19 /* NavigationLib.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -337,12 +340,11 @@
 		76259CBC17CB6C7700C7B0BE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				704D394F17D8F401000DC53D /* NavigationLib.framework */,
 				761E054217D4B4740091FE14 /* libicucore.dylib */,
+				768F28AF17DDC7B900F87E19 /* NavigationLib.framework */,
 				761E054017D4B4510091FE14 /* AudioToolbox.framework */,
 				761E053E17D4B2B50091FE14 /* libstdc++.dylib */,
 				761E053B17D498950091FE14 /* AVFoundation.framework */,
-				76259E7C17D0B86A00C7B0BE /* NavigationLib.framework */,
 				76259DA917CB710600C7B0BE /* libxml2.dylib */,
 				76259DA717CB70F300C7B0BE /* OpenGLES.framework */,
 				76259DA517CB70E700C7B0BE /* QuartzCore.framework */,
@@ -358,6 +360,7 @@
 		76259CC317CB6C7700C7B0BE /* routes */ = {
 			isa = PBXGroup;
 			children = (
+				768F28B417DDD92C00F87E19 /* Util */,
 				76259E5017CF85F200C7B0BE /* Categories */,
 				768C345A17CCAD7400BF0924 /* Views */,
 				76259CFF17CB6F4E00C7B0BE /* Models */,
@@ -640,8 +643,19 @@
 			children = (
 				768C345B17CCADF600BF0924 /* TUIPin.h */,
 				768C345C17CCADF600BF0924 /* TUIPin.m */,
+				768F28B117DDCE2900F87E19 /* NavigationCornerView.h */,
+				768F28B217DDCE2900F87E19 /* NavigationCornerView.m */,
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		768F28B417DDD92C00F87E19 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				768F28B517DDD95300F87E19 /* FormatUtils.h */,
+				768F28B617DDD95300F87E19 /* FormatUtils.m */,
+			);
+			name = Util;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -828,6 +842,8 @@
 				768C345D17CCADF600BF0924 /* TUIPin.m in Sources */,
 				76259E5317CF861C00C7B0BE /* UIImage+Tui.m in Sources */,
 				761E053A17D4789D0091FE14 /* TUIXploreViewController.m in Sources */,
+				768F28B317DDCE2900F87E19 /* NavigationCornerView.m in Sources */,
+				768F28B717DDD95300F87E19 /* FormatUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

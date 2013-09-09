@@ -308,12 +308,13 @@
         //Configure guidance
         DCGuidanceConfig *guidanceConfig;
         CLLocationCoordinate2D origin, destination;
+        NSArray *routePoints = [self getPinPositions];
         //origin.latitude = destination.latitude = DEF_LATITUDE;
         //origin.longitude = destination.longitude = DEF_LONGITUDE;
-        origin.latitude = 39.543276;
-        origin.longitude = 2.716187;
-        destination.latitude = 39.539867;
-        destination.longitude = 2.722431;
+        origin.latitude = [(deCartaPosition *)routePoints[0] lat];
+        origin.longitude = [(deCartaPosition *)routePoints[0] lon];
+        destination.latitude = [(deCartaPosition *)routePoints[1] lat];;
+        destination.longitude = [(deCartaPosition *)routePoints[1] lon];;
         guidanceConfig = [DCGuidanceConfig configWithDestination:destination origin:origin];
         //guidanceConfig = [DCGuidanceConfig configWithDestination:destination];
 		guidanceConfig.simulationSpeed = 5;
