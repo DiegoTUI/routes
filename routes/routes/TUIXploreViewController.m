@@ -32,6 +32,7 @@ typedef enum RemainingDisplay {
 @property (nonatomic) BOOL navigationActive;
 @property (strong,nonatomic) id<DCGuidanceIcon> currentIcon;
 @property (nonatomic) NSInteger remainingDisplayType;
+@property (strong, nonatomic) NSMutableArray *droppedPins;
 
 - (void)updateRemainingDisplay;
 - (IBAction)closeButtonClicked:(UIBarButtonItem *)sender;
@@ -102,6 +103,8 @@ typedef enum RemainingDisplay {
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    _droppedPins = [NSMutableArray array];
 	// Do any additional setup after loading the view.
     DCMapLaunchState *mapLaunchState = [[DCMapLaunchState alloc] init];
 	DCNavLaunchState *navLaunchState = [[DCNavLaunchState alloc] initWithVehiclePositon:_guidanceConfig.origin direction:0];
@@ -134,16 +137,6 @@ typedef enum RemainingDisplay {
     _navigation.audioMuted = NO;
 	_navigationActive = NO;
     _remainingDisplayType = 0;
-    
-    /*CLLocationCoordinate2D *buffer = malloc(sizeof(CLLocationCoordinate2D));
-    CLLocationCoordinate2D routePoint;
-    routePoint.latitude = 39.567741;
-    routePoint.longitude = 2.647630;
-    buffer[0] = routePoint;
-    //NSData *pointsForNavigation = [self getRoutePointsForNavigation];
-    //NSLog(@"pointsForNavigation length: %d", [pointsForNavigation length]);
-    [self setRoutePoints:buffer count:sizeof(CLLocationCoordinate2D) completionHandler:nil];*/
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -181,6 +174,22 @@ typedef enum RemainingDisplay {
 	int			retinaFactor = [[UIScreen mainScreen] scale] - 1;
 	
 	[self configureManeuverIconsWithSize:(maneuverIconDim << retinaFactor) colorImages:NO dualLayered:NO inactiveColor:inactiveColor];
+    //add pins to the map
+    CLLocationCoordinate2D pinPosition;
+    pinPosition.latitude = [(deCartaPosition *)_routePoints[0] lat];
+    pinPosition.longitude = [(deCartaPosition *)_routePoints[0] lon];
+    DCMapPushpin *pin = [[DCMapPushpin alloc]initWithMap:mv location:pinPosition initiallyVisible:YES];
+    [pin setFlagWithColor:[UIColor greenColor]];
+    //[pin animateEntry];
+    [_droppedPins addObject:pin];
+    for(int i=1; i<(_routePoints.count - 1); i++) {
+        pinPosition.latitude = [(deCartaPosition *)_routePoints[i] lat];
+        pinPosition.longitude = [(deCartaPosition *)_routePoints[i] lon];
+        DCMapPushpin *pin = [[DCMapPushpin alloc]initWithMap:mv location:pinPosition initiallyVisible:YES];
+        [pin setFlagWithColor:[UIColor redColor]];
+        //[pin animateEntry];
+        [_droppedPins addObject:pin];
+    }
 }
 
 #pragma mark - DCNavigationDelegate methods

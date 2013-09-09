@@ -53,10 +53,6 @@
  */
 -(NSArray *)getPinPositions;
 /**
- * Generates a buffer with the routepoints for navigation. Origin and destination excluded.
- */
--(NSData *)getRoutePointsForNavigation;
-/**
  * Logs current pins. Just for debug purposes.
  */
 -(void)logCurrentPins;
@@ -233,21 +229,6 @@
     return result;
 }
 
--(NSData *)getRoutePointsForNavigation {
-    NSInteger numberOfRoutePoints = [_routePins size] - 1;
-    CLLocationCoordinate2D *buffer = malloc(numberOfRoutePoints * sizeof(CLLocationCoordinate2D));
-    for(int i=1; i<[_routePins size]; i++) {
-        CLLocationCoordinate2D routePoint;
-        routePoint.latitude = [[[_routePins getAtIndex:i] position] lat];
-        routePoint.longitude = [[[_routePins getAtIndex:i] position] lon];
-        buffer[i-1] = routePoint;
-    }
-    //NSData *result = [[NSData alloc] initWithBytesNoCopy:buffer length:numberOfRoutePoints*sizeof(CLLocationCoordinate2D) freeWhenDone:NO];
-    NSData *result = [[NSData alloc] initWithBytes:buffer length:numberOfRoutePoints*sizeof(CLLocationCoordinate2D)];
-    NSLog(@"result length: %d - sizeof CLLocationCoordinate2d: %ld", [result length], sizeof(CLLocationCoordinate2D));
-    return result;
-}
-
 -(void)logCurrentPins {
     NSLog(@"There are %d pins:", [_routePins size]);
     for(int i=0; i<[_routePins size]; i++) {
@@ -310,8 +291,6 @@
         DCGuidanceConfig *guidanceConfig;
         CLLocationCoordinate2D origin, destination;
         NSArray *routePoints = [self getPinPositions];
-        //origin.latitude = destination.latitude = DEF_LATITUDE;
-        //origin.longitude = destination.longitude = DEF_LONGITUDE;
         origin.latitude = [(deCartaPosition *)routePoints[0] lat];
         origin.longitude = [(deCartaPosition *)routePoints[0] lon];
         destination.latitude = [(deCartaPosition *)routePoints[1] lat];;
@@ -326,6 +305,7 @@
         guidanceConfig.simulate = YES;
         //Configure navViewController
         TUIXploreViewController *navViewController = (TUIXploreViewController *)segue.destinationViewController;
+        navViewController.routePoints = routePoints;
         navViewController.delegate = self;
         navViewController.guidanceConfig = guidanceConfig;
         // Set route points

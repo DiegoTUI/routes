@@ -25,6 +25,8 @@ typedef enum NightModeOption {
 @property (strong, nonatomic, readonly) DCNavigationManager *navigation;
 @property (strong, nonatomic, readonly) DCNavigationUpdate *lastUpdate;
 @property (strong, nonatomic) DCGuidanceConfig *guidanceConfig;
+// Route points (array of deCartaPosition)
+@property (strong, nonatomic) NSArray *routePoints;
 
 
 @end
