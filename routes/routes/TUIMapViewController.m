@@ -53,6 +53,10 @@
  */
 -(NSArray *)getPinPositions;
 /**
+ * Generates an array of messages from _routePins
+ */
+-(NSArray *)getPinMessages;
+/**
  * Logs current pins. Just for debug purposes.
  */
 -(void)logCurrentPins;
@@ -229,6 +233,18 @@
     return result;
 }
 
+-(NSArray *)getPinMessages {
+    NSMutableArray *result = [NSMutableArray array];
+    //start point
+    [result addObject:[(TUIPin *)[_routePins getAtIndex:0] message]];
+    for(int i=1; i<[_routePins size]; i++) {
+        [result addObject:[(TUIPin *)[_routePins getAtIndex:i] message]];
+    }
+    //end point
+    [result addObject:[(TUIPin *)[_routePins getAtIndex:0] message]];
+    return result;
+}
+
 -(void)logCurrentPins {
     NSLog(@"There are %d pins:", [_routePins size]);
     for(int i=0; i<[_routePins size]; i++) {
@@ -306,6 +322,7 @@
         //Configure navViewController
         TUIXploreViewController *navViewController = (TUIXploreViewController *)segue.destinationViewController;
         navViewController.routePoints = routePoints;
+        navViewController.routeMessages = [self getPinMessages];
         navViewController.delegate = self;
         navViewController.guidanceConfig = guidanceConfig;
         // Set route points

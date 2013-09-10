@@ -10,6 +10,8 @@
 #import "TUIAppDelegate.h"
 #import "NavigationCornerView.h"
 #import "FormatUtils.h"
+#import "UIImage+Tui.h"
+#import "PinInfoView.h"
 
 typedef enum RemainingDisplay {
 	REMAINING_DISPLAY_TIME,
@@ -20,7 +22,7 @@ typedef enum RemainingDisplay {
 } RemainingDisplay;
 
 #pragma mark - Private interface
-@interface TUIXploreViewController () <DCMapDelegate, DCNavigationDelegate, DCMapPushpinDelegate, CornerViewDelegate, UIAlertViewDelegate, UIActionSheetDelegate>
+@interface TUIXploreViewController () <DCMapDelegate, DCNavigationDelegate, DCMapPushpinDelegate, CornerViewDelegate, PinInfoViewDelegate, UIAlertViewDelegate, UIActionSheetDelegate>
 // Navigation manager and updates
 @property (strong, nonatomic) id navigationUpdateConnection;
 @property (strong, nonatomic) DCNavigationUpdate *lastUpdate;
@@ -33,10 +35,12 @@ typedef enum RemainingDisplay {
 @property (strong,nonatomic) id<DCGuidanceIcon> currentIcon;
 @property (nonatomic) NSInteger remainingDisplayType;
 @property (strong, nonatomic) NSMutableArray *droppedPins;
+@property (strong, nonatomic) PinInfoView *activePinInfoView;
 
 - (void)updateRemainingDisplay;
 - (IBAction)closeButtonClicked:(UIBarButtonItem *)sender;
 - (IBAction)resetPositionBarButtonClicked:(UIBarButtonItem *)sender;
+- (void)closeActivePinInfoView;
 
 @end
 
@@ -90,6 +94,11 @@ typedef enum RemainingDisplay {
     [self setNavigationCameraActive:YES];
 }
 
+- (void)closeActivePinInfoView {
+    [_activePinInfoView close];
+	_activePinInfoView = nil;
+}
+
 #pragma mark - UIViewController methods
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -127,7 +136,7 @@ typedef enum RemainingDisplay {
     
     [self updateVehiclePosition:_guidanceConfig.origin direction:0];
 	[self setNavigationCameraActive:YES];
-	[self setDestination:_guidanceConfig.destination];
+	//[self setDestination:_guidanceConfig.destination];
     
     _destinationCornerView.imgIcon.image = [UIImage imageNamed:@"geo_resources/flag_icon.png"];
     [_destinationCornerView setDelegate:self];
@@ -179,17 +188,43 @@ typedef enum RemainingDisplay {
     pinPosition.latitude = [(deCartaPosition *)_routePoints[0] lat];
     pinPosition.longitude = [(deCartaPosition *)_routePoints[0] lon];
     DCMapPushpin *pin = [[DCMapPushpin alloc]initWithMap:mv location:pinPosition initiallyVisible:YES];
+    [pin setDelegate:self];
     [pin setFlagWithColor:[UIColor greenColor]];
-    //[pin animateEntry];
     [_droppedPins addObject:pin];
     for(int i=1; i<(_routePoints.count - 1); i++) {
         pinPosition.latitude = [(deCartaPosition *)_routePoints[i] lat];
         pinPosition.longitude = [(deCartaPosition *)_routePoints[i] lon];
         DCMapPushpin *pin = [[DCMapPushpin alloc]initWithMap:mv location:pinPosition initiallyVisible:YES];
+        [pin setDelegate:self];
         [pin setFlagWithColor:[UIColor redColor]];
-        //[pin animateEntry];
         [_droppedPins addObject:pin];
     }
+}
+
+- (void)dcMap:(DCMapView *)mv tapAtLatLon:(CLLocationCoordinate2D)coord
+{
+	[super dcMap:mv tapAtLatLon:coord];
+	
+	[self closeActivePinInfoView];
+}
+
+#pragma mark - DCMapPushPinDelegate methods
+- (void)pushpinSelected:(DCMapPushpin *)pushpin
+{
+    NSInteger index = [_droppedPins indexOfObject:pushpin];
+	NSString *message = index == NSNotFound ? [NSString stringWithFormat:@"Dropped pin at %f, %f", pushpin.coordinate.latitude, pushpin.coordinate.longitude]:
+                                                _routeMessages[index];
+	PinInfoView	*infoView = [[PinInfoView alloc] initWithPushpin:pushpin message:message delegate:self];
+	
+	[mapView insertSubview:infoView atIndex:0];
+	
+	[self closeActivePinInfoView];
+	_activePinInfoView = infoView;
+}
+
+#pragma mark - PinInfoViewDelegate methods
+-(void)pinInfoView:(PinInfoView *)piv pressedDiscloseButtonForPin:(DCMapPushpin *)pin
+{
 }
 
 #pragma mark - DCNavigationDelegate methods

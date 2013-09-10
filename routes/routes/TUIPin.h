@@ -28,6 +28,12 @@ typedef enum {
             withPosition:(deCartaPosition *)position
               andMessage:(NSString *)message;
 
+/**
+ * Gets the message
+ * @return the message.
+ */
+-(NSString *)message;
+
 @end
 
 @protocol TUIPinDelegate <NSObject>

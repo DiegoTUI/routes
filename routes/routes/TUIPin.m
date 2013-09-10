@@ -12,6 +12,8 @@
 #pragma mark - Private interface
 @interface TUIPin()
 
+@property (strong, nonatomic) NSString *message;
+
 -(void)addEventListeners;
 
 @end
@@ -39,7 +41,11 @@
     deCartaIcon *pinicon = [[deCartaIcon alloc] initWithImage:image size:size offset:offset];
     self = [super initWithPosition:position icon:pinicon message:message rotationTilt:pinrt];
     [self addEventListeners];
+    _message = message;
     return self;
+}
+-(NSString *)message {
+    return _message;
 }
 
 #pragma mark - Private methods
