@@ -40,6 +40,7 @@
 
 -(void)aboutToRemovePin:(TUIPin *)pin;
 -(void)aboutToRemoveAllPins;
+-(void)disableCells:(BOOL)cellsDisabled;
 -(void)performedSegue:(NSString *)segueId;
 
 @end

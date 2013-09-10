@@ -13,6 +13,7 @@
 @property (strong, nonatomic) NSArray *spots;
 @property (strong, nonatomic) NSMutableDictionary *pinMap;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *closeBarButton;
+@property (nonatomic) BOOL cellsDisabled;
 
 -(IBAction)closeButtonClicked:(id)sender;
 -(void)toggleBarButton:(bool)show;
@@ -57,6 +58,7 @@
     [self.mapViewController setDelegate:self];
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
     [self willRotateToInterfaceOrientation:orientation duration:0];
+    _cellsDisabled = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -98,6 +100,9 @@
     } else {
         [cell setAccessoryType:UITableViewCellAccessoryNone];
     }
+    //cell.selectionStyle = _cellsDisabled ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleBlue;
+    cell.userInteractionEnabled = !_cellsDisabled;
+    cell.textLabel.enabled = !_cellsDisabled;
     return cell;
 }
 
@@ -105,22 +110,6 @@
     // Return NO if you do not want the specified item to be editable.
     return YES;
 }
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [[tableView visibleCells] objectAtIndex:indexPath.row];
@@ -155,6 +144,12 @@
 
 -(void)aboutToRemoveAllPins {
     _pinMap = [NSMutableDictionary dictionary];
+    _cellsDisabled = NO;
+    [self.tableView reloadData];
+}
+
+-(void)disableCells:(BOOL)cellsDisabled {
+    _cellsDisabled = cellsDisabled;
     [self.tableView reloadData];
 }
 

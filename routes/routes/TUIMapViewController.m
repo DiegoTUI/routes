@@ -33,6 +33,10 @@
  */
 -(void)addMapEventListeners;
 /**
+ * Removes event listeners from the map
+ */
+-(void)removeMapEventListeners;
+/**
  * Updates routeButton label based on the state of the map
  */
 -(void)refreshRouteBarButton;
@@ -116,6 +120,13 @@
     }] forEventType:LONGTOUCH];
 }
 
+-(void)removeMapEventListeners {
+    //Remove MOVEEND
+    [_mapView removeEventListeners:MOVEEND];
+    //Remove LONGTOUCH
+    [_mapView removeEventListeners:LONGTOUCH];
+}
+
 - (IBAction)routeBarClicked:(UIBarButtonItem *)sender {
     //Is it route or reset?
     if ([_routeBarButton.title isEqualToString:@"Route"]){
@@ -152,6 +163,8 @@
                 [_mapView panToPosition:[route.boundingBox getCenterPosition]];
                 [_mapView refreshMap];
                 [_routeBarButton setTitle:@"Reset"];
+                [_delegate disableCells:YES];
+                [self removeMapEventListeners];
                 _playButton.hidden = NO;
             }
         }];
@@ -198,6 +211,8 @@
 -(void)resetMap {
     //remove all pins from the overlay
     [_routePins clear];
+    //add event listeners
+    [self addMapEventListeners];
     //remove the route if existed
     [_mapView removeShapes];
     deCartaPosition *position = [[TUILocationManager sharedInstance] getHomeLocation];
