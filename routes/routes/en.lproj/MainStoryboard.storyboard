@@ -85,12 +85,20 @@
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <items>
-                                    <navigationItem title="Navigation" id="U2o-vF-bXN">
+                                    <navigationItem id="U2o-vF-bXN">
+                                        <nil key="title"/>
                                         <barButtonItem key="leftBarButtonItem" title="Stop" id="msF-5y-bZa">
                                             <connections>
                                                 <action selector="stopButtonClicked:" destination="fgp-Aj-Rhh" id="gST-Ej-8i5"/>
                                             </connections>
                                         </barButtonItem>
+                                        <stepper key="titleView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" id="1Rd-ET-v7A">
+                                            <rect key="frame" x="465" y="9" width="94" height="27"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <connections>
+                                                <action selector="zoomStepperClicked:" destination="fgp-Aj-Rhh" eventType="valueChanged" id="khx-g4-oUd"/>
+                                            </connections>
+                                        </stepper>
                                         <barButtonItem key="rightBarButtonItem" title="Show info" id="DQG-ww-IUE">
                                             <connections>
                                                 <action selector="infoButtonClicked:" destination="fgp-Aj-Rhh" id="Xio-GG-3t7"/>
@@ -107,10 +115,16 @@
                                             <action selector="resetPositionBarButtonClicked:" destination="fgp-Aj-Rhh" id="v9c-FB-Xhm"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="WbT-XP-gko"/>
+                                    <barButtonItem title="Mute" id="atQ-jn-kn0">
+                                        <connections>
+                                            <action selector="muteButtonClicked:" destination="fgp-Aj-Rhh" id="iFO-PO-IMW"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Current street" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lEo-ym-MHP">
-                                <rect key="frame" x="55" y="713" width="949" height="26"/>
+                                <rect key="frame" x="48" y="713" width="921" height="26"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -198,9 +212,11 @@
                         <outlet property="infoBarButton" destination="DQG-ww-IUE" id="viH-rA-bh5"/>
                         <outlet property="infoView" destination="iO8-UX-tql" id="kUI-Pa-v8P"/>
                         <outlet property="mapView" destination="FT9-iw-qIo" id="o6z-Un-Fzg"/>
+                        <outlet property="muteButton" destination="atQ-jn-kn0" id="nDb-vj-iNU"/>
                         <outlet property="nextManeuverCornerView" destination="7h6-Wn-r20" id="und-F1-TvK"/>
                         <outlet property="resetPositionBarButton" destination="gmb-J2-g0a" id="Stb-jA-saE"/>
                         <outlet property="statusLabel" destination="lEo-ym-MHP" id="G4e-Ay-6Qh"/>
+                        <outlet property="zoomStepper" destination="1Rd-ET-v7A" id="49i-HL-rGr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7DL-jQ-gV7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -333,14 +349,18 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/TUIXploreViewController.h"/>
             <relationships>
                 <relationship kind="action" name="infoButtonClicked:" candidateClass="UIBarButtonItem"/>
+                <relationship kind="action" name="muteButtonClicked:" candidateClass="UIBarButtonItem"/>
                 <relationship kind="action" name="resetPositionBarButtonClicked:" candidateClass="UIBarButtonItem"/>
                 <relationship kind="action" name="stopButtonClicked:" candidateClass="UIBarButtonItem"/>
+                <relationship kind="action" name="zoomStepperClicked:" candidateClass="UIStepper"/>
                 <relationship kind="outlet" name="destinationCornerView" candidateClass="NavigationCornerView"/>
                 <relationship kind="outlet" name="infoBarButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="infoView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="muteButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="nextManeuverCornerView" candidateClass="NavigationCornerView"/>
                 <relationship kind="outlet" name="resetPositionBarButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="statusLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="zoomStepper" candidateClass="UIStepper"/>
             </relationships>
         </class>
         <class className="deCartaMapView" superclassName="UIView">

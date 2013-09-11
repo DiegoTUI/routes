@@ -40,6 +40,8 @@ typedef enum RemainingDisplay {
 @property (nonatomic) BOOL infoViewDisplayed;
 @property (strong, nonatomic) NSLayoutConstraint *mapViewLeftConstraint;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *infoBarButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *muteButton;
+@property (strong, nonatomic) IBOutlet UIStepper *zoomStepper;
 
 - (void)setLayoutConstraints;
 - (void)updateRemainingDisplay;
@@ -47,6 +49,8 @@ typedef enum RemainingDisplay {
 - (IBAction)resetPositionBarButtonClicked:(UIBarButtonItem *)sender;
 - (void)closeActivePinInfoView;
 - (IBAction)infoButtonClicked:(UIBarButtonItem *)sender;
+- (IBAction)muteButtonClicked:(UIBarButtonItem *)sender;
+- (IBAction)zoomStepperClicked:(UIStepper *)sender;
 
 @end
 
@@ -146,6 +150,22 @@ typedef enum RemainingDisplay {
     _infoViewDisplayed = !_infoViewDisplayed;
 }
 
+- (IBAction)muteButtonClicked:(UIBarButtonItem *)sender {
+    _navigation.audioMuted = !_navigation.audioMuted;
+    sender.title = _navigation.audioMuted ? @"Sound on" : @"Mute";
+}
+
+- (IBAction)zoomStepperClicked:(UIStepper *)sender {
+    const int stepperValue = (int)sender.value;
+    
+	if (stepperValue != mapView.zoomLevel) {
+		BOOL zoomIn = (stepperValue - mapView.zoomLevel > 0);
+		
+		[mapView zoomStep:zoomIn];
+		sender.value = mapView.zoomLevel;
+	}
+}
+
 #pragma mark - UIViewController methods
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -227,7 +247,8 @@ typedef enum RemainingDisplay {
 #pragma mark - DCMapDelegate methods
 - (void)doneLoading:(DCMapView *)mv {
 	[super doneLoading:mv];
-	
+    
+	_zoomStepper.value = mv.zoomLevel;
 	const int	maneuverIconDim = _nextManeuverCornerView.imgIcon.frame.size.width;
     //const int	maneuverIconDim = 50;
 	UIColor		*inactiveColor = [DCNavViewController maneuverIconDefaultInactiveColor];
@@ -260,6 +281,12 @@ typedef enum RemainingDisplay {
 
 - (void)dcMap:(DCMapView *)mv longPressAtLatLon:(CLLocationCoordinate2D)coord {
 	[super dcMap:mv longPressAtLatLon:coord];
+}
+
+- (void)dcMap:(DCMapView *)mv zoomLevelChanged:(int)toZoomLevel canZoomIn:(BOOL)zoomIn canZoomOut:(BOOL)zoomOut {
+	[super dcMap:mv zoomLevelChanged:toZoomLevel canZoomIn:zoomIn canZoomOut:zoomOut];
+	
+	_zoomStepper.value = toZoomLevel;
 }
 
 #pragma mark - DCMapPushPinDelegate methods
