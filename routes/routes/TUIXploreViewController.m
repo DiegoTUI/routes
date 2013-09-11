@@ -26,21 +26,27 @@ typedef enum RemainingDisplay {
 // Navigation manager and updates
 @property (strong, nonatomic) id navigationUpdateConnection;
 @property (strong, nonatomic) DCNavigationUpdate *lastUpdate;
+// Used for managing the UI
 @property (strong, nonatomic) IBOutlet UILabel *statusLabel;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *resetPositionBarButton;
 @property (weak, nonatomic) IBOutlet NavigationCornerView *destinationCornerView;
 @property (weak, nonatomic) IBOutlet NavigationCornerView *nextManeuverCornerView;
-// Used for managing the UI
 @property (nonatomic) BOOL navigationActive;
 @property (strong,nonatomic) id<DCGuidanceIcon> currentIcon;
 @property (nonatomic) NSInteger remainingDisplayType;
 @property (strong, nonatomic) NSMutableArray *droppedPins;
 @property (strong, nonatomic) PinInfoView *activePinInfoView;
+@property (strong, nonatomic) IBOutlet UIView *infoView;
+@property (nonatomic) BOOL infoViewDisplayed;
+@property (strong, nonatomic) NSLayoutConstraint *mapViewLeftConstraint;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *infoBarButton;
 
+- (void)setLayoutConstraints;
 - (void)updateRemainingDisplay;
-- (IBAction)closeButtonClicked:(UIBarButtonItem *)sender;
+- (IBAction)stopButtonClicked:(UIBarButtonItem *)sender;
 - (IBAction)resetPositionBarButtonClicked:(UIBarButtonItem *)sender;
 - (void)closeActivePinInfoView;
+- (IBAction)infoButtonClicked:(UIBarButtonItem *)sender;
 
 @end
 
@@ -48,6 +54,34 @@ typedef enum RemainingDisplay {
 @implementation TUIXploreViewController
 
 #pragma mark - Private methods
+- (void)setLayoutConstraints {
+    [mapView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [_infoView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    NSArray *verticalInfoViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(44)-[view]-(44)-|"
+                                                                                   options:0
+                                                                                   metrics:nil
+                                                                                     views:@{@"view":_infoView}];
+    NSArray *horizontalInfoViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(0)-[view(259)]"
+                                                                                     options:0
+                                                                                     metrics:nil
+                                                                                       views:@{@"view":_infoView}];
+    NSArray *verticalMapViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(44)-[view]-(44)-|"
+                                                                                  options:0
+                                                                                  metrics:nil
+                                                                                    views:@{@"view":mapView}];
+    NSArray *horizontalMapViewConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(0)-[view]-(0)-|"
+                                                                                    options:0
+                                                                                    metrics:nil
+                                                                                      views:@{@"view":mapView}];
+    _mapViewLeftConstraint = horizontalMapViewConstraints[0];
+    
+    [self.view addConstraints:verticalInfoViewConstraints];
+    [self.view addConstraints:horizontalInfoViewConstraints];
+    [self.view addConstraints:verticalMapViewConstraints];
+    [self.view addConstraints:horizontalMapViewConstraints];
+    
+}
+
 - (void)setNavigationActive:(BOOL)isActive {
 	if (isActive != _navigationActive) {
 		if (isActive) {
@@ -83,7 +117,7 @@ typedef enum RemainingDisplay {
 	_destinationCornerView.lblText.attributedText = display;
 }
 
-- (IBAction)closeButtonClicked:(UIBarButtonItem *)sender {
+- (IBAction)stopButtonClicked:(UIBarButtonItem *)sender {
     [_navigation cancelGuidance];
     [self setNavigationActive:NO];
     [self clearRoute];
@@ -97,6 +131,19 @@ typedef enum RemainingDisplay {
 - (void)closeActivePinInfoView {
     [_activePinInfoView close];
 	_activePinInfoView = nil;
+}
+
+- (IBAction)infoButtonClicked:(UIBarButtonItem *)sender {
+    //toggle info window
+    _mapViewLeftConstraint.constant = _infoViewDisplayed ? 0.0f : _infoView.bounds.size.width;
+    NSString *title = _infoViewDisplayed ? @"Show info" : @"Close info";
+    
+    [UIView animateWithDuration:0.25f animations:^{
+        [mapView layoutIfNeeded];
+    }];
+
+    _infoBarButton.title = title;
+    _infoViewDisplayed = !_infoViewDisplayed;
 }
 
 #pragma mark - UIViewController methods
@@ -146,6 +193,10 @@ typedef enum RemainingDisplay {
     _navigation.audioMuted = NO;
 	_navigationActive = NO;
     _remainingDisplayType = 0;
+    
+    [self setLayoutConstraints];
+    
+    _infoViewDisplayed = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -174,11 +225,11 @@ typedef enum RemainingDisplay {
 }
 
 #pragma mark - DCMapDelegate methods
-- (void)doneLoading:(DCMapView *)mv
-{
+- (void)doneLoading:(DCMapView *)mv {
 	[super doneLoading:mv];
 	
 	const int	maneuverIconDim = _nextManeuverCornerView.imgIcon.frame.size.width;
+    //const int	maneuverIconDim = 50;
 	UIColor		*inactiveColor = [DCNavViewController maneuverIconDefaultInactiveColor];
 	int			retinaFactor = [[UIScreen mainScreen] scale] - 1;
 	
@@ -201,11 +252,14 @@ typedef enum RemainingDisplay {
     }
 }
 
-- (void)dcMap:(DCMapView *)mv tapAtLatLon:(CLLocationCoordinate2D)coord
-{
+- (void)dcMap:(DCMapView *)mv tapAtLatLon:(CLLocationCoordinate2D)coord {
 	[super dcMap:mv tapAtLatLon:coord];
 	
 	[self closeActivePinInfoView];
+}
+
+- (void)dcMap:(DCMapView *)mv longPressAtLatLon:(CLLocationCoordinate2D)coord {
+	[super dcMap:mv longPressAtLatLon:coord];
 }
 
 #pragma mark - DCMapPushPinDelegate methods
