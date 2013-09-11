@@ -11,7 +11,7 @@
 #pragma mark - Private interface
 @interface TUIMasterViewController () <TUIMapViewControllerDelegate>
 @property (strong, nonatomic) NSArray *spots;
-@property (strong, nonatomic) NSMutableDictionary *pinMap;
+@property (strong, nonatomic) NSMutableDictionary *spotMap;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *closeBarButton;
 @property (nonatomic) BOOL cellsDisabled;
 
@@ -53,7 +53,7 @@
     //load the icons
     NSString* spotsPath = [[NSBundle mainBundle] pathForResource:@"spots" ofType:@"plist"];
     _spots = [NSArray arrayWithContentsOfFile:spotsPath];
-    _pinMap = [NSMutableDictionary dictionary];
+    _spotMap = [NSMutableDictionary dictionary];
     self.mapViewController = (TUIMapViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
     [self.mapViewController setDelegate:self];
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
@@ -95,7 +95,7 @@
 
     NSDictionary *spot = _spots[indexPath.row];
     cell.textLabel.text = spot[@"name"];
-    if (_pinMap[indexPath]) {
+    if (_spotMap[indexPath]) {
         [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
     } else {
         [cell setAccessoryType:UITableViewCellAccessoryNone];
@@ -117,33 +117,33 @@
         [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
         NSString *latstring = _spots[indexPath.row][@"latitude"];
         NSString *lonstring = _spots[indexPath.row][@"longitude"];
-        deCartaPin *pin = [_mapViewController addPinOfType:TUIAttractionPin withLatitude:[latstring doubleValue] longitude:[lonstring doubleValue] andMessage:cell.textLabel.text];
-        //register pin
-        [_pinMap setObject:pin forKey:indexPath];
+        TUISpot *spot = [_mapViewController addSpotOfType:TUIAttractionSpot withLatitude:[latstring doubleValue] longitude:[lonstring doubleValue] andName:cell.textLabel.text];
+        //register spot
+        [_spotMap setObject:spot forKey:indexPath];
     } else {
         [cell setAccessoryType:UITableViewCellAccessoryNone];
-        [_mapViewController removePin:[_pinMap objectForKey:indexPath]];
-        [_pinMap removeObjectForKey:indexPath];
+        [_mapViewController removeSpot:[_spotMap objectForKey:indexPath]];
+        [_spotMap removeObjectForKey:indexPath];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark - TUIMapViewControllerDelegate methods
--(void)aboutToRemovePin:(TUIPin *)pin {
+-(void)aboutToRemoveSpot:(TUISpot *)spot {
     NSIndexPath *indexPath = nil;
-    for (NSIndexPath *key in _pinMap) {
-        if (_pinMap[key] == pin) {
+    for (NSIndexPath *key in _spotMap) {
+        if (_spotMap[key] == spot) {
             indexPath = key;
         }
     }
     if (indexPath) {    //we found something to uncheck
-        [_pinMap removeObjectForKey:indexPath];
+        [_spotMap removeObjectForKey:indexPath];
         [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
     }
 }
 
--(void)aboutToRemoveAllPins {
-    _pinMap = [NSMutableDictionary dictionary];
+-(void)aboutToRemoveAllSpots {
+    _spotMap = [NSMutableDictionary dictionary];
     _cellsDisabled = NO;
     [self.tableView reloadData];
 }

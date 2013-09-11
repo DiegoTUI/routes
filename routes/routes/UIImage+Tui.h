@@ -10,6 +10,10 @@
 
 @interface UIImage (Tui)
 
+/**
+ * Does the same as imageNamed, but right.
+ * @return a UIImage.
+ */
 +(UIImage *)imageNamedSmart:(NSString *)imageName;
 
 @end

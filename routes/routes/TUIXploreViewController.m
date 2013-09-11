@@ -12,6 +12,7 @@
 #import "FormatUtils.h"
 #import "UIImage+Tui.h"
 #import "PinInfoView.h"
+#import "TUISpot.h"
 
 typedef enum RemainingDisplay {
 	REMAINING_DISPLAY_TIME,
@@ -257,15 +258,15 @@ typedef enum RemainingDisplay {
 	[self configureManeuverIconsWithSize:(maneuverIconDim << retinaFactor) colorImages:NO dualLayered:NO inactiveColor:inactiveColor];
     //add pins to the map
     CLLocationCoordinate2D pinPosition;
-    pinPosition.latitude = [(deCartaPosition *)_routePoints[0] lat];
-    pinPosition.longitude = [(deCartaPosition *)_routePoints[0] lon];
+    pinPosition.latitude = [[[_routeSpots getAtIndex:0] position] lat];
+    pinPosition.longitude = [[[_routeSpots getAtIndex:0] position] lon];
     DCMapPushpin *pin = [[DCMapPushpin alloc]initWithMap:mv location:pinPosition initiallyVisible:YES];
     [pin setDelegate:self];
     [pin setFlagWithColor:[UIColor greenColor]];
     [_droppedPins addObject:pin];
-    for(int i=1; i<(_routePoints.count - 1); i++) {
-        pinPosition.latitude = [(deCartaPosition *)_routePoints[i] lat];
-        pinPosition.longitude = [(deCartaPosition *)_routePoints[i] lon];
+    for(int i=1; i<(_routeSpots.size - 1); i++) {
+        pinPosition.latitude = [[[_routeSpots getAtIndex:i] position] lat];
+        pinPosition.longitude = [[[_routeSpots getAtIndex:i] position] lon];
         DCMapPushpin *pin = [[DCMapPushpin alloc]initWithMap:mv location:pinPosition initiallyVisible:YES];
         [pin setDelegate:self];
         [pin setFlagWithColor:[UIColor redColor]];
@@ -294,7 +295,7 @@ typedef enum RemainingDisplay {
 {
     NSInteger index = [_droppedPins indexOfObject:pushpin];
 	NSString *message = index == NSNotFound ? [NSString stringWithFormat:@"Dropped pin at %f, %f", pushpin.coordinate.latitude, pushpin.coordinate.longitude]:
-                                                _routeMessages[index];
+                                                [(TUISpot *)[_routeSpots getAtIndex:index] name];
 	PinInfoView	*infoView = [[PinInfoView alloc] initWithPushpin:pushpin message:message delegate:self];
 	
 	[mapView insertSubview:infoView atIndex:0];

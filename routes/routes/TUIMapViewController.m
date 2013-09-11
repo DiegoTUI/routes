@@ -13,11 +13,11 @@
 #import "config.h"
 
 #pragma mark - Private interface
-@interface TUIMapViewController () <TUILocationManagerDelegate, UISplitViewControllerDelegate, TUIPinDelegate, TUIXploreViewControllerDelegate>
+@interface TUIMapViewController () <TUILocationManagerDelegate, UISplitViewControllerDelegate, TUISpotDelegate, TUIXploreViewControllerDelegate>
 
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
 @property (strong, nonatomic) IBOutlet deCartaMapView *mapView;
-@property (strong, nonatomic) deCartaOverlay *routePins;
+@property (strong, nonatomic) deCartaOverlay *routeSpots;
 @property (strong, nonatomic) deCartaRoutePreference *routePrefs;
 @property (strong, nonatomic) IBOutlet UIButton *playButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *routeBarButton;
@@ -53,17 +53,10 @@
  */
 -(BOOL)isOutOfBounds:(deCartaPosition *)position;
 /**
- * Generates an array of deCartaPosition from _routePins
+ * Generates an array of deCartaPosition from _routeSpots
  */
--(NSArray *)getPinPositions;
-/**
- * Generates an array of messages from _routePins
- */
--(NSArray *)getPinMessages;
-/**
- * Logs current pins. Just for debug purposes.
- */
--(void)logCurrentPins;
+-(NSArray *)getSpotPositions;
+
 
 @end
 
@@ -77,17 +70,17 @@
     }
 }
 
--(TUIPin *)addPinOfType:(TUIPinType)type
-           withLatitude:(double)latitude
-              longitude:(double)longitude
-             andMessage:(NSString *)message {
+-(TUISpot *)addSpotOfType:(TUISpotType)type
+             withLatitude:(double)latitude
+                longitude:(double)longitude
+                  andName:(NSString *)name {
     deCartaPosition *position = [[deCartaPosition alloc] initWithLat:latitude andLon:longitude];
-    TUIPin *pin = [[TUIPin alloc] initPinOfType:type withPosition:position andMessage:message];
-    [pin setDelegate:self];
-    [_routePins addPin:pin];
+    TUISpot *spot = [[TUISpot alloc] initSpotOfType:type withPosition:position andName:name];
+    [spot setDelegate:self];
+    [_routeSpots addPin:spot];
     [self refreshRouteBarButton];
     if ([self isOutOfBounds:position]) { //the pin is out of bounds
-        NSArray *positions = [self getPinPositions];
+        NSArray *positions = [self getSpotPositions];
         deCartaBoundingBox *boundingBox = [deCartaUtil getBoundingBoxFromPositions:positions];
         int zoom=[deCartaUtil getZoomLevelToFitBoundingBox:boundingBox withDisplaySize:_mapView.displaySize];
         [_mapView setZoomLevel:zoom];
@@ -95,14 +88,12 @@
         [_mapView panToPosition:[boundingBox getCenterPosition]];
     }
     [_mapView refreshMap];
-    [self logCurrentPins];
-    return pin;
+    return spot;
 }
--(void)removePin:(TUIPin *)pin {
-    [_routePins removePin:pin];
+-(void)removeSpot:(TUISpot *)spot {
+    [_routeSpots removePin:spot];
     [self refreshRouteBarButton];
     [_mapView refreshMap];
-    [self logCurrentPins];
 }
 
 #pragma mark - Private Methods
@@ -116,7 +107,7 @@
     //Capture LONGTOUCH
     [_mapView addEventListener:[deCartaEventListener eventListenerWithCallback:^(id<deCartaEventSource> sender, deCartaPosition *position) {
         NSLog(@"LongTouch!! - Lat: %f - Lon: %f", position.lat, position.lon);
-        [self addPinOfType:TUICustomPin withLatitude:position.lat longitude:position.lon andMessage:@"User custom location"];
+        [self addSpotOfType:TUICustomSpot withLatitude:position.lat longitude:position.lon andName:@"Custom Location"];
     }] forEventType:LONGTOUCH];
 }
 
@@ -169,7 +160,7 @@
             }
         }];
     } else {
-        [_delegate aboutToRemoveAllPins];
+        [_delegate aboutToRemoveAllSpots];
         //reset map
         [self resetMap];
     }
@@ -182,7 +173,7 @@
 
 -(void)refreshRouteBarButton {
     NSString *title = @"Reset";
-    if ([_routePins size] > 1) {
+    if ([_routeSpots size] > 1) {
         title = @"Route";
     }
     [_routeBarButton setTitle:title];
@@ -193,7 +184,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSError *error = nil;
         //Calculate a route with the available pins in the overlay
-        NSArray *routePositions = [self getPinPositions];
+        NSArray *routePositions = [self getSpotPositions];
         deCartaRoute * route=[deCartaRouteQuery query:routePositions routePreference:_routePrefs];
         if (!route) {
             error = [NSError errorWithDomain:@"ROUTE_ERROR" code:1001 userInfo:@{@"message":@"Server error: couldn't calculate route"}];
@@ -210,7 +201,7 @@
 
 -(void)resetMap {
     //remove all pins from the overlay
-    [_routePins clear];
+    [_routeSpots clear];
     //add event listeners
     [self addMapEventListeners];
     //remove the route if existed
@@ -218,7 +209,7 @@
     deCartaPosition *position = [[TUILocationManager sharedInstance] getHomeLocation];
     [_mapView centerOnPosition:position];
     _mapView.zoomLevel= [[TUILocationManager sharedInstance] getZoomLevel];
-    [self addPinOfType:TUIHomePin withLatitude:position.lat longitude:position.lon andMessage:@"Home, sweet home"];
+    [self addSpotOfType:TUIHomeSpot withLatitude:position.lat longitude:position.lon andName:@"Home, sweet home"];
     _playButton.hidden = YES;
     //[_mapView refreshMap];
     [_mapView startAnimation];
@@ -236,35 +227,16 @@
     return NO;
 }
 
--(NSArray *)getPinPositions {
+-(NSArray *)getSpotPositions {
     NSMutableArray *result = [NSMutableArray array];
     //start point
-    [result addObject:[[_routePins getAtIndex:0] position]];
-    for(int i=1; i<[_routePins size]; i++) {
-        [result addObject:[[_routePins getAtIndex:i] position]];
+    [result addObject:[[_routeSpots getAtIndex:0] position]];
+    for(int i=1; i<[_routeSpots size]; i++) {
+        [result addObject:[[_routeSpots getAtIndex:i] position]];
     }
     //end point
-    [result addObject:[[_routePins getAtIndex:0] position]];
+    [result addObject:[[_routeSpots getAtIndex:0] position]];
     return result;
-}
-
--(NSArray *)getPinMessages {
-    NSMutableArray *result = [NSMutableArray array];
-    //start point
-    [result addObject:[(TUIPin *)[_routePins getAtIndex:0] message]];
-    for(int i=1; i<[_routePins size]; i++) {
-        [result addObject:[(TUIPin *)[_routePins getAtIndex:i] message]];
-    }
-    //end point
-    [result addObject:[(TUIPin *)[_routePins getAtIndex:0] message]];
-    return result;
-}
-
--(void)logCurrentPins {
-    NSLog(@"There are %d pins:", [_routePins size]);
-    for(int i=0; i<[_routePins size]; i++) {
-        NSLog(@"Latitude: %f - Longitude: %f", [[[_routePins getAtIndex:i] position] lat], [[[_routePins getAtIndex:i] position] lon]);
-    }
 }
 
 #pragma mark - UIViewController Methods
@@ -283,9 +255,9 @@
 	// Do any additional setup after loading the view.
     [[TUILocationManager sharedInstance] addDelegate:self];
     [self addMapEventListeners];
-    _routePins = [[deCartaOverlay alloc] initWithName:@"route_pins"];
+    _routeSpots = [[deCartaOverlay alloc] initWithName:@"route_spots"];
     [_mapView rotateXToDegree:0];
-    [_mapView addOverlay:_routePins];
+    [_mapView addOverlay:_routeSpots];
     [_mapView showOverlays];
     _routePrefs = [[deCartaRoutePreference alloc] init];
     _routePrefs.style=@"Fastest";
@@ -318,14 +290,14 @@
         navigationConfig.resourceDir = [NSString stringWithFormat:@"%@/nav_resources", [[NSBundle mainBundle] resourcePath]];
         DCNavigationManager *navigation;
         navigation = [(TUIAppDelegate *)[[UIApplication sharedApplication] delegate] beginNavigationSessionWithConfig:navigationConfig];
-        //Configure guidance
+        //TODO: Configure guidance. Can I do all this in TUIXploreViewController
         DCGuidanceConfig *guidanceConfig;
         CLLocationCoordinate2D origin, destination;
-        NSArray *routePoints = [self getPinPositions];
-        origin.latitude = [(deCartaPosition *)routePoints[0] lat];
-        origin.longitude = [(deCartaPosition *)routePoints[0] lon];
-        destination.latitude = [(deCartaPosition *)routePoints[1] lat];;
-        destination.longitude = [(deCartaPosition *)routePoints[1] lon];;
+        NSArray *routeSpots = [self getSpotPositions];
+        origin.latitude = [(deCartaPosition *)routeSpots[0] lat];
+        origin.longitude = [(deCartaPosition *)routeSpots[0] lon];
+        destination.latitude = [(deCartaPosition *)routeSpots[1] lat];;
+        destination.longitude = [(deCartaPosition *)routeSpots[1] lon];;
         guidanceConfig = [DCGuidanceConfig configWithDestination:destination origin:origin];
         //guidanceConfig = [DCGuidanceConfig configWithDestination:destination];
 		guidanceConfig.simulationSpeed = 5;
@@ -336,24 +308,9 @@
         guidanceConfig.simulate = YES;
         //Configure navViewController
         TUIXploreViewController *navViewController = (TUIXploreViewController *)segue.destinationViewController;
-        navViewController.routePoints = routePoints;
-        navViewController.routeMessages = [self getPinMessages];
+        navViewController.routeSpots = _routeSpots;
         navViewController.delegate = self;
         navViewController.guidanceConfig = guidanceConfig;
-        // Set route points
-        //CLLocationCoordinate2D *buffer = malloc(sizeof(CLLocationCoordinate2D));
-        //CLLocationCoordinate2D routePoint;
-        //routePoint.latitude = 39.567741;
-        //routePoint.longitude = 2.647630;
-        //buffer[0] = routePoint;
-        //NSData *pointsForNavigation = [self getRoutePointsForNavigation];
-        //NSLog(@"pointsForNavigation length: %d", [pointsForNavigation length]);
-        //[navViewController setRoutePoints:buffer count:sizeof(CLLocationCoordinate2D) completionHandler:nil];
-        /*[navViewController setRoutePoints:pointsForNavigation completionHandler:^{
-            // Run navigation
-            [navigation configureGuidance:guidanceConfig];
-            [navigation runGuidance];
-        }];*/
         
         // Run navigation
         [navigation configureGuidance:guidanceConfig];
@@ -372,8 +329,8 @@
     [_mapView startAnimation];
 }
 
-#pragma mark - TUIPinDelegate Methods
--(void)pinTouched:(TUIPin *)sender {
+#pragma mark - TUISpotDelegate Methods
+-(void)spotTouched:(TUISpot *)sender {
     //display the infoWindow
     deCartaInfoWindow * infoWindow = _mapView.infoWindow;
     infoWindow.associatedPin = sender;
@@ -381,14 +338,6 @@
     infoWindow.message=sender.message;
     [infoWindow setOffset:[deCartaXYFloat XYWithX:0 andY:sender.icon.offset.y] andRotationTilt:sender.rotationTilt];
     infoWindow.visible=TRUE;
-}
-
--(void)pinLongTouched:(TUIPin *)sender {
-    //Tell master view to uncheck cell
-    [_delegate aboutToRemovePin:sender];
-    //remove pin
-    [self removePin:sender];
-    //Uncheck master list if needed
 }
 
 #pragma mark - TUINavViewControllerDelegate Methods

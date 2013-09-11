@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "TUIPin.h"
+#import "TUISpot.h"
 
 @protocol TUIMapViewControllerDelegate;
 
@@ -16,18 +16,18 @@
 @property (weak,nonatomic) id<TUIMapViewControllerDelegate> delegate;
 
 /**
- * Adds a pin to the pin overlay setting its latitude, longitude and message
+ * Adds a spot to the pin overlay setting its latitude, longitude and message
  * @return the added pin
  */
--(TUIPin *)addPinOfType:(TUIPinType)type
+-(TUISpot *)addSpotOfType:(TUISpotType)type
            withLatitude:(double)latitude
               longitude:(double)longitude
-             andMessage:(NSString *)message;
+             andName:(NSString *)name;
 
 /**
- * Removes pin by reference
+ * Removes spot by reference
  */
--(void)removePin:(TUIPin *)pin;
+-(void)removeSpot:(TUISpot *)spot;
 
 /**
  * Closes the master view when displayed
@@ -38,8 +38,8 @@
 
 @protocol TUIMapViewControllerDelegate <NSObject>
 
--(void)aboutToRemovePin:(TUIPin *)pin;
--(void)aboutToRemoveAllPins;
+-(void)aboutToRemoveSpot:(TUISpot *)spot;
+-(void)aboutToRemoveAllSpots;
 -(void)disableCells:(BOOL)cellsDisabled;
 -(void)performedSegue:(NSString *)segueId;
 
