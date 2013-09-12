@@ -14,7 +14,7 @@
 @interface TUILocationManager : NSObject
 
 /**
- * Returns a unique instance of the Context Cache.
+ * Returns a unique instance of the Location Manager.
  * @return a singleton.
  */
 +(TUILocationManager *)sharedInstance;

@@ -14,6 +14,8 @@
 
 @property (strong, nonatomic) NSString *name;
 @property (nonatomic) TUISpotType type;
+@property (nonatomic) double latitude;
+@property (nonatomic) double longitude;
 
 -(void)addEventListeners;
 
@@ -24,8 +26,9 @@
 
 #pragma mark - Public methods
 -(TUISpot *)initSpotOfType:(TUISpotType)type
-              withPosition:(deCartaPosition *)position
-                   andName:(NSString *)name {
+                 latitude:(double)latitude
+                 longitude:(double)longitude
+                      name:(NSString *)name {
     NSString* pinsPath = [[NSBundle mainBundle] pathForResource:@"pins" ofType:@"plist"];
     NSArray *pinFiles = [NSArray arrayWithContentsOfFile:pinsPath];
     UIImage *image = [UIImage imageNamedSmart:pinFiles[type]];
@@ -37,10 +40,12 @@
     deCartaXYInteger *size = [deCartaXYInteger XYWithX:width andY:height];
     deCartaXYInteger *offset = [deCartaXYInteger XYWithX:width/2 andY:height];
     deCartaIcon *pinicon = [[deCartaIcon alloc] initWithImage:image size:size offset:offset];
-    self = [super initWithPosition:position icon:pinicon message:name rotationTilt:pinrt];
+    self = [super initWithPosition:[[deCartaPosition alloc] initWithLat:latitude andLon:longitude] icon:pinicon message:name rotationTilt:pinrt];
     [self addEventListeners];
     _name = name;
     _type = type;
+    _latitude = latitude;
+    _longitude = longitude;
     return self;
 }
 

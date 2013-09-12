@@ -21,12 +21,6 @@ typedef enum NightModeOption {
 
 //delegate for closing the view
 @property (weak, nonatomic) id<TUIXploreViewControllerDelegate> delegate;
-// Navigation manager and updates
-@property (strong, nonatomic, readonly) DCNavigationManager *navigation;
-@property (strong, nonatomic, readonly) DCNavigationUpdate *lastUpdate;
-@property (strong, nonatomic) DCGuidanceConfig *guidanceConfig;
-// Route points (array of TUISpots)
-@property (strong, nonatomic) deCartaOverlay *routeSpots;
 
 
 @end

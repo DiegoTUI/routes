@@ -19,14 +19,28 @@ typedef enum {
 @interface TUISpot : deCartaPin
 //The delegate
 @property (weak, nonatomic) id<TUISpotDelegate> delegate;
+//The indexmap
+@property (strong, nonatomic) NSIndexPath *indexPath;
 
 /**
- * Inits the pin.
- * @return a singleton.
+ * Inits the spot.
+ * @return a TUISpot.
  */
 -(TUISpot *)initSpotOfType:(TUISpotType)type
-            withPosition:(deCartaPosition *)position
-              andName:(NSString *)name;
+                 latitude:(double)latitude
+                 longitude:(double)longitude
+                      name:(NSString *)name;
+/**
+ * Gets the latitude
+ * @return the latitude.
+ */
+-(double)latitude;
+
+/**
+ * Gets the longitude
+ * @return the longitude.
+ */
+-(double)longitude;
 
 /**
  * Gets the name

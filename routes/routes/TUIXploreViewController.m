@@ -12,7 +12,7 @@
 #import "FormatUtils.h"
 #import "UIImage+Tui.h"
 #import "PinInfoView.h"
-#import "TUISpot.h"
+#import "TUIRouteController.h"
 
 typedef enum RemainingDisplay {
 	REMAINING_DISPLAY_TIME,
@@ -25,6 +25,7 @@ typedef enum RemainingDisplay {
 #pragma mark - Private interface
 @interface TUIXploreViewController () <DCMapDelegate, DCNavigationDelegate, DCMapPushpinDelegate, CornerViewDelegate, PinInfoViewDelegate, UIAlertViewDelegate, UIActionSheetDelegate>
 // Navigation manager and updates
+@property (strong, nonatomic) DCNavigationManager *navigation;
 @property (strong, nonatomic) id navigationUpdateConnection;
 @property (strong, nonatomic) DCNavigationUpdate *lastUpdate;
 // Used for managing the UI
@@ -35,7 +36,7 @@ typedef enum RemainingDisplay {
 @property (nonatomic) BOOL navigationActive;
 @property (strong,nonatomic) id<DCGuidanceIcon> currentIcon;
 @property (nonatomic) NSInteger remainingDisplayType;
-@property (strong, nonatomic) NSMutableArray *droppedPins;
+@property (strong, nonatomic) NSMutableDictionary *droppedPins;
 @property (strong, nonatomic) PinInfoView *activePinInfoView;
 @property (strong, nonatomic) IBOutlet UIView *infoView;
 @property (nonatomic) BOOL infoViewDisplayed;
@@ -111,7 +112,7 @@ typedef enum RemainingDisplay {
             break;
             
         case REMAINING_DISPLAY_DISTANCE:
-            display = [FormatUtils formatDistance:_destinationCornerView.lblText meters:_navigation.lastGuidance.distanceToDestination imperial:(_guidanceConfig.units == DCGuidanceUnitsImperial)];
+            display = [FormatUtils formatDistance:_destinationCornerView.lblText meters:_navigation.lastGuidance.distanceToDestination imperial:NO];
             break;
             
         case REMAINING_DISPLAY_ARRIVAL:
@@ -180,11 +181,34 @@ typedef enum RemainingDisplay {
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //Configure the navigation session
+    DCNavigationConfig		*navigationConfig = [DCNavigationConfig configWithServer:@"chameleon-dev1.decarta.com"];
+    [navigationConfig populateDefaults];
+    navigationConfig.resourceDir = [NSString stringWithFormat:@"%@/nav_resources", [[NSBundle mainBundle] resourcePath]];
+    _navigation = [(TUIAppDelegate *)[[UIApplication sharedApplication] delegate] beginNavigationSessionWithConfig:navigationConfig];
+    //TODO: Configure guidance. Can I do all this in TUIXploreViewController
+    DCGuidanceConfig *guidanceConfig;
+    CLLocationCoordinate2D origin, dest;
+    origin.latitude = [[[TUIRouteController sharedInstance] startSpot] latitude];
+    origin.longitude = [[[TUIRouteController sharedInstance] startSpot] longitude];
+    dest.latitude = [[[TUIRouteController sharedInstance] nextSpot:NO] latitude];
+    dest.longitude = [[[TUIRouteController sharedInstance] nextSpot:NO] longitude];
+    guidanceConfig = [DCGuidanceConfig configWithDestination:dest origin:origin];
+    guidanceConfig.simulationSpeed = 5;
+    guidanceConfig.units = DCGuidanceUnitsMetric;
+    guidanceConfig.routeMode = DCGuidanceRouteModeCarpool;
+    guidanceConfig.routeOptionMask = 0;
+    guidanceConfig.sensorLogPath = nil;
+    guidanceConfig.simulate = YES;
     
-    _droppedPins = [NSMutableArray array];
+    // Run navigation
+    [_navigation configureGuidance:guidanceConfig];
+    [_navigation runGuidance];
+    
+    _droppedPins = [NSMutableDictionary dictionary];
 	// Do any additional setup after loading the view.
     DCMapLaunchState *mapLaunchState = [[DCMapLaunchState alloc] init];
-	DCNavLaunchState *navLaunchState = [[DCNavLaunchState alloc] initWithVehiclePositon:_guidanceConfig.origin direction:0];
+	DCNavLaunchState *navLaunchState = [[DCNavLaunchState alloc] initWithVehiclePositon:guidanceConfig.origin direction:0];
     
     navLaunchState.beginActive = YES;
 	navLaunchState.beginNorthUp = NO;
@@ -199,12 +223,12 @@ typedef enum RemainingDisplay {
     
     mapView.persistKey = @"routes";
     
-    _navigation = [(TUIAppDelegate *)[[UIApplication sharedApplication] delegate] navigationManager];
+    //_navigation = [(TUIAppDelegate *)[[UIApplication sharedApplication] delegate] navigationManager];
 	_navigationUpdateConnection = [_navigation registerForNavigationUpdatesWithDelegate:self];
     
-    [self updateVehiclePosition:_guidanceConfig.origin direction:0];
+    [self updateVehiclePosition:guidanceConfig.origin direction:0];
 	[self setNavigationCameraActive:YES];
-	//[self setDestination:_guidanceConfig.destination];
+	//[self setDestination:guidanceConfig.destination];
     
     _destinationCornerView.imgIcon.image = [UIImage imageNamed:@"geo_resources/flag_icon.png"];
     [_destinationCornerView setDelegate:self];
@@ -258,20 +282,25 @@ typedef enum RemainingDisplay {
 	[self configureManeuverIconsWithSize:(maneuverIconDim << retinaFactor) colorImages:NO dualLayered:NO inactiveColor:inactiveColor];
     //add pins to the map
     CLLocationCoordinate2D pinPosition;
-    pinPosition.latitude = [[[_routeSpots getAtIndex:0] position] lat];
-    pinPosition.longitude = [[[_routeSpots getAtIndex:0] position] lon];
+    pinPosition.latitude = [[[TUIRouteController sharedInstance] startSpot] latitude];
+    pinPosition.longitude = [[[TUIRouteController sharedInstance] startSpot] longitude];
     DCMapPushpin *pin = [[DCMapPushpin alloc]initWithMap:mv location:pinPosition initiallyVisible:YES];
     [pin setDelegate:self];
     [pin setFlagWithColor:[UIColor greenColor]];
-    [_droppedPins addObject:pin];
-    for(int i=1; i<(_routeSpots.size - 1); i++) {
-        pinPosition.latitude = [[[_routeSpots getAtIndex:i] position] lat];
-        pinPosition.longitude = [[[_routeSpots getAtIndex:i] position] lon];
-        DCMapPushpin *pin = [[DCMapPushpin alloc]initWithMap:mv location:pinPosition initiallyVisible:YES];
-        [pin setDelegate:self];
-        [pin setFlagWithColor:[UIColor redColor]];
-        [_droppedPins addObject:pin];
+    [_droppedPins setValue:pin forKey:[[[TUIRouteController sharedInstance] startSpot] message]];
+    TUISpot *spot = [[TUIRouteController sharedInstance] nextSpot:YES];
+    while (spot) {
+        if (spot.type == TUIAttractionSpot){
+            pinPosition.latitude = spot.latitude;
+            pinPosition.longitude = spot.longitude;
+            DCMapPushpin *pin = [[DCMapPushpin alloc]initWithMap:mv location:pinPosition initiallyVisible:YES];
+            [pin setDelegate:self];
+            [pin setFlagWithColor:[UIColor redColor]];
+            [_droppedPins setValue:pin forKey:spot.message];
+        }
+        spot = [[TUIRouteController sharedInstance] nextSpot:YES];
     }
+    [[TUIRouteController sharedInstance] reset];
 }
 
 - (void)dcMap:(DCMapView *)mv tapAtLatLon:(CLLocationCoordinate2D)coord {
@@ -293,9 +322,13 @@ typedef enum RemainingDisplay {
 #pragma mark - DCMapPushPinDelegate methods
 - (void)pushpinSelected:(DCMapPushpin *)pushpin
 {
-    NSInteger index = [_droppedPins indexOfObject:pushpin];
-	NSString *message = index == NSNotFound ? [NSString stringWithFormat:@"Dropped pin at %f, %f", pushpin.coordinate.latitude, pushpin.coordinate.longitude]:
-                                                [(TUISpot *)[_routeSpots getAtIndex:index] name];
+    NSString *message = [NSString stringWithFormat:@"Dropped pin at %f, %f", pushpin.coordinate.latitude, pushpin.coordinate.longitude];
+    for (NSString *name in _droppedPins) {
+        if (_droppedPins[name] == pushpin) {
+            message = name;
+            break;
+        }
+    }
 	PinInfoView	*infoView = [[PinInfoView alloc] initWithPushpin:pushpin message:message delegate:self];
 	
 	[mapView insertSubview:infoView atIndex:0];
@@ -350,7 +383,7 @@ typedef enum RemainingDisplay {
 		else {
 			[self clearRoute];
 		}
-        _nextManeuverCornerView.lblText.attributedText = [FormatUtils formatDistance:_nextManeuverCornerView.lblText meters:update.guidance.distanceToCrossing imperial:(_guidanceConfig.units == DCGuidanceUnitsImperial)];
+        _nextManeuverCornerView.lblText.attributedText = [FormatUtils formatDistance:_nextManeuverCornerView.lblText meters:update.guidance.distanceToCrossing imperial:NO];
         [self updateRemainingDisplay];
 	}
 	else if (_lastUpdate && _lastUpdate.guidance)

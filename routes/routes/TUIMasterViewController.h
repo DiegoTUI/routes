@@ -11,6 +11,4 @@
 
 @interface TUIMasterViewController : UITableViewController
 
-@property (strong, nonatomic) TUIMapViewController *mapViewController;
-
 @end

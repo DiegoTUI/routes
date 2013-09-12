@@ -7,16 +7,18 @@
 //
 
 #import "TUIMasterViewController.h"
+#import "TUIRouteController.h"
 
 #pragma mark - Private interface
 @interface TUIMasterViewController () <TUIMapViewControllerDelegate>
 @property (strong, nonatomic) NSArray *spots;
-@property (strong, nonatomic) NSMutableDictionary *spotMap;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *closeBarButton;
 @property (nonatomic) BOOL cellsDisabled;
 
 -(IBAction)closeButtonClicked:(id)sender;
 -(void)toggleBarButton:(bool)show;
+-(void)TUIRouteFlushed:(NSNotification *)notification;
+-(void)TUISpotRemoved:(NSNotification *)notification;
 @end
 
 #pragma mark - Implementation
@@ -24,7 +26,8 @@
 
 #pragma mark - Private Methods
 - (IBAction)closeButtonClicked:(id)sender {
-    [_mapViewController closeMaster];
+    TUIMapViewController *mapViewController = (TUIMapViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
+    [mapViewController closeMaster];
 }
 
 -(void)toggleBarButton:(bool)show {
@@ -40,6 +43,16 @@
     }
 }
 
+-(void)TUIRouteFlushed:(NSNotification *)notification {
+    _cellsDisabled = NO;
+    [self.tableView reloadData];
+}
+
+-(void)TUISpotRemoved:(NSNotification *)notification {
+    TUISpot *spot = notification.object;
+    [self.tableView reloadRowsAtIndexPaths:@[spot.indexPath] withRowAnimation:UITableViewRowAnimationNone];
+}
+
 #pragma mark - UIViewController Methods
 - (void)awakeFromNib {
     self.clearsSelectionOnViewWillAppear = NO;
@@ -53,12 +66,20 @@
     //load the icons
     NSString* spotsPath = [[NSBundle mainBundle] pathForResource:@"spots" ofType:@"plist"];
     _spots = [NSArray arrayWithContentsOfFile:spotsPath];
-    _spotMap = [NSMutableDictionary dictionary];
-    self.mapViewController = (TUIMapViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
-    [self.mapViewController setDelegate:self];
+    TUIMapViewController *mapViewController = (TUIMapViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
+    [mapViewController setDelegate:self];
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
     [self willRotateToInterfaceOrientation:orientation duration:0];
     _cellsDisabled = NO;
+    //Suscribe to notifications
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(TUISpotRemoved:)
+                                                 name:@"TUISpotRemoved"
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(TUIRouteFlushed:)
+                                                 name:@"TUIRouteFlushed"
+                                               object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -95,7 +116,7 @@
 
     NSDictionary *spot = _spots[indexPath.row];
     cell.textLabel.text = spot[@"name"];
-    if (_spotMap[indexPath]) {
+    if ([[TUIRouteController sharedInstance] spotForIndexPath:indexPath]) {
         [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
     } else {
         [cell setAccessoryType:UITableViewCellAccessoryNone];
@@ -117,19 +138,19 @@
         [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
         NSString *latstring = _spots[indexPath.row][@"latitude"];
         NSString *lonstring = _spots[indexPath.row][@"longitude"];
-        TUISpot *spot = [_mapViewController addSpotOfType:TUIAttractionSpot withLatitude:[latstring doubleValue] longitude:[lonstring doubleValue] andName:cell.textLabel.text];
-        //register spot
-        [_spotMap setObject:spot forKey:indexPath];
+        TUISpot *spot = [[TUISpot alloc] initSpotOfType:TUIAttractionSpot latitude:[latstring doubleValue] longitude:[lonstring doubleValue] name:cell.textLabel.text];
+        [spot setIndexPath:indexPath];
+        [[TUIRouteController sharedInstance] addSpot:spot];
     } else {
         [cell setAccessoryType:UITableViewCellAccessoryNone];
-        [_mapViewController removeSpot:[_spotMap objectForKey:indexPath]];
-        [_spotMap removeObjectForKey:indexPath];
+        TUISpot *spot = [[TUIRouteController sharedInstance] spotForIndexPath:indexPath];
+        [[TUIRouteController sharedInstance] removeSpot:spot];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark - TUIMapViewControllerDelegate methods
--(void)aboutToRemoveSpot:(TUISpot *)spot {
+/*-(void)aboutToRemoveSpot:(TUISpot *)spot {
     NSIndexPath *indexPath = nil;
     for (NSIndexPath *key in _spotMap) {
         if (_spotMap[key] == spot) {
@@ -146,15 +167,12 @@
     _spotMap = [NSMutableDictionary dictionary];
     _cellsDisabled = NO;
     [self.tableView reloadData];
-}
+}*/
 
 -(void)disableCells:(BOOL)cellsDisabled {
     _cellsDisabled = cellsDisabled;
     [self.tableView reloadData];
 }
 
--(void)performedSegue:(NSString *)segueId {
-
-}
 
 @end

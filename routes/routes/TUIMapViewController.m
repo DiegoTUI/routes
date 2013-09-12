@@ -10,10 +10,11 @@
 #import "TUIMapViewController.h"
 #import "TUILocationManager.h"
 #import "TUIXploreViewController.h"
+#import "TUIRouteController.h"
 #import "config.h"
 
 #pragma mark - Private interface
-@interface TUIMapViewController () <TUILocationManagerDelegate, UISplitViewControllerDelegate, TUISpotDelegate, TUIXploreViewControllerDelegate>
+@interface TUIMapViewController () <TUILocationManagerDelegate, UISplitViewControllerDelegate, TUIXploreViewControllerDelegate>
 
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
 @property (strong, nonatomic) IBOutlet deCartaMapView *mapView;
@@ -21,12 +22,11 @@
 @property (strong, nonatomic) deCartaRoutePreference *routePrefs;
 @property (strong, nonatomic) IBOutlet UIButton *playButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *routeBarButton;
-/****CRAP FOR NAVIGATION****/
-@property (strong, nonatomic) NSUserDefaults *persist;
-/****CRAP FOR NAVIGATION****/
 
 -(IBAction)routeBarClicked:(UIBarButtonItem *)sender;
 -(IBAction)playButtonClicked:(UIButton *)sender;
+-(void)TUISpotAdded:(NSNotification *)notification;
+-(void)TUISpotRemoved:(NSNotification *)notification;
 
 /**
  * Adds event listeners to the map
@@ -70,27 +70,23 @@
     }
 }
 
--(TUISpot *)addSpotOfType:(TUISpotType)type
-             withLatitude:(double)latitude
-                longitude:(double)longitude
-                  andName:(NSString *)name {
-    deCartaPosition *position = [[deCartaPosition alloc] initWithLat:latitude andLon:longitude];
-    TUISpot *spot = [[TUISpot alloc] initSpotOfType:type withPosition:position andName:name];
+-(void)TUISpotAdded:(NSNotification *)notification {
+    TUISpot *spot = notification.object;
     [spot setDelegate:self];
     [_routeSpots addPin:spot];
     [self refreshRouteBarButton];
-    if ([self isOutOfBounds:position]) { //the pin is out of bounds
-        NSArray *positions = [self getSpotPositions];
-        deCartaBoundingBox *boundingBox = [deCartaUtil getBoundingBoxFromPositions:positions];
+    if ([self isOutOfBounds:[spot position]]) { //the pin is out of bounds
+        deCartaBoundingBox *boundingBox = [deCartaUtil getBoundingBoxFromPositions:[self getSpotPositions]];
         int zoom=[deCartaUtil getZoomLevelToFitBoundingBox:boundingBox withDisplaySize:_mapView.displaySize];
         [_mapView setZoomLevel:zoom];
         //Pan the map to center on the center of the route
         [_mapView panToPosition:[boundingBox getCenterPosition]];
     }
     [_mapView refreshMap];
-    return spot;
 }
--(void)removeSpot:(TUISpot *)spot {
+
+-(void)TUISpotRemoved:(NSNotification *)notification {
+    TUISpot *spot = notification.object;
     [_routeSpots removePin:spot];
     [self refreshRouteBarButton];
     [_mapView refreshMap];
@@ -98,22 +94,15 @@
 
 #pragma mark - Private Methods
 -(void)addMapEventListeners {
-    //Capture MOVEEND
-    [_mapView addEventListener:[deCartaEventListener eventListenerWithCallback:^(id<deCartaEventSource> sender, deCartaPosition *position) {
-        NSLog(@"Moved!! - Lat: %f - Lon: %f", position.lat, position.lon);
-        CLLocation *location = [[CLLocation alloc] initWithLatitude:position.lat longitude:position.lon];
-        [[TUILocationManager sharedInstance] storeMapCenter:location];
-    }] forEventType:MOVEEND];
     //Capture LONGTOUCH
     [_mapView addEventListener:[deCartaEventListener eventListenerWithCallback:^(id<deCartaEventSource> sender, deCartaPosition *position) {
         NSLog(@"LongTouch!! - Lat: %f - Lon: %f", position.lat, position.lon);
-        [self addSpotOfType:TUICustomSpot withLatitude:position.lat longitude:position.lon andName:@"Custom Location"];
+        TUISpot *spot = [[TUISpot alloc] initSpotOfType:TUICustomSpot latitude:position.lat longitude:position.lon name:@"Custom Location"];
+        [[TUIRouteController sharedInstance] addSpot:spot];
     }] forEventType:LONGTOUCH];
 }
 
 -(void)removeMapEventListeners {
-    //Remove MOVEEND
-    [_mapView removeEventListeners:MOVEEND];
     //Remove LONGTOUCH
     [_mapView removeEventListeners:LONGTOUCH];
 }
@@ -160,7 +149,8 @@
             }
         }];
     } else {
-        [_delegate aboutToRemoveAllSpots];
+        [self removeMapEventListeners];
+        [[TUIRouteController sharedInstance] flush];
         //reset map
         [self resetMap];
     }
@@ -168,7 +158,6 @@
 
 - (IBAction)playButtonClicked:(UIButton *)sender {
     [self performSegueWithIdentifier:@"showNavigation" sender:self];
-    //[self performSegueWithIdentifier:@"showFakeNavigation" sender:self];
 }
 
 -(void)refreshRouteBarButton {
@@ -209,7 +198,9 @@
     deCartaPosition *position = [[TUILocationManager sharedInstance] getHomeLocation];
     [_mapView centerOnPosition:position];
     _mapView.zoomLevel= [[TUILocationManager sharedInstance] getZoomLevel];
-    [self addSpotOfType:TUIHomeSpot withLatitude:position.lat longitude:position.lon andName:@"Home, sweet home"];
+    TUISpot *spot = [[TUISpot alloc] initSpotOfType:TUIHomeSpot latitude:position.lat longitude:position.lon name:@"Home, sweet home"];
+    [[TUIRouteController sharedInstance] addSpot:spot];
+    //[self addSpotOfType:TUIHomeSpot withLatitude:position.lat longitude:position.lon andName:@"Home, sweet home"];
     _playButton.hidden = YES;
     //[_mapView refreshMap];
     [_mapView startAnimation];
@@ -261,6 +252,15 @@
     [_mapView showOverlays];
     _routePrefs = [[deCartaRoutePreference alloc] init];
     _routePrefs.style=@"Fastest";
+    //Suscribe to notifications
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(TUISpotAdded:)
+                                                 name:@"TUISpotAdded"
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(TUISpotRemoved:)
+                                                 name:@"TUISpotRemoved"
+                                               object:nil];
     [self resetMap];
 }
 
@@ -284,7 +284,7 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"showNavigation"]) {
-        //Configure the navigation session
+        /*//Configure the navigation session
         DCNavigationConfig		*navigationConfig = [DCNavigationConfig configWithServer:@"chameleon-dev1.decarta.com"];
         [navigationConfig populateDefaults];
         navigationConfig.resourceDir = [NSString stringWithFormat:@"%@/nav_resources", [[NSBundle mainBundle] resourcePath]];
@@ -314,10 +314,12 @@
         
         // Run navigation
         [navigation configureGuidance:guidanceConfig];
-        [navigation runGuidance];
+        [navigation runGuidance];*/
+        
+        TUIXploreViewController *navViewController = (TUIXploreViewController *)segue.destinationViewController;
+        navViewController.delegate = self;
+        [[TUIRouteController sharedInstance] reset];
     } 
-    
-    [_delegate performedSegue:segue.identifier];
 }
 
 #pragma mark - TUILocationManagerDelegate Methods

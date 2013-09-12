@@ -108,6 +108,9 @@
 		768DA3D517DF0DBA00A5D01F /* PinInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 768DA3D417DF0DBA00A5D01F /* PinInfoView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		768DA41217E0AF8400A5D01F /* spots in Resources */ = {isa = PBXBuildFile; fileRef = 768DA41117E0AF8400A5D01F /* spots */; };
 		768DA41517E0B17D00A5D01F /* NSString+Tui.m in Sources */ = {isa = PBXBuildFile; fileRef = 768DA41417E0B17D00A5D01F /* NSString+Tui.m */; };
+		768DA41B17E1AF6600A5D01F /* TUIRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 768DA41A17E1AF6600A5D01F /* TUIRoute.m */; };
+		768DA41E17E1B96D00A5D01F /* TUIRouteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 768DA41D17E1B96C00A5D01F /* TUIRouteController.m */; };
+		768DA42117E1BBAF00A5D01F /* NSArray+TUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 768DA42017E1BBAF00A5D01F /* NSArray+TUI.m */; };
 		768F28B017DDC7B900F87E19 /* NavigationLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 768F28AF17DDC7B900F87E19 /* NavigationLib.framework */; };
 		768F28B317DDCE2900F87E19 /* NavigationCornerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 768F28B217DDCE2900F87E19 /* NavigationCornerView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		768F28B717DDD95300F87E19 /* FormatUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 768F28B617DDD95300F87E19 /* FormatUtils.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -290,6 +293,12 @@
 		768DA41117E0AF8400A5D01F /* spots */ = {isa = PBXFileReference; lastKnownFileType = folder; path = spots; sourceTree = "<group>"; };
 		768DA41317E0B17D00A5D01F /* NSString+Tui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Tui.h"; sourceTree = "<group>"; };
 		768DA41417E0B17D00A5D01F /* NSString+Tui.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Tui.m"; sourceTree = "<group>"; };
+		768DA41917E1AF6600A5D01F /* TUIRoute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUIRoute.h; sourceTree = "<group>"; };
+		768DA41A17E1AF6600A5D01F /* TUIRoute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TUIRoute.m; sourceTree = "<group>"; };
+		768DA41C17E1B96C00A5D01F /* TUIRouteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUIRouteController.h; sourceTree = "<group>"; };
+		768DA41D17E1B96C00A5D01F /* TUIRouteController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TUIRouteController.m; sourceTree = "<group>"; };
+		768DA41F17E1BBAF00A5D01F /* NSArray+TUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+TUI.h"; sourceTree = "<group>"; };
+		768DA42017E1BBAF00A5D01F /* NSArray+TUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+TUI.m"; sourceTree = "<group>"; };
 		768F28AF17DDC7B900F87E19 /* NavigationLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = NavigationLib.framework; sourceTree = "<group>"; };
 		768F28B117DDCE2900F87E19 /* NavigationCornerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationCornerView.h; sourceTree = "<group>"; };
 		768F28B217DDCE2900F87E19 /* NavigationCornerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationCornerView.m; sourceTree = "<group>"; };
@@ -458,6 +467,8 @@
 				76259CD917CB6C7700C7B0BE /* TUIMasterViewController.m */,
 				761E053817D4789D0091FE14 /* TUIXploreViewController.h */,
 				761E053917D4789D0091FE14 /* TUIXploreViewController.m */,
+				768DA41C17E1B96C00A5D01F /* TUIRouteController.h */,
+				768DA41D17E1B96C00A5D01F /* TUIRouteController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -467,8 +478,8 @@
 			children = (
 				768C345B17CCADF600BF0924 /* TUISpot.h */,
 				768C345C17CCADF600BF0924 /* TUISpot.m */,
-				76259D0017CB6F7700C7B0BE /* TUILocationManager.h */,
-				76259D0117CB6F7700C7B0BE /* TUILocationManager.m */,
+				768DA41917E1AF6600A5D01F /* TUIRoute.h */,
+				768DA41A17E1AF6600A5D01F /* TUIRoute.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -659,6 +670,8 @@
 				76259E5217CF861C00C7B0BE /* UIImage+Tui.m */,
 				768DA41317E0B17D00A5D01F /* NSString+Tui.h */,
 				768DA41417E0B17D00A5D01F /* NSString+Tui.m */,
+				768DA41F17E1BBAF00A5D01F /* NSArray+TUI.h */,
+				768DA42017E1BBAF00A5D01F /* NSArray+TUI.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -679,6 +692,8 @@
 			children = (
 				768F28B517DDD95300F87E19 /* FormatUtils.h */,
 				768F28B617DDD95300F87E19 /* FormatUtils.m */,
+				76259D0017CB6F7700C7B0BE /* TUILocationManager.h */,
+				76259D0117CB6F7700C7B0BE /* TUILocationManager.m */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -876,6 +891,9 @@
 				768F28B717DDD95300F87E19 /* FormatUtils.m in Sources */,
 				768DA3D517DF0DBA00A5D01F /* PinInfoView.m in Sources */,
 				768DA41517E0B17D00A5D01F /* NSString+Tui.m in Sources */,
+				768DA41B17E1AF6600A5D01F /* TUIRoute.m in Sources */,
+				768DA41E17E1B96D00A5D01F /* TUIRouteController.m in Sources */,
+				768DA42117E1BBAF00A5D01F /* NSArray+TUI.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
