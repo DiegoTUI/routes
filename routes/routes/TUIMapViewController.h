@@ -9,11 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "TUISpot.h"
 
-@protocol TUIMapViewControllerDelegate;
-
 @interface TUIMapViewController : UIViewController <TUISpotDelegate>
-
-@property (weak,nonatomic) id<TUIMapViewControllerDelegate> delegate;
 
 /**
  * Closes the master view when displayed
@@ -22,8 +18,3 @@
 
 @end
 
-@protocol TUIMapViewControllerDelegate <NSObject>
-
--(void)disableCells:(BOOL)cellsDisabled;
-
-@end

@@ -14,7 +14,7 @@
 #import "config.h"
 
 #pragma mark - Private interface
-@interface TUIMapViewController () <TUILocationManagerDelegate, UISplitViewControllerDelegate, TUIXploreViewControllerDelegate>
+@interface TUIMapViewController () <TUILocationManagerDelegate, UISplitViewControllerDelegate>
 
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
 @property (strong, nonatomic) IBOutlet deCartaMapView *mapView;
@@ -25,8 +25,10 @@
 
 -(IBAction)routeBarClicked:(UIBarButtonItem *)sender;
 -(IBAction)playButtonClicked:(UIButton *)sender;
+//Notifications
 -(void)TUISpotAdded:(NSNotification *)notification;
 -(void)TUISpotRemoved:(NSNotification *)notification;
+-(void)TUICloseNavigation:(NSNotification *)notification;
 
 /**
  * Adds event listeners to the map
@@ -92,6 +94,10 @@
     [_mapView refreshMap];
 }
 
+-(void)TUICloseNavigation:(NSNotification *)notification{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 #pragma mark - Private Methods
 -(void)addMapEventListeners {
     //Capture LONGTOUCH
@@ -143,7 +149,9 @@
                 [_mapView panToPosition:[route.boundingBox getCenterPosition]];
                 [_mapView refreshMap];
                 [_routeBarButton setTitle:@"Reset"];
-                [_delegate disableCells:YES];
+                [[NSNotificationCenter defaultCenter]
+                 postNotificationName:@"TUIDisableCells"
+                 object:[NSNumber numberWithBool:YES]];
                 [self removeMapEventListeners];
                 _playButton.hidden = NO;
             }
@@ -261,6 +269,10 @@
                                              selector:@selector(TUISpotRemoved:)
                                                  name:@"TUISpotRemoved"
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(TUICloseNavigation:)
+                                                 name:@"TUICloseNavigation"
+                                               object:nil];
     [self resetMap];
 }
 
@@ -284,40 +296,6 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"showNavigation"]) {
-        /*//Configure the navigation session
-        DCNavigationConfig		*navigationConfig = [DCNavigationConfig configWithServer:@"chameleon-dev1.decarta.com"];
-        [navigationConfig populateDefaults];
-        navigationConfig.resourceDir = [NSString stringWithFormat:@"%@/nav_resources", [[NSBundle mainBundle] resourcePath]];
-        DCNavigationManager *navigation;
-        navigation = [(TUIAppDelegate *)[[UIApplication sharedApplication] delegate] beginNavigationSessionWithConfig:navigationConfig];
-        //TODO: Configure guidance. Can I do all this in TUIXploreViewController
-        DCGuidanceConfig *guidanceConfig;
-        CLLocationCoordinate2D origin, destination;
-        NSArray *routeSpots = [self getSpotPositions];
-        origin.latitude = [(deCartaPosition *)routeSpots[0] lat];
-        origin.longitude = [(deCartaPosition *)routeSpots[0] lon];
-        destination.latitude = [(deCartaPosition *)routeSpots[1] lat];;
-        destination.longitude = [(deCartaPosition *)routeSpots[1] lon];;
-        guidanceConfig = [DCGuidanceConfig configWithDestination:destination origin:origin];
-        //guidanceConfig = [DCGuidanceConfig configWithDestination:destination];
-		guidanceConfig.simulationSpeed = 5;
-        guidanceConfig.units = DCGuidanceUnitsMetric;
-        guidanceConfig.routeMode = DCGuidanceRouteModeCarpool;
-        guidanceConfig.routeOptionMask = 0;
-        guidanceConfig.sensorLogPath = nil;
-        guidanceConfig.simulate = YES;
-        //Configure navViewController
-        TUIXploreViewController *navViewController = (TUIXploreViewController *)segue.destinationViewController;
-        navViewController.routeSpots = _routeSpots;
-        navViewController.delegate = self;
-        navViewController.guidanceConfig = guidanceConfig;
-        
-        // Run navigation
-        [navigation configureGuidance:guidanceConfig];
-        [navigation runGuidance];*/
-        
-        TUIXploreViewController *navViewController = (TUIXploreViewController *)segue.destinationViewController;
-        navViewController.delegate = self;
         [[TUIRouteController sharedInstance] reset];
     } 
 }
@@ -340,11 +318,6 @@
     infoWindow.message=sender.message;
     [infoWindow setOffset:[deCartaXYFloat XYWithX:0 andY:sender.icon.offset.y] andRotationTilt:sender.rotationTilt];
     infoWindow.visible=TRUE;
-}
-
-#pragma mark - TUINavViewControllerDelegate Methods
--(void)closeButtonClicked {
-    [self dismissViewControllerAnimated:YES completion:^{}];
 }
 
 #pragma mark - UISplitViewControllerDelegate Methods

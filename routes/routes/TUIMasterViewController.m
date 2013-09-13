@@ -10,15 +10,17 @@
 #import "TUIRouteController.h"
 
 #pragma mark - Private interface
-@interface TUIMasterViewController () <TUIMapViewControllerDelegate>
+@interface TUIMasterViewController ()
 @property (strong, nonatomic) NSArray *spots;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *closeBarButton;
 @property (nonatomic) BOOL cellsDisabled;
 
 -(IBAction)closeButtonClicked:(id)sender;
 -(void)toggleBarButton:(bool)show;
+//Notifications
 -(void)TUIRouteFlushed:(NSNotification *)notification;
 -(void)TUISpotRemoved:(NSNotification *)notification;
+-(void)TUIDisableCells:(NSNotification *)notification;
 @end
 
 #pragma mark - Implementation
@@ -53,6 +55,11 @@
     [self.tableView reloadRowsAtIndexPaths:@[spot.indexPath] withRowAnimation:UITableViewRowAnimationNone];
 }
 
+-(void)TUIDisableCells:(NSNotification *)notification {
+    _cellsDisabled = [(NSNumber *)notification.object boolValue];
+    [self.tableView reloadData];
+}
+
 #pragma mark - UIViewController Methods
 - (void)awakeFromNib {
     self.clearsSelectionOnViewWillAppear = NO;
@@ -66,8 +73,6 @@
     //load the icons
     NSString* spotsPath = [[NSBundle mainBundle] pathForResource:@"spots" ofType:@"plist"];
     _spots = [NSArray arrayWithContentsOfFile:spotsPath];
-    TUIMapViewController *mapViewController = (TUIMapViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
-    [mapViewController setDelegate:self];
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
     [self willRotateToInterfaceOrientation:orientation duration:0];
     _cellsDisabled = NO;
@@ -80,11 +85,14 @@
                                              selector:@selector(TUIRouteFlushed:)
                                                  name:@"TUIRouteFlushed"
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(TUIDisableCells:)
+                                                 name:@"TUIDisableCells"
+                                               object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    //TODO: check here the orientation of the iPad and remove close button if needed
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
@@ -121,7 +129,6 @@
     } else {
         [cell setAccessoryType:UITableViewCellAccessoryNone];
     }
-    //cell.selectionStyle = _cellsDisabled ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleBlue;
     cell.userInteractionEnabled = !_cellsDisabled;
     cell.textLabel.enabled = !_cellsDisabled;
     return cell;
@@ -148,31 +155,5 @@
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
-
-#pragma mark - TUIMapViewControllerDelegate methods
-/*-(void)aboutToRemoveSpot:(TUISpot *)spot {
-    NSIndexPath *indexPath = nil;
-    for (NSIndexPath *key in _spotMap) {
-        if (_spotMap[key] == spot) {
-            indexPath = key;
-        }
-    }
-    if (indexPath) {    //we found something to uncheck
-        [_spotMap removeObjectForKey:indexPath];
-        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-    }
-}
-
--(void)aboutToRemoveAllSpots {
-    _spotMap = [NSMutableDictionary dictionary];
-    _cellsDisabled = NO;
-    [self.tableView reloadData];
-}*/
-
--(void)disableCells:(BOOL)cellsDisabled {
-    _cellsDisabled = cellsDisabled;
-    [self.tableView reloadData];
-}
-
 
 @end

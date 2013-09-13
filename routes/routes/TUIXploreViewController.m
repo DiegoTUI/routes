@@ -127,7 +127,9 @@ typedef enum RemainingDisplay {
     [_navigation cancelGuidance];
     [self setNavigationActive:NO];
     [self clearRoute];
-    [_delegate closeButtonClicked];
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:@"TUICloseNavigation"
+     object:self];
 }
 
 - (IBAction)resetPositionBarButtonClicked:(UIBarButtonItem *)sender {
@@ -186,7 +188,6 @@ typedef enum RemainingDisplay {
     [navigationConfig populateDefaults];
     navigationConfig.resourceDir = [NSString stringWithFormat:@"%@/nav_resources", [[NSBundle mainBundle] resourcePath]];
     _navigation = [(TUIAppDelegate *)[[UIApplication sharedApplication] delegate] beginNavigationSessionWithConfig:navigationConfig];
-    //TODO: Configure guidance. Can I do all this in TUIXploreViewController
     DCGuidanceConfig *guidanceConfig;
     CLLocationCoordinate2D origin, dest;
     origin.latitude = [[[TUIRouteController sharedInstance] startSpot] latitude];
@@ -223,7 +224,6 @@ typedef enum RemainingDisplay {
     
     mapView.persistKey = @"routes";
     
-    //_navigation = [(TUIAppDelegate *)[[UIApplication sharedApplication] delegate] navigationManager];
 	_navigationUpdateConnection = [_navigation registerForNavigationUpdatesWithDelegate:self];
     
     [self updateVehiclePosition:guidanceConfig.origin direction:0];
@@ -275,7 +275,6 @@ typedef enum RemainingDisplay {
     
 	_zoomStepper.value = mv.zoomLevel;
 	const int	maneuverIconDim = _nextManeuverCornerView.imgIcon.frame.size.width;
-    //const int	maneuverIconDim = 50;
 	UIColor		*inactiveColor = [DCNavViewController maneuverIconDefaultInactiveColor];
 	int			retinaFactor = [[UIScreen mainScreen] scale] - 1;
 	

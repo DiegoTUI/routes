@@ -9,8 +9,6 @@
 #import <UIKit/UIKit.h>
 #import <NavigationLib/NavigationLib.h>
 
-@protocol TUIXploreViewControllerDelegate;
-
 typedef enum NightModeOption {
 	NightModeOptionAutomatic,
 	NightModeOptionDay,
@@ -19,14 +17,6 @@ typedef enum NightModeOption {
 
 @interface TUIXploreViewController : DCNavViewController
 
-//delegate for closing the view
-@property (weak, nonatomic) id<TUIXploreViewControllerDelegate> delegate;
-
-
 @end
 
-@protocol TUIXploreViewControllerDelegate <NSObject>
 
--(void)closeButtonClicked;
-
-@end
