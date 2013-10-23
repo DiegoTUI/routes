@@ -15,5 +15,6 @@
 
 -(DCNavigationManager *)beginNavigationSessionWithConfig:(DCNavigationConfig *)navigationConfig;
 -(DCNavigationManager *)navigationManager;
+- (void)clearActiveNavigationSession;
 
 @end

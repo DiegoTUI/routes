@@ -6,5 +6,6 @@
 	"ZoomPrefetch": "Debugging information for the zoom level prefetch policy (how many tiles on which zoom levels, etc.)",
 	"TilePrefetch": "Prefetch attempts, how many tiles are being fetched, etc.",
 	"ExtendedCache": "Inserts to and removals from the extended cache that augments the main cache",
-	"JNIUtils": "Packing and unpacking of JNI data"
+	"JNIUtils": "Packing and unpacking of JNI data",
+	"DebugPicker": "Messages from the debug picking system. Set to INFO or higher to view."
 }

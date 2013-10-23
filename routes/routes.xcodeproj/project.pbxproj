@@ -97,9 +97,8 @@
 		76259E7717CF9EC100C7B0BE /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 76259E7617CF9EC100C7B0BE /* Default-Landscape@2x~ipad.png */; };
 		76259E7A17CFA05400C7B0BE /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = 76259E7817CFA05300C7B0BE /* play.png */; };
 		76259E7B17CFA05400C7B0BE /* play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 76259E7917CFA05400C7B0BE /* play@2x.png */; };
-		7625A06E17D0BA0B00C7B0BE /* nav_resources in Resources */ = {isa = PBXBuildFile; fileRef = 7625A06D17D0BA0A00C7B0BE /* nav_resources */; };
-		7625A07017D0BA2D00C7B0BE /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 7625A06F17D0BA2D00C7B0BE /* assets */; };
-		7625A07217D0BA3700C7B0BE /* geo_resources in Resources */ = {isa = PBXBuildFile; fileRef = 7625A07117D0BA3700C7B0BE /* geo_resources */; };
+		767EFDAE1817F70F00BC3F90 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 767EFDAC1817F70F00BC3F90 /* assets */; };
+		767EFDAF1817F70F00BC3F90 /* nav_resources in Resources */ = {isa = PBXBuildFile; fileRef = 767EFDAD1817F70F00BC3F90 /* nav_resources */; };
 		768C345D17CCADF600BF0924 /* TUISpot.m in Sources */ = {isa = PBXBuildFile; fileRef = 768C345C17CCADF600BF0924 /* TUISpot.m */; };
 		768DA3CF17DF07F200A5D01F /* attraction_flag.png in Resources */ = {isa = PBXBuildFile; fileRef = 768DA3CB17DF07F200A5D01F /* attraction_flag.png */; };
 		768DA3D017DF07F200A5D01F /* attraction_flag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 768DA3CC17DF07F200A5D01F /* attraction_flag@2x.png */; };
@@ -111,9 +110,10 @@
 		768DA41B17E1AF6600A5D01F /* TUIRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = 768DA41A17E1AF6600A5D01F /* TUIRoute.m */; };
 		768DA41E17E1B96D00A5D01F /* TUIRouteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 768DA41D17E1B96C00A5D01F /* TUIRouteController.m */; };
 		768DA42117E1BBAF00A5D01F /* NSArray+TUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 768DA42017E1BBAF00A5D01F /* NSArray+TUI.m */; };
-		768F28B017DDC7B900F87E19 /* NavigationLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 768F28AF17DDC7B900F87E19 /* NavigationLib.framework */; };
 		768F28B317DDCE2900F87E19 /* NavigationCornerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 768F28B217DDCE2900F87E19 /* NavigationCornerView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		768F28B717DDD95300F87E19 /* FormatUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 768F28B617DDD95300F87E19 /* FormatUtils.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		76D526A618165E420050E0A1 /* NavigationLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76D526A518165E420050E0A1 /* NavigationLib.framework */; };
+		76D526AA1816663F0050E0A1 /* geo_resources in Resources */ = {isa = PBXBuildFile; fileRef = 76D526A91816663F0050E0A1 /* geo_resources */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -279,9 +279,8 @@
 		76259E7617CF9EC100C7B0BE /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape@2x~ipad.png"; path = "../Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
 		76259E7817CFA05300C7B0BE /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play.png; sourceTree = "<group>"; };
 		76259E7917CFA05400C7B0BE /* play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play@2x.png"; sourceTree = "<group>"; };
-		7625A06D17D0BA0A00C7B0BE /* nav_resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = nav_resources; sourceTree = "<group>"; };
-		7625A06F17D0BA2D00C7B0BE /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
-		7625A07117D0BA3700C7B0BE /* geo_resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = geo_resources; sourceTree = "<group>"; };
+		767EFDAC1817F70F00BC3F90 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
+		767EFDAD1817F70F00BC3F90 /* nav_resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = nav_resources; sourceTree = "<group>"; };
 		768C345B17CCADF600BF0924 /* TUISpot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUISpot.h; sourceTree = "<group>"; };
 		768C345C17CCADF600BF0924 /* TUISpot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TUISpot.m; sourceTree = "<group>"; };
 		768DA3CB17DF07F200A5D01F /* attraction_flag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attraction_flag.png; sourceTree = "<group>"; };
@@ -299,11 +298,12 @@
 		768DA41D17E1B96C00A5D01F /* TUIRouteController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TUIRouteController.m; sourceTree = "<group>"; };
 		768DA41F17E1BBAF00A5D01F /* NSArray+TUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+TUI.h"; sourceTree = "<group>"; };
 		768DA42017E1BBAF00A5D01F /* NSArray+TUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+TUI.m"; sourceTree = "<group>"; };
-		768F28AF17DDC7B900F87E19 /* NavigationLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = NavigationLib.framework; sourceTree = "<group>"; };
 		768F28B117DDCE2900F87E19 /* NavigationCornerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationCornerView.h; sourceTree = "<group>"; };
 		768F28B217DDCE2900F87E19 /* NavigationCornerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationCornerView.m; sourceTree = "<group>"; };
 		768F28B517DDD95300F87E19 /* FormatUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FormatUtils.h; sourceTree = "<group>"; };
 		768F28B617DDD95300F87E19 /* FormatUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FormatUtils.m; sourceTree = "<group>"; };
+		76D526A518165E420050E0A1 /* NavigationLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = NavigationLib.framework; sourceTree = "<group>"; };
+		76D526A91816663F0050E0A1 /* geo_resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = geo_resources; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -317,12 +317,12 @@
 				76259DAA17CB710600C7B0BE /* libxml2.dylib in Frameworks */,
 				76259DA817CB70F300C7B0BE /* OpenGLES.framework in Frameworks */,
 				761E053D17D498F90091FE14 /* AVFoundation.framework in Frameworks */,
+				76D526A618165E420050E0A1 /* NavigationLib.framework in Frameworks */,
 				76259DA617CB70E700C7B0BE /* QuartzCore.framework in Frameworks */,
 				76259DA417CB70DD00C7B0BE /* CoreLocation.framework in Frameworks */,
 				76259CBE17CB6C7700C7B0BE /* UIKit.framework in Frameworks */,
 				76259CC017CB6C7700C7B0BE /* Foundation.framework in Frameworks */,
 				76259CC217CB6C7700C7B0BE /* CoreGraphics.framework in Frameworks */,
-				768F28B017DDC7B900F87E19 /* NavigationLib.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -347,9 +347,9 @@
 				76259CEA17CB6C7700C7B0BE /* routesTests */,
 				76259CBC17CB6C7700C7B0BE /* Frameworks */,
 				76259CBB17CB6C7700C7B0BE /* Products */,
-				7625A07117D0BA3700C7B0BE /* geo_resources */,
-				7625A06F17D0BA2D00C7B0BE /* assets */,
-				7625A06D17D0BA0A00C7B0BE /* nav_resources */,
+				767EFDAC1817F70F00BC3F90 /* assets */,
+				767EFDAD1817F70F00BC3F90 /* nav_resources */,
+				76D526A91816663F0050E0A1 /* geo_resources */,
 				768DA41117E0AF8400A5D01F /* spots */,
 			);
 			sourceTree = "<group>";
@@ -367,7 +367,7 @@
 			isa = PBXGroup;
 			children = (
 				761E054217D4B4740091FE14 /* libicucore.dylib */,
-				768F28AF17DDC7B900F87E19 /* NavigationLib.framework */,
+				76D526A518165E420050E0A1 /* NavigationLib.framework */,
 				761E054017D4B4510091FE14 /* AudioToolbox.framework */,
 				761E053E17D4B2B50091FE14 /* libstdc++.dylib */,
 				761E053B17D498950091FE14 /* AVFoundation.framework */,
@@ -744,7 +744,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = TUI;
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Tui Travel A&D";
 			};
 			buildConfigurationList = 76259CB517CB6C7700C7B0BE /* Build configuration list for PBXProject "routes" */;
@@ -770,10 +770,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				767EFDAE1817F70F00BC3F90 /* assets in Resources */,
 				76259CC817CB6C7700C7B0BE /* InfoPlist.strings in Resources */,
 				76259CD717CB6C7700C7B0BE /* MainStoryboard.storyboard in Resources */,
 				76259DEB17CB9A1D00C7B0BE /* spots.plist in Resources */,
+				767EFDAF1817F70F00BC3F90 /* nav_resources in Resources */,
 				76259E4B17CF428700C7B0BE /* pins.plist in Resources */,
+				76D526AA1816663F0050E0A1 /* geo_resources in Resources */,
 				76259E6617CF940F00C7B0BE /* attraction_pin.png in Resources */,
 				76259E6717CF940F00C7B0BE /* attraction_pin@2x.png in Resources */,
 				76259E6817CF940F00C7B0BE /* custom_pin.png in Resources */,
@@ -783,9 +786,6 @@
 				76259E6D17CF9E7600C7B0BE /* icon.png in Resources */,
 				76259E6F17CF9E8900C7B0BE /* icon@2x.png in Resources */,
 				76259E7117CF9E9D00C7B0BE /* Default-Portrait~ipad.png in Resources */,
-				7625A07217D0BA3700C7B0BE /* geo_resources in Resources */,
-				7625A07017D0BA2D00C7B0BE /* assets in Resources */,
-				7625A06E17D0BA0B00C7B0BE /* nav_resources in Resources */,
 				76259E7317CF9EAD00C7B0BE /* Default-Portrait@2x~ipad.png in Resources */,
 				76259E7517CF9EB600C7B0BE /* Default-Landscape~ipad.png in Resources */,
 				76259E7717CF9EC100C7B0BE /* Default-Landscape@2x~ipad.png in Resources */,
@@ -970,6 +970,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lz",
+				);
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -995,6 +999,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lz",
+				);
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 				VALIDATE_PRODUCT = YES;
@@ -1004,12 +1012,12 @@
 		76259CF617CB6C7700C7B0BE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
+					"$(SRCROOT)",
+					/Users/dlafuente/git/routes/routes,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "routes/routes-Prefix.pch";
@@ -1029,12 +1037,12 @@
 		76259CF717CB6C7700C7B0BE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
+					"$(SRCROOT)",
+					/Users/dlafuente/git/routes/routes,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "routes/routes-Prefix.pch";

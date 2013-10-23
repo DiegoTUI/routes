@@ -124,9 +124,10 @@ typedef enum RemainingDisplay {
 }
 
 - (IBAction)stopButtonClicked:(UIBarButtonItem *)sender {
-    [_navigation cancelGuidance];
+    [_navigation stopGuidance];
     [self setNavigationActive:NO];
     [self clearRoute];
+    [(TUIAppDelegate *)[[UIApplication sharedApplication] delegate] clearActiveNavigationSession];
     [[NSNotificationCenter defaultCenter]
      postNotificationName:@"TUICloseNavigation"
      object:self];
@@ -185,6 +186,7 @@ typedef enum RemainingDisplay {
     [super viewDidLoad];
     //Configure the navigation session
     DCNavigationConfig		*navigationConfig = [DCNavigationConfig configWithServer:@"chameleon-dev1.decarta.com"];
+    
     [navigationConfig populateDefaults];
     navigationConfig.resourceDir = [NSString stringWithFormat:@"%@/nav_resources", [[NSBundle mainBundle] resourcePath]];
     _navigation = [(TUIAppDelegate *)[[UIApplication sharedApplication] delegate] beginNavigationSessionWithConfig:navigationConfig];
@@ -203,8 +205,7 @@ typedef enum RemainingDisplay {
     guidanceConfig.simulate = YES;
     
     // Run navigation
-    [_navigation configureGuidance:guidanceConfig];
-    [_navigation runGuidance];
+    [_navigation startGuidance:guidanceConfig];
     
     _droppedPins = [NSMutableDictionary dictionary];
 	// Do any additional setup after loading the view.
@@ -222,7 +223,7 @@ typedef enum RemainingDisplay {
 	mapLaunchState.loggingProperties = nil;
 	mapView.launchState = mapLaunchState;
     
-    mapView.persistKey = @"routes";
+    //mapView.persistKey = @"routes";
     
 	_navigationUpdateConnection = [_navigation registerForNavigationUpdatesWithDelegate:self];
     

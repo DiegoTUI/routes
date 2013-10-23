@@ -31,6 +31,11 @@
     return _navigationManager;
 }
 
+- (void)clearActiveNavigationSession
+{
+	_navigationManager = nil;
+}
+
 #pragma mark - UIApplicationDelegate Methods
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
